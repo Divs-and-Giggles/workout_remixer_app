@@ -2,100 +2,425 @@
 {% block title %}Login{% endblock %}
 
 {% block external_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('container');
+        const loginButton = document.getElementById('login');
+        const registerButton = document.getElementById('register');
+        const wrapper = document.querySelector('.toggle');
+        const bg = document.querySelector('body');
 
+        if(registerButton) {
+            registerButton.addEventListener('click', () => {
+                container.classList.add('active');
+                wrapper.classList.add('active');
+                bg.classList.add('active');
+            });
+        }
+
+        if(loginButton) {
+            loginButton.addEventListener('click', () => {
+                container.classList.remove('active');
+                wrapper.classList.remove('active');
+                bg.classList.remove('active');
+            });
+        }
+    });
+
+    
+</script>
 {% endblock %}
 
 
 {% block internal_css %}
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Montserrat', sans-serif;
+    }
+
     body {
-        background-color: #f8f9fa;
-    }
-
-    .login-container {
-        min-height: 100vh;
-    }
-
-    .login-card {
-        border: none;
-        border-radius: 1rem;
-        overflow: hidden;
-    }
-
-    .login-image {
-        background: linear-gradient(135deg, #0d6efd, #0dcaf0);
+        /* background-color: #c9d6ff; */
+        background: url('/static/img/login-images/login1.jpg') no-repeat center center/cover;
+        /* background: linear-gradient(135deg, #e0f7fa, #fff);
+        background-size: cover;
+        backdrop-filter: blur(5px); */
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
-        padding: 3rem;
+        flex-direction: column;
+        height: 100vh;
     }
 
-    .form-section {
-        padding: 3rem;
+    body.active {
+        background: url('/static/img/login-images/login3.jpg') no-repeat center center/cover;
+        /* background: linear-gradient(135deg, #e0f7fa, #fff);
+        background-size: cover;
+        backdrop-filter: blur(5px); */
     }
 
-    .btn-primary {
-        border-radius: 0.5rem;
+    .container {
+        width: 800px;
+        max-width: 100%;
+        min-height: 500px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+        position: relative;
+        overflow:hidden;
     }
 
-    .form-control {
-        border-radius: 0.5rem;
+    .container p {
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: 0.3px;
+        margin: 20px 0;
+    }
+
+    .container span {
+        font-size: 12px;
+    }
+
+    .container a {
+        color: #333; 
+        /* #007bff */
+        font-size: 13px;
+        text-decoration: none;
+        margin: 15px 0 10px;
+    }
+
+    .container button {
+        background-color: #08650b;
+        color: #fff;
+        font-size: 12px;
+        border: 1px solid transparent;
+        padding: 10px 45px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase; 
+        margin-top: 10px;
+        /* transition: background-color 0.3s ease; */
+    }
+
+    .container button:active {
+        transform: translateY(2px);
+    }
+
+    .container button.hidden {
+        background-color: transparent;
+        border-color: #fff;
+    }
+
+    #login:hover, #register:hover{
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .container form {
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0 40px;
+        height: 100%;
+    }
+
+    .container input {
+        background-color: white;
+        border: 2px solid #08650b;
+        margin:8px 0;
+        margin-left: 0;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-size: 13px;
+        width: 100%;
+        outline: none;
+        box-shadow: 0 0 5px rgba(116, 185, 255, 0.5); 
+    }
+
+    .form-container {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        transition: all 0.6s ease-in-out;
+        
+    }
+
+    .log-in {
+        left: 0;
+        width: 50%;
+        z-index: 2;
+    }
+
+    .container.active .log-in {
+        transform: translateX(100%);
+    }
+
+    .sign-up {
+        left: 0;
+        width: 50%;
+        opacity: 0;
+        z-index: 1;
+    }
+
+    .container.active .sign-up {
+        transform: translateX(100%);
+        opacity: 1;
+        z-index: 5;
+        animation: move 0.6s;
+    }
+
+    @keyframes move {
+        0%, 49.99% {
+            opacity: 0;
+            z-index: 1;
+        }
+        50%, 100% {
+            opacity: 1;
+            z-index: 5;
+        }
+    }
+
+    .socialmedia-icons {
+        margin: 20px 0;
+    }
+
+    .icon {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .icon:hover {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .socialmedia-icons a {
+        border:1px solid #ccc;
+        border-radius: 20%;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 3px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .toggle-container {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        transition: all 0.6s ease-in-out;
+        border-radius: 125px 0 0 75px;
+        z-index: 1000;
+    }
+
+    .container.active .toggle-container {
+        transform: translateX(-100%);
+        border-radius: 0 125px 75px 0;
+    }
+
+    .toggle {
+        position: relative;
+        left: -100%;
+        width: 200%;
+        height: 100%;
+        background-color: #0a380c;
+        background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('/static/img/login-images/login1.jpg') no-repeat center center/cover;
+        background-size: cover;
+        /* background: linear-gradient(to right, #588e5a, #0a380c); */
+        color: #fff;
+        position: relative;
+        transform: translateX(0);
+        transition: all 0.6s ease-in-out;
+    }
+
+    .toggle.active {
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/login-images/login3.jpg') no-repeat center center/cover;
+    }
+
+    .container.active .toggle {
+        transform: translateX(50%);
+    }
+
+    .toggle-panel {
+        position: absolute;
+        width: 50%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0 30px;
+        text-align: center;
+        top: 0;
+        transform: translateX(0);
+        transition: all 0.6s ease-in-out;
+    }
+
+    .toggle-left {
+        transform: translateX(-200%);
+    }
+
+    .container.active .toggle-left {
+        transform: translateX(0);
+    }
+
+    .toggle-right {
+        right: 0;
+        transform: translateX(0);
+    }
+
+    .container.active .toggle-right {
+        transform: translateX(200%);
+    }
+
+    #fpw:hover {
+        color: black;
+        text-decoration-line: underline;
+    }
+
+    @media (max-width: 480px) {
+        body {
+        height: auto;
+        padding: 20px;
+        justify-content: flex-start;
+        background-size: cover;
+        }
+    
+        .container {
+        width: 100%;
+        min-height: auto;
+        padding: 20px 10px;
+        border-radius: 20px;
+        box-shadow: none;
+        }
+    
+        .container form {
+        padding: 0 20px;
+        }
+    
+        .toggle-container {
+        display: none;
+        }
+    
+        .log-in,
+        .sign-up {
+        width: 100%;
+        position: relative;
+        }
+    
+        .container.active .log-in,
+        .container.active .sign-up {
+        transform: none;
+        }
+    
+        .container input {
+        font-size: 14px;
+        padding: 10px;
+        }
+    
+        .container button {
+        padding: 10px 30px;
+        font-size: 14px;
+        }
+    
+        .socialmedia-icons {
+        flex-wrap: wrap;
+        justify-content: center;
+        }
+    
+        .socialmedia-icons a {
+        margin: 5px;
+        width: 36px;
+        height: 36px;
+        }
+    
+        .toggle-panel {
+        display: none;
+        }
+    
+        #fpw {
+        font-size: 12px;
+        }
+        
     }
 </style>
 {% endblock %}
 
 
 {% block content %}
+<!-- flashed messages -->
+{% for message in get_flashed_messages(request) %}
+<div class="alert alert-{{ message.type }}" role="alert">{{ message.message }}</div>
+{% endfor %}
 
-<div class="container login-container d-flex align-items-center justify-content-center">
-    <div class="card shadow-lg login-card col-lg-10">
-        <div class="row g-0">
-            <div class="col-lg-6 d-none d-lg-flex login-image">
-                <div class="text-center">
-                    <h2 class="mt-4 fw-bold">Welcome Back</h2>
-                    <p class="lead">Sign in to continue to the app</p>
-                </div>
+<!-- form  -->
+<div class="container" id="container">
+    <!-- sign up form -->
+    <div class="form-container sign-up">
+        <form action="/register" method="post">
+            <h1><i class="fa-solid fa-dumbbell" style="margin-right: 5px;"></i>Create Account</h1>
+            <div class="socialmedia-icons">
+                <a href="#" class="icon"><i class="fa-brands fa-google"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
             </div>
-            <div class="col-lg-6 bg-white">
-                <div class="form-section">
-                    <h3 class="fw-bold mb-4">Login</h3>
 
-                    <form id="loginForm" method="POST">
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control form-control-md" id="username" name="username"
-                                required="required">
-                        </div>
+            <span>or use your email and password for registration</span>
+            <input type="text" name="username" placeholder="Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit"><i class="fa-solid fa-dumbbell" style="margin-right: 5px;"></i>Sign Up</button>
+        </form>
+    </div>
 
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control form-control-md" id="password" name="password"
-                                required>
-                        </div>
+    <!-- login form -->
+    <div class="form-container log-in">
+        <form action="/login" name="login_view" method="post">
+            <h1><i class="fa-solid fa-dumbbell" style="margin-right: 5px;"></i>Login</h1>
+            <div class="socialmedia-icons">
+                <a href="#" class="icon"><i class="fa-brands fa-google"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
 
-                        <div class="d-grid mb-3">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                Sign In
-                            </button>
+            <span>or use your account</span>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit"><i class="fa-solid fa-dumbbell" style="margin-right: 5px;"></i>Login</button>
+        </form>
+    </div>
 
-                    </form>
-                </div>
+    <!-- toggle -->
+    <div class="toggle-container">
+        <div class="toggle">
+            <div class="toggle-panel toggle-left">
+                <h1>Welcome Back!</h1>
+                <p>Sign in to continue your fitness journey!</p>
+                <button class="hidden" id="login"><i class="fa-solid fa-dumbbell" style="margin-right: 5px;"></i>Login</button>
+            </div>
 
-                <div class="d-grid mb-3">
-                    <a class="btn btn-secondary btn-lg" href="{{url_for('register_view')}}" role="button">
-                        Sign Up
-                    </a>
-                </div>
-
-
-                {% for message in get_flashed_messages(request) %}
-                <div class="alert alert-{{ message.type }}" role="alert">{{ message.message }}</div>
-                {% endfor %}
+            <div class="toggle-panel toggle-right">
+                <h1>New Here?</h1>
+                <p>Sign up to start your fitness journey!</p>
+                <button class="hidden" id="register"><i class="fa-solid fa-dumbbell" style="margin-right: 5px;"></i>Sign Up</button>
             </div>
         </div>
-
     </div>
-</div>
+
 </div>
 {% endblock %}
