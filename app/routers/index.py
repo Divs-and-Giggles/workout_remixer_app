@@ -24,3 +24,11 @@ async def index_view(
         secure=True
     )
     return response
+
+#Color scheme
+#color: #1C1919;
+#color: #9A9996;
+#color: #CFCFCC;
+#color: #F3F3E9;
+#color: #D51313;
+
