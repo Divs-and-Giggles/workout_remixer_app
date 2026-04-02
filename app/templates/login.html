@@ -43,6 +43,17 @@
         font-family: 'Montserrat', sans-serif;
     }
 
+    :root {
+        --color-black: #1C1919;
+        --color-grey: #2E2E2E;
+        --color-lightgrey: #B0B0B0;
+        --color-offwhite: #F3F3E9;
+        --color-red: #e01111;
+        --color-red-dark: #c31212;
+        --color-red-light: #E53B3B;
+        --gradient-red: linear-gradient(135deg, #D51313, #B21010);
+    }
+
     body {
         /* background-color: #c9d6ff; */
         background: url('/static/img/login-images/login1.jpg') no-repeat center center/cover;
@@ -68,7 +79,7 @@
         max-width: 100%;
         min-height: 500px;
         padding: 20px;
-        background-color: #fff;
+        background-color: var(--color-black);
         border-radius: 30px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
         position: relative;
@@ -95,7 +106,7 @@
     }
 
     .container button {
-        background-color: #08650b;
+        background-color: var(--color-red);
         color: #fff;
         font-size: 12px;
         border: 1px solid transparent;
@@ -113,9 +124,14 @@
         transform: translateY(2px);
     }
 
+    .container button:hover {
+        background-color: var(--color-red-dark);
+    }
+
     .container button.hidden {
-        background-color: transparent;
-        border-color: #fff;
+        background-color: var(--color-red);
+        border-color: var(--color-red);
+        border-width: 2px;
     }
 
     #login:hover, #register:hover{
@@ -134,7 +150,7 @@
 
     .container input {
         background-color: white;
-        border: 2px solid #08650b;
+        border: 2px solid var(--color-red);
         margin:8px 0;
         margin-left: 0;
         padding: 10px 15px;
@@ -150,8 +166,11 @@
         top: 0;
         height: 100%;
         transition: all 0.6s ease-in-out;
-        
     }
+/* determine if the color change is necessary for better contrast and readability */
+    /* .form-container h1 {
+        color: var(--color-red);
+    } */
 
     .log-in {
         left: 0;
@@ -190,6 +209,7 @@
 
     .socialmedia-icons {
         margin: 20px 0;
+        border-color: var(--color-lightgrey);;
     }
 
     .icon {
@@ -220,13 +240,13 @@
         height: 100%;
         overflow: hidden;
         transition: all 0.6s ease-in-out;
-        border-radius: 125px 0 0 75px;
+        border-radius: 75px 0 0 75px;
         z-index: 1000;
     }
 
     .container.active .toggle-container {
         transform: translateX(-100%);
-        border-radius: 0 125px 75px 0;
+        border-radius: 0 75px 75px 0;
     }
 
     .toggle {
@@ -271,6 +291,21 @@
         transform: translateX(-200%);
     }
 
+    .toggle-left button:active, .toggle-right button:active {
+        transform: translateY(2px);
+    }
+
+/* determine if the color change is necessary for better contrast and readability */
+    .toggle-left h1 { 
+        color: var(--color-red);
+        font-weight: 800;
+    }
+
+    .toggle-right h1 {
+        color: var(--color-red);
+        font-weight: 800;
+    }
+
     .container.active .toggle-left {
         transform: translateX(0);
     }
@@ -279,6 +314,7 @@
         right: 0;
         transform: translateX(0);
     }
+
 
     .container.active .toggle-right {
         transform: translateX(200%);
@@ -291,18 +327,18 @@
 
     @media (max-width: 480px) {
         body {
-        height: auto;
-        padding: 20px;
-        justify-content: flex-start;
-        background-size: cover;
+            height: auto;
+            padding: 20px;
+            justify-content: flex-start;
+            background-size: cover;
         }
     
         .container {
-        width: 100%;
-        min-height: auto;
-        padding: 20px 10px;
-        border-radius: 20px;
-        box-shadow: none;
+            width: 100%;
+            min-height: auto;
+            padding: 20px 10px;
+            border-radius: 20px;
+            box-shadow: none;
         }
     
         .container form {
@@ -369,7 +405,7 @@
     <!-- sign up form -->
     <div class="form-container sign-up">
         <form action="/register" method="post">
-            <h1><i class="fa-solid fa-dumbbell" style="margin-right: 5px;"></i>Create Account</h1>
+            <h1><i class="fa-solid fa-dumbbell" style="margin-right: 5px;"></i>Register</h1>
             <div class="socialmedia-icons">
                 <a href="#" class="icon"><i class="fa-brands fa-google"></i></a>
                 <a href="#" class="icon"><i class="fa-brands fa-facebook"></i></a>
@@ -410,7 +446,7 @@
         <div class="toggle">
             <div class="toggle-panel toggle-left">
                 <h1>Welcome Back!</h1>
-                <p>Sign in to continue your fitness journey!</p>
+                <p>Log in to continue your fitness journey!</p>
                 <button class="hidden" id="login"><i class="fa-solid fa-dumbbell" style="margin-right: 5px;"></i>Login</button>
             </div>
 
