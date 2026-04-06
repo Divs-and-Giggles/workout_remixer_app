@@ -11,3 +11,13 @@ class WorkoutMuscle(SQLModel, table = True):
 class WorkoutAlternative(SQLModel, table = True):
     workout_id: int = Field(default = None, foreign_key="workout.id", primary_key=True)
     alt_workout_id: int = Field(default=None, foreign_key="workout.id", primary_key=True)
+    
+class WorkoutGif(SQLModel, table = True):
+    workout_id: int = Field(default = None, foreign_key="workout.id", primary_key=True)
+    name: str
+    gif_url: str
+    
+class SecondaryMuscles(SQLModel, table = True):
+    id: Optional[int] = Field(default = None, primary_key = True)
+    workout_id: int = Field(default = None, foreign_key="workout.id")
+    muscles: Optional[str] = None
