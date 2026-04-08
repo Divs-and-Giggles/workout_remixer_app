@@ -1,7 +1,6 @@
 from sqlmodel import Field, SQLModel, Relationship
 from typing import Optional
 from datetime import date
-from app.models import *
 
 class Routine(SQLModel, table = True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -25,7 +24,8 @@ class RoutineWorkout(SQLModel, table = True):
     difficulty: str
     order_in_routine: int
     sets: int
-    reps: int
+    reps: Optional[int] = None
+    duration_seconds: Optional[int] = None
     is_warmup: bool = False
     is_cooldown: bool = False
 

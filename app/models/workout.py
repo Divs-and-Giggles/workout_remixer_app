@@ -1,6 +1,5 @@
 from sqlmodel import Field, SQLModel, Relationship
 from typing import Optional
-from app.models import User, WorkoutLog, RoutineWorkout
 
 class MuscleGroup(SQLModel, table = True):
     id: Optional[int] = Field(default=None, primary_key = True)

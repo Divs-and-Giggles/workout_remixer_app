@@ -1,11 +1,13 @@
 import typer
 from app.database import create_db_and_tables, get_cli_session, drop_all
-from app.models.user import *
+from app.models.routine import Routine, RoutineWorkout
 from app.models.workout import Workout, MuscleGroup
+from app.models.user import *
 from fastapi import Depends
 from sqlmodel import select
 from sqlalchemy.exc import IntegrityError
 from app.utilities.security import encrypt_password
+from datetime import date
 
 cli = typer.Typer()
 
@@ -22,13 +24,21 @@ def initialize():
 
 
         workout_data = [
-            # Warmups and cooldowns
+            # Warmups
             {"name": "Jumping Jacks", "video_url": "https://www.youtube.com/watch?v=c4DAnQ6DtF8", "difficulty": "easy", "workout_type": "warmup", "equipment": "none", "intensity": "low", "muscle": "Full"},
             {"name": "Arm Circles", "video_url": "https://www.youtube.com/watch?v=1gQy8a9j2sM", "difficulty": "easy", "workout_type": "warmup", "equipment": "none", "intensity": "low", "muscle": "Shoulders"},
             {"name": "High Knees", "video_url": "https://www.youtube.com/watch?v=OAJ_J3EZkdY", "difficulty": "medium", "workout_type": "warmup", "equipment": "none", "intensity": "medium", "muscle": "Legs"},
+            {"name": "Wrist Circles", "video_url": "https://www.youtube.com/watch?v=1gQy8a9j2sM", "difficulty": "easy", "workout_type": "warmup", "equipment": "none", "intensity": "low", "muscle": "Arms"},
+            {"name": "Shoulder Rolls", "video_url": "https://www.youtube.com/watch?v=1gQy8a9j2sM", "difficulty": "easy", "workout_type": "warmup", "equipment": "none", "intensity": "low", "muscle": "Shoulders"},
+            {"name": "Jog in Place", "video_url": "https://www.youtube.com/watch?v=OAJ_J3EZkdY", "difficulty": "easy", "workout_type": "warmup", "equipment": "none", "intensity": "low", "muscle": "Full"},
+
+            # Cooldowns
             {"name": "Hamstring Stretch", "video_url": "https://www.youtube.com/watch?v=Z2n58m2i4jg", "difficulty": "easy", "workout_type": "cooldown", "equipment": "none", "intensity": "low", "muscle": "Legs"},
             {"name": "Quad Stretch", "video_url":"https://www.youtube.com/watch?v=5XHjD8rQ0nE", "difficulty":"easy", "workout_type":"cooldown", "equipment":"none", "intensity":"low", "muscle": "Legs"},
             {"name": "Child's Pose", "video_url":"https://www.youtube.com/watch?v=ZToicYcHIOU", "difficulty":"easy", "workout_type":"cooldown", "equipment":"none", "intensity":"low", "muscle": "Full"},
+            {"name": "Shoulder Stretch", "video_url":"https://www.youtube.com/watch?v=ZToicYcHIOU", "difficulty":"easy", "workout_type":"cooldown", "equipment":"none", "intensity":"low", "muscle": "Shoulders"},
+            {"name": "Tricep Stretch", "video_url":"https://www.youtube.com/watch?v=ZToicYcHIOU", "difficulty":"easy", "workout_type":"cooldown", "equipment":"none", "intensity":"low", "muscle": "Arms"},
+            {"name": "Chest Stretch", "video_url":"https://www.youtube.com/watch?v=ZToicYcHIOU", "difficulty":"easy", "workout_type":"cooldown", "equipment":"none", "intensity":"low", "muscle": "Chest"},
 
             # Chest
             {"name": "Push-ups", "video_url": "https://www.youtube.com/watch?v=_l3ySVKYVJ8", "difficulty": "medium", "workout_type": "strength", "equipment": "none", "intensity": "medium", "muscle": "Chest"},
@@ -126,6 +136,523 @@ def initialize():
             )
             db.add(workout_db)
         db.commit()
+
+        routine_data = [
+            ### Chest Routines ###
+            #Beginner Chest Routine
+            {
+                "name": "Beginner Chest Routine",
+                "difficulty": "beginner",
+                "muscle": "Chest",
+                "workouts": [
+                    # warmups
+                    {"name": "Jumping Jacks", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    # main workouts
+                    {"name": "Incline Push-ups", "sets":3, "reps": 6},
+                    {"name": "Chest Press with Dumbbells", "sets":3, "reps": 6},
+                    {"name": "Chest Fly with Dumbbells", "sets":3, "reps": 6},
+                    {"name": "Cable Crossover", "sets":3, "reps": 6},
+                    # cooldowns
+                    {"name": "Shoulder Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True},
+                    {"name": "Tricep Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True},
+                    {"name": "Chest Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True}
+                ]
+            },
+            # Intermediate Chest Routine
+            {
+                "name": "Intermediate Chest Routine",
+                "difficulty": "intermediate",
+                "muscle": "Chest",
+                "workouts": [
+                    # warmups
+                    {"name": "Jumping Jacks", "sets":1, "duration_seconds": 35, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 35, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 35, "is_warmup": True},
+                    # main workouts
+                    {"name": "Push-ups", "sets": 3, "reps": 10},
+                    {"name": "Chest Press with Dumbbells", "sets": 3, "reps": 10},
+                    {"name": "Chest Fly with Dumbbells", "sets": 3, "reps": 10},
+                    {"name": "Cable Crossover", "sets": 3, "reps": 10},
+                    # cooldowns
+                    {"name": "Shoulder Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True},
+                    {"name": "Tricep Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True},
+                    {"name": "Chest Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True}
+                ]
+            },
+            # Advanced Chest Routine
+            {
+                "name": "Advanced Chest Routine",
+                "difficulty": "advanced",
+                "muscle": "Chest",
+                "workouts": [
+                    # warmups
+                    {"name": "Jumping Jacks", "sets":1, "duration_seconds": 40, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 40, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 40, "is_warmup": True},
+                    # main workouts
+                    {"name": "Decline Push-ups", "sets": 3, "reps": 15},
+                    {"name": "Weighted Dips", "sets": 3, "reps": 15},
+                    {"name": "Chest Fly with Dumbbells", "sets": 3, "reps": 15},
+                    {"name": "Cable Crossover", "sets": 3, "reps": 15},
+                    # cooldowns
+                    {"name": "Shoulder Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True},
+                    {"name": "Tricep Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True},
+                    {"name": "Chest Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True}
+                ]
+            },
+            # Elite Chest Routine
+            {
+                "name": "Elite Chest Routine",
+                "difficulty": "elite",
+                "muscle": "Chest",
+                "workouts": [
+                    # warmups
+                    {"name": "Jumping Jacks", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    # main workouts
+                    {"name": "Bench Press", "sets": 4, "reps": 25},
+                    {"name": "Explosive Push-ups", "sets": 4, "reps": 25},
+                    {"name": "Weighted Dips", "sets": 4, "reps": 25},
+                    {"name": "Decline Push-ups", "sets": 4, "reps": 25},
+                    # cooldowns
+                    {"name": "Shoulder Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True},
+                    {"name": "Tricep Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True},
+                    {"name": "Chest Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True}
+                ]
+            },
+            ### Back Routines ###
+            #Beginner Back Routine
+            {
+                "name": "Beginner Back Routine",
+                "difficulty": "beginner",
+                "muscle": "Back",
+                "workouts": [
+                    # warmups
+                    {"name": "Jumping Jacks", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    # main workouts
+                    {"name": "Assisted Pull-ups", "sets":3, "reps": 6},
+                    {"name": "Seated Cable Rows", "sets":3, "reps": 6},
+                    {"name": "T-Bar Rows", "sets":3, "reps": 6},
+                    {"name": "Inverted Rows", "sets":3, "reps": 6},
+                    # cooldowns
+                    {"name": "Hamstring Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True},
+                    {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+            # Intermediate Back Routine
+            {
+                "name": "Intermediate Back Routine",
+                "difficulty": "intermediate",
+                "muscle": "Back",
+                "workouts": [
+                    # warmups
+                    {"name": "Jumping Jacks", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    # main workouts
+                    {"name": "Pull-ups", "sets":3, "reps": 10},
+                    {"name": "Lat Pulldowns", "sets":3, "reps": 10},
+                    {"name": "Barbell Rows", "sets":3, "reps": 10},
+                    {"name": "Face Pulls", "sets":3, "reps": 10},
+                    # cooldowns
+                    {"name": "Hamstring Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True},
+                    {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+            # Advanced Back Routine
+            {
+                "name": "Advanced Back Routine",
+                "difficulty": "advanced",
+                "muscle": "Back",
+                "workouts": [
+                    # warmups
+                    {"name": "Jumping Jacks", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    # main workouts
+                    {"name": "Weighted Pull-ups", "sets":3, "reps": 15},
+                    {"name": "T-Bar Rows", "sets":3, "reps": 15},
+                    {"name": "Deadlifts", "sets":3, "reps": 15},
+                    {"name": "Hyperextensions", "sets":3, "reps": 15},
+                    # cooldowns
+                    {"name": "Hamstring Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True},
+                    {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+            # Elite Back Routine
+            {
+                "name": "Elite Back Routine",
+                "difficulty": "elite",
+                "muscle": "Back",
+                "workouts": [
+                    # warmups
+                    {"name": "Jumping Jacks", "sets":1, "duration_seconds": 90, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 90, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 90, "is_warmup": True},
+                    # main workouts
+                    {"name": "Weighted Pull-ups", "sets":4, "reps": 20},
+                    {"name": "T-Bar Rows", "sets":4, "reps": 20},
+                    {"name": "Deadlifts", "sets":4, "reps": 20},
+                    {"name": "Hyperextensions", "sets":4, "reps": 20},
+                    # cooldowns
+                    {"name": "Hamstring Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True},
+                    {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+            ### Legs Routines ###
+            # Beginner Legs Routine
+            {
+                "name": "Beginner Legs Routine",
+                "difficulty": "beginner",
+                "muscle": "Legs",
+                "workouts": [
+                    # warmups
+                    {"name": "Jumping Jacks", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    # main workouts
+                    {"name": "Squats", "sets":3, "reps": 6},
+                    {"name": "Lunges", "sets":3, "reps": 6},
+                    {"name": "Leg Press", "sets":3, "reps": 6},
+                    {"name": "Bulgarian Split Squats", "sets":3, "reps": 6},
+                    # cooldowns
+                    {"name":"Hamstring Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Quad Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+            # Intermediate Legs Routine
+            {
+                "name": "Intermediate Legs Routine",
+                "difficulty": "intermediate",
+                "muscle": "Legs",
+                "workouts": [
+                    # warmups
+                    {"name": "Jumping Jacks", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    # main workouts
+                    {"name": "Squats", "sets":3, "reps": 10},
+                    {"name": "Lunges", "sets":3, "reps": 10},
+                    {"name": "Leg Press", "sets":3, "reps": 10},
+                    {"name": "Bulgarian Split Squats", "sets":3, "reps": 10},
+                    # cooldowns
+                    {"name":"Hamstring Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Quad Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+            # Advanced Legs Routine
+            {
+                "name": "Advanced Legs Routine",
+                "difficulty": "advanced",
+                "muscle": "Legs",
+                "workouts": [
+                    # warmups
+                    {"name": "Jumping Jacks", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    # main workouts
+                    {"name": "Squats", "sets":5, "reps": 10},
+                    {"name": "Lunges", "sets":5, "reps": 10},
+                    {"name": "Leg Press", "sets":5, "reps": 10},
+                    {"name": "Bulgarian Split Squats", "sets":5, "reps": 10},
+                    # cooldowns
+                    {"name":"Hamstring Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Quad Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+            # Elite Legs Routine
+            {
+                "name": "Elite Legs Routine",
+                "difficulty": "elite",
+                "muscle": "Legs",
+                "workouts": [
+                    # warmups
+                    {"name": "Jumping Jacks", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    # main workouts
+                    {"name": "Squats", "sets":5, "reps": 15},
+                    {"name": "Lunges", "sets":5, "reps": 15},
+                    {"name": "Leg Press", "sets":5, "reps": 15},
+                    {"name": "Bulgarian Split Squats", "sets":5, "reps": 15},
+                    # cooldowns
+                    {"name":"Hamstring Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Quad Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+            ### Shoulder Routines ###
+            # Beginner Shoulder Routine
+            {
+                "name": "Beginner Shoulder Routine",
+                "difficulty": "beginner",
+                "muscle": "Shoulders",
+                "workouts": [
+                    # warmups
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    # main workouts
+                    {"name": "Push-ups", "sets":3, "reps": 10},
+                    {"name": "Shoulder Press", "sets":3, "reps": 10},
+                    {"name": "Lateral Raises", "sets":3, "reps": 10},
+                    # cooldowns
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+            # Intermediate Shoulder Routine
+            {
+                "name": "Intermediate Shoulder Routine",
+                "difficulty": "intermediate",
+                "muscle": "Shoulders",
+                "workouts": [
+                    # warmups
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    # main workouts
+                    {"name": "Push-ups", "sets":3, "reps": 15},
+                    {"name": "Shoulder Press", "sets":3, "reps": 15},
+                    {"name": "Lateral Raises", "sets":3, "reps": 15},
+                    # cooldowns
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+            # Advanced Shoulder Routine
+            {
+                "name": "Advanced Shoulder Routine",
+                "difficulty": "advanced",
+                "muscle": "Shoulders",
+                "workouts": [
+                    # warmups
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    # main workouts
+                    {"name": "Pike Push-ups", "sets":3, "reps": 15},
+                    {"name": "Handstand Push-ups", "sets":3, "reps": 15},
+                    {"name": "Lateral Raises", "sets":3, "reps": 15},
+                    # cooldowns
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+            # Elite Shoulder Routine
+            {
+                "name": "Elite Shoulder Routine",
+                "difficulty": "elite",
+                "muscle": "Shoulders",
+                "workouts": [
+                    # warmups
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    # main workouts
+                    {"name": "Pike Push-ups", "sets":3, "reps": 20},
+                    {"name": "Handstand Push-ups", "sets":3, "reps": 20},
+                    {"name": "Lateral Raises", "sets":3, "reps": 20},
+                    # cooldowns
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+            ### Arms Routines ###
+            # Beginner Arms Routine
+            {
+                "name": "Beginner Arms Routine",
+                "difficulty": "beginner",
+                "muscle": "Arms",
+                "workouts": [
+                    # warmups
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    # main workouts
+                    {"name": "Bicep Curls with Dumbbells", "sets":3, "reps": 10},
+                    {"name": "Tricep Dips", "sets":3, "reps": 10},
+                    {"name": "Hammer Curls with Dumbbells", "sets":3, "reps": 10},
+                    # cooldowns
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+            # Intermediate Arms Routine
+            {
+                "name": "Intermediate Arms Routine",
+                "difficulty": "intermediate",
+                "muscle": "Arms",
+                "workouts": [
+                    # warmups
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    # main workouts
+                    {"name": "Bicep Curls with Dumbbells", "sets":3, "reps": 15},
+                    {"name": "Tricep Dips", "sets":3, "reps": 15},
+                    {"name": "Hammer Curls with Dumbbells", "sets":3, "reps": 15},
+                    # cooldowns
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+            # Advanced Arms Routine
+            {
+                "name": "Advanced Arms Routine",
+                "difficulty": "advanced",
+                "muscle": "Arms",
+                "workouts": [
+                    # warmups
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    # main workouts
+                    {"name": "Bicep Curls with Dumbbells", "sets":3, "reps": 20},
+                    {"name": "Tricep Dips", "sets":3, "reps": 20},
+                    {"name": "Hammer Curls with Dumbbells", "sets":3, "reps": 20},
+                    # cooldowns
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+            # Elite Arms Routine
+            {
+                "name": "Elite Arms Routine",
+                "difficulty": "elite",
+                "muscle": "Arms",
+                "workouts": [
+                    # warmups
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    # main workouts
+                    {"name": "Bicep Curls with Dumbbells", "sets":3, "reps": 25},
+                    {"name": "Tricep Dips", "sets":3, "reps": 25},
+                    {"name": "Hammer Curls with Dumbbells", "sets":3, "reps": 25},
+                    # cooldowns
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+            ### Core Routines ###
+            # Beginner Core Routine
+            {
+                "name": "Beginner Core Routine",
+                "difficulty": "beginner",
+                "muscle": "Core",
+                "workouts": [
+                    # warmups
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    # main workouts
+                    {"name": "Plank", "sets":3, "duration_seconds": 30},
+                    {"name": "Russian Twists", "sets":3, "reps": 20},
+                    {"name": "Leg Raises", "sets":3, "reps": 20},
+                    # cooldowns
+                    {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Cobra Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+             # Intermediate Core Routine
+            {
+                "name": "Intermediate Core Routine",
+                "difficulty": "intermediate",
+                "muscle": "Core",
+                "workouts": [
+                    # warmups
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    # main workouts
+                    {"name": "Plank", "sets":3, "duration_seconds": 45},
+                    {"name": "Russian Twists", "sets":3, "reps": 25},
+                    {"name": "Leg Raises", "sets":3, "reps": 25},
+                    # cooldowns
+                    {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Cobra Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+             # Advanced Core Routine
+            {
+                "name": "Advanced Core Routine",
+                "difficulty": "advanced",
+                "muscle": "Core",
+                "workouts": [
+                    # warmups
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    # main workouts
+                    {"name": "Plank", "sets":3, "duration_seconds": 60},
+                    {"name": "Russian Twists", "sets":3, "reps": 30},
+                    {"name": "Leg Raises", "sets":3, "reps": 30},
+                    # cooldowns
+                    {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Cobra Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            },
+             # Elite Core Routine
+            {
+                "name": "Elite Core Routine",
+                "difficulty": "elite",
+                "muscle": "Core",
+                "workouts": [
+                    # warmups
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    # main workouts
+                    {"name": "Plank", "sets":3, "duration_seconds": 90},
+                    {"name": "Russian Twists", "sets":3, "reps": 40},
+                    {"name": "Leg Raises", "sets":3, "reps": 40},
+                    # cooldowns
+                    {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Cobra Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                ]
+            }
+        ]
+
+        def get_workout_id(db, name):
+            workouts = db.exec(select(Workout)).all()
+
+            for w in workouts:
+                if w.name.lower() == name.lower():
+                    return w.id
+            return None
+        
+        for r in routine_data:
+            routine = Routine(
+                name=r["name"],
+                difficulty=r["difficulty"],
+                user_id=bob_db.id,
+                is_generated= False,
+                creation_date=date.today()
+            )
+            db.add(routine)
+            db.commit()
+            db.refresh(routine)
+
+            order = 1
+
+            for workout in r["workouts"]:
+                workout_id = get_workout_id(db, workout["name"])
+
+                if workout_id is not None:
+                    routine_workout = RoutineWorkout(
+                        routine_id=routine.id,
+                        workout_id=workout_id,
+                        difficulty=r["difficulty"],
+                        order_in_routine=order,
+                        sets=workout.get("sets"),
+                        reps=workout.get("reps"),
+                        is_warmup=workout.get("is_warmup", False),
+                        is_cooldown=workout.get("is_cooldown", False)
+                    )
+                    db.add(routine_workout)
+                    order += 1
+            db.commit()
 
         print("Database Initialized")
 

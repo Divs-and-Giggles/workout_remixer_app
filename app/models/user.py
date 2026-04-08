@@ -2,8 +2,6 @@ from sqlmodel import Field, SQLModel, Relationship
 from typing import Optional
 from pydantic import EmailStr
 from pwdlib import PasswordHash
-from app.models.routine import Routine
-from app.models.logging import WorkoutSession
 
 class UserBase(SQLModel,):
     username: str = Field(index=True, unique=True)
