@@ -31,6 +31,7 @@ def initialize():
             {"name": "Wrist Circles", "video_url": "https://www.youtube.com/watch?v=1gQy8a9j2sM", "difficulty": "easy", "workout_type": "warmup", "equipment": "none", "intensity": "low", "muscle": "Arms"},
             {"name": "Shoulder Rolls", "video_url": "https://www.youtube.com/watch?v=1gQy8a9j2sM", "difficulty": "easy", "workout_type": "warmup", "equipment": "none", "intensity": "low", "muscle": "Shoulders"},
             {"name": "Jog in Place", "video_url": "https://www.youtube.com/watch?v=OAJ_J3EZkdY", "difficulty": "easy", "workout_type": "warmup", "equipment": "none", "intensity": "low", "muscle": "Full"},
+            {"name": "Hip Flexor Stretch", "video_url": "https://www.youtube.com/watch?v=Z2n58m2i4jg", "difficulty": "easy", "workout_type": "warmup", "equipment": "none", "intensity": "low", "muscle": "Legs"},
 
             # Cooldowns
             {"name": "Hamstring Stretch", "video_url": "https://www.youtube.com/watch?v=Z2n58m2i4jg", "difficulty": "easy", "workout_type": "cooldown", "equipment": "none", "intensity": "low", "muscle": "Legs"},
@@ -39,6 +40,9 @@ def initialize():
             {"name": "Shoulder Stretch", "video_url":"https://www.youtube.com/watch?v=ZToicYcHIOU", "difficulty":"easy", "workout_type":"cooldown", "equipment":"none", "intensity":"low", "muscle": "Shoulders"},
             {"name": "Tricep Stretch", "video_url":"https://www.youtube.com/watch?v=ZToicYcHIOU", "difficulty":"easy", "workout_type":"cooldown", "equipment":"none", "intensity":"low", "muscle": "Arms"},
             {"name": "Chest Stretch", "video_url":"https://www.youtube.com/watch?v=ZToicYcHIOU", "difficulty":"easy", "workout_type":"cooldown", "equipment":"none", "intensity":"low", "muscle": "Chest"},
+            {"name": "Cat-Cow Stretch", "video_url":"https://www.youtube.com/watch?v=kqnua4rHVVA", "difficulty":"easy", "workout_type":"cooldown", "equipment":"none", "intensity":"low", "muscle": "Back"},
+            {"name": "Seated Forward Bend", "video_url":"https://www.youtube.com/watch?v=4pKly2JojMw", "difficulty":"easy", "workout_type":"cooldown", "equipment":"none", "intensity":"low", "muscle": "Back"},
+            {"name": "Bicep Stretch", "video_url":"https://www.youtube.com/watch?v=ZToicYcHIOU", "difficulty":"easy", "workout_type":"cooldown", "equipment":"none", "intensity":"low", "muscle": "Arms"},
 
             # Chest
             {"name": "Push-ups", "video_url": "https://www.youtube.com/watch?v=_l3ySVKYVJ8", "difficulty": "medium", "workout_type": "strength", "equipment": "none", "intensity": "medium", "muscle": "Chest"},
@@ -83,6 +87,8 @@ def initialize():
             {"name": "Handstand Push-ups", "video_url": "https://www.youtube.com/watch?v=0AUGkch3tzc", "difficulty": "hard", "workout_type": "strength", "equipment": "none", "intensity": "high", "muscle": "Shoulders"},
             {"name": "Advanced Pike Push-ups", "video_url": "https://www.youtube.com/watch?v=2z8JmcrW-As", "difficulty": "hard", "workout_type": "strength", "equipment": "none", "intensity": "high", "muscle": "Shoulders"},
             {"name": "Planche Leans", "video_url": "https://www.youtube.com/watch?v=9QxHj8rjSg8", "difficulty": "hard", "workout_type": "strength", "equipment": "none", "intensity": "high", "muscle": "Shoulders"},
+            {"name": "Handstand Hold", "video_url": "https://www.youtube.com/watch?v=0AUGkch3tzc", "difficulty": "hard", "workout_type": "strength", "equipment": "none", "intensity": "high", "muscle": "Shoulders"},
+            {"name": "Wall Handstand Push-ups", "video_url": "https://www.youtube.com/watch?v=0AUGkch3tzc", "difficulty": "hard", "workout_type": "strength", "equipment": "none", "intensity": "high", "muscle": "Shoulders"},
 
             # Arms
             {"name": "Bicep Curls with Dumbbells", "video_url": "https://www.youtube.com/watch?v=ykJmrZ5v0Oo", "difficulty": "medium", "workout_type": "strength", "equipment": "dumbbells", "intensity": "medium", "muscle": "Arms"},
@@ -90,7 +96,7 @@ def initialize():
             {"name": "Hammer Curls with Dumbbells", "video_url": "https://www.youtube.com/watch?v=zC3nLlEvin4", "difficulty": "medium", "workout_type": "strength", "equipment": "dumbbells", "intensity": "medium", "muscle": "Arms"},
             {"name": "Overhead Tricep Extension with Dumbbell", "video_url": "https://www.youtube.com/watch?v=_gsUck-7M74", "difficulty": "medium", "workout_type": "strength", "equipment": "dumbbell", "intensity": "medium", "muscle": "Arms"},
             {"name": "Concentration Curls with Dumbbells", "video_url": "https://www.youtube.com/watch?v=soxrZlIl35w", "difficulty": "medium", "workout_type": "strength", "equipment": "dumbbells", "intensity": "medium", "muscle": "Arms"},
-            {"name": "Close-grip Push-ups", "video_url":"https://www.youtube.com/watch?v=0AUGkch3tzc","difficulty":"medium","workout_type":"strength","equipment":"none","intensity":"medium", "muscle": "Arms"},
+            {"name": "Tricep Kickbacks with Dumbbells", "video_url": "https://www.youtube.com/watch?v=6SSsL2tWkD8", "difficulty": "medium", "workout_type": "strength", "equipment": "dumbbells", "intensity": "medium", "muscle": "Arms"},
             {"name":"Diamond Push-ups","video_url":"https://www.youtube.com/watch?v=J0DnG1_S92I","difficulty":"hard","workout_type":"strength","equipment":"none","intensity":"high", "muscle": "Arms"},
             {"name":"Zottman Curls with Dumbbells","video_url":"https://www.youtube.com/watch?v=twD-YGVP4Bk","difficulty":"medium","workout_type":"strength","equipment":"dumbbells","intensity":"medium", "muscle": "Arms"},
             {"name":"Skull Crushers with Dumbbells","video_url":"https://www.youtube.com/watch?v=d_KZxkY_0cM","difficulty":"medium","workout_type":"strength","equipment":"dumbbells","intensity":"medium", "muscle": "Arms"},
@@ -240,7 +246,7 @@ def initialize():
                     {"name": "T-Bar Rows", "sets":3, "reps": 6},
                     {"name": "Inverted Rows", "sets":3, "reps": 6},
                     # cooldowns
-                    {"name": "Hamstring Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True},
+                    {"name": "Cat-Cow Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True},
                     {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
                     {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
                 ]
@@ -261,7 +267,7 @@ def initialize():
                     {"name": "Barbell Rows", "sets":3, "reps": 10},
                     {"name": "Face Pulls", "sets":3, "reps": 10},
                     # cooldowns
-                    {"name": "Hamstring Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True},
+                    {"name": "Seated Forward Bend", "sets":1, "duration_seconds": 30, "is_cooldown": True},
                     {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
                     {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
                 ]
@@ -282,9 +288,9 @@ def initialize():
                     {"name": "Deadlifts", "sets":3, "reps": 15},
                     {"name": "Hyperextensions", "sets":3, "reps": 15},
                     # cooldowns
-                    {"name": "Hamstring Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True},
+                    {"name": "Seated Forward Bend", "sets":1, "duration_seconds": 30, "is_cooldown": True},
                     {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                    {"name":"Cat-Cow Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
                 ]
             },
             # Elite Back Routine
@@ -303,9 +309,9 @@ def initialize():
                     {"name": "Deadlifts", "sets":4, "reps": 20},
                     {"name": "Hyperextensions", "sets":4, "reps": 20},
                     # cooldowns
-                    {"name": "Hamstring Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True},
+                    {"name": "Seated Forward Bend", "sets":1, "duration_seconds": 30, "is_cooldown": True},
                     {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                    {"name":"Cat-Cow Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
                 ]
             },
             ### Legs Routines ###
@@ -317,12 +323,12 @@ def initialize():
                 "workouts": [
                     # warmups
                     {"name": "Jumping Jacks", "sets":1, "duration_seconds": 30, "is_warmup": True},
-                    {"name": "Arm Circles", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "Jog in Place", "sets":1, "duration_seconds": 30, "is_warmup": True},
                     {"name": "High Knees", "sets":1, "duration_seconds": 30, "is_warmup": True},
                     # main workouts
                     {"name": "Squats", "sets":3, "reps": 6},
                     {"name": "Lunges", "sets":3, "reps": 6},
-                    {"name": "Leg Press", "sets":3, "reps": 6},
+                    {"name": "Calf Raises", "sets":3, "reps": 6},
                     {"name": "Bulgarian Split Squats", "sets":3, "reps": 6},
                     # cooldowns
                     {"name":"Hamstring Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
@@ -337,18 +343,18 @@ def initialize():
                 "muscle": "Legs",
                 "workouts": [
                     # warmups
-                    {"name": "Jumping Jacks", "sets":1, "duration_seconds": 45, "is_warmup": True},
-                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
-                    {"name": "High Knees", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Jumping Jacks", "sets":1, "duration_seconds": 40, "is_warmup": True},
+                    {"name": "Jog in Place", "sets":1, "duration_seconds": 40, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 40, "is_warmup": True},
                     # main workouts
-                    {"name": "Squats", "sets":3, "reps": 10},
-                    {"name": "Lunges", "sets":3, "reps": 10},
-                    {"name": "Leg Press", "sets":3, "reps": 10},
-                    {"name": "Bulgarian Split Squats", "sets":3, "reps": 10},
+                    {"name": "Squats", "sets":3, "reps": 12},
+                    {"name": "Lunges", "sets":3, "reps": 12},
+                    {"name": "Leg Press", "sets":3, "reps": 12},
+                    {"name": "Bulgarian Split Squats", "sets":3, "reps": 12},
                     # cooldowns
-                    {"name":"Hamstring Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Quad Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True}
+                    {"name":"Hamstring Stretch","sets":1,"duration_seconds":40,"is_cooldown":True},
+                    {"name":"Quad Stretch","sets":1,"duration_seconds":40,"is_cooldown":True},
+                    {"name":"Child's Pose","sets":1,"duration_seconds":40,"is_cooldown":True}
                 ]
             },
             # Advanced Legs Routine
@@ -358,18 +364,18 @@ def initialize():
                 "muscle": "Legs",
                 "workouts": [
                     # warmups
-                    {"name": "Jumping Jacks", "sets":1, "duration_seconds": 60, "is_warmup": True},
-                    {"name": "Arm Circles", "sets":1, "duration_seconds": 60, "is_warmup": True},
-                    {"name": "High Knees", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    {"name": "Jumping Jacks", "sets":1, "duration_seconds": 50, "is_warmup": True},
+                    {"name": "Jog in Place", "sets":1, "duration_seconds": 50, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 50, "is_warmup": True},
                     # main workouts
-                    {"name": "Squats", "sets":5, "reps": 10},
-                    {"name": "Lunges", "sets":5, "reps": 10},
-                    {"name": "Leg Press", "sets":5, "reps": 10},
-                    {"name": "Bulgarian Split Squats", "sets":5, "reps": 10},
+                    {"name": "Barbell Squats", "sets":3, "reps": 15},
+                    {"name": "Leg Extensions", "sets":3, "reps": 15},
+                    {"name": "Leg Press", "sets":3, "reps": 15},
+                    {"name": "Glute Bridges", "sets":3, "reps": 15},
                     # cooldowns
-                    {"name":"Hamstring Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Quad Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True}
+                    {"name":"Hamstring Stretch","sets":1,"duration_seconds":45,"is_cooldown":True},
+                    {"name":"Quad Stretch","sets":1,"duration_seconds":45,"is_cooldown":True},
+                    {"name":"Child's Pose","sets":1,"duration_seconds":45,"is_cooldown":True}
                 ]
             },
             # Elite Legs Routine
@@ -380,17 +386,17 @@ def initialize():
                 "workouts": [
                     # warmups
                     {"name": "Jumping Jacks", "sets":1, "duration_seconds": 60, "is_warmup": True},
-                    {"name": "Arm Circles", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    {"name": "Jog in Place", "sets":1, "duration_seconds": 60, "is_warmup": True},
                     {"name": "High Knees", "sets":1, "duration_seconds": 60, "is_warmup": True},
                     # main workouts
-                    {"name": "Squats", "sets":5, "reps": 15},
-                    {"name": "Lunges", "sets":5, "reps": 15},
-                    {"name": "Leg Press", "sets":5, "reps": 15},
-                    {"name": "Bulgarian Split Squats", "sets":5, "reps": 15},
+                    {"name": "Barbell Squats", "sets":4, "reps": 15},
+                    {"name": "Romanian Deadlifts", "sets":4, "reps": 15},
+                    {"name": "Leg Extensions", "sets":4, "reps": 15},
+                    {"name": "Glute Bridges", "sets":4, "reps": 15},
                     # cooldowns
-                    {"name":"Hamstring Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Quad Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True}
+                    {"name":"Hamstring Stretch","sets":1,"duration_seconds":60,"is_cooldown":True},
+                    {"name":"Quad Stretch","sets":1,"duration_seconds":60,"is_cooldown":True},
+                    {"name":"Child's Pose","sets":1,"duration_seconds":60,"is_cooldown":True}
                 ]
             },
             ### Shoulder Routines ###
@@ -401,15 +407,18 @@ def initialize():
                 "muscle": "Shoulders",
                 "workouts": [
                     # warmups
-                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
-                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "Wrist Circles", "sets":1, "duration_seconds": 30, "is_warmup": True},
                     # main workouts
-                    {"name": "Push-ups", "sets":3, "reps": 10},
-                    {"name": "Shoulder Press", "sets":3, "reps": 10},
-                    {"name": "Lateral Raises", "sets":3, "reps": 10},
+                    {"name": "Overhead Press with Dumbbells", "sets":3, "reps": 6},
+                    {"name": "Lateral Raises with Dumbbells", "sets":3, "reps": 6},
+                    {"name": "Front Raises with Dumbbells", "sets":3, "reps": 6},
+                    {"name": "Arnold Press with Dumbbells", "sets":3, "reps": 6},
                     # cooldowns
                     {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name": "Chest Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True}
                 ]
             },
             # Intermediate Shoulder Routine
@@ -419,15 +428,18 @@ def initialize():
                 "muscle": "Shoulders",
                 "workouts": [
                     # warmups
-                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
-                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 35, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 35, "is_warmup": True},
+                    {"name": "Wrist Circles", "sets":1, "duration_seconds": 35, "is_warmup": True},
                     # main workouts
-                    {"name": "Push-ups", "sets":3, "reps": 15},
-                    {"name": "Shoulder Press", "sets":3, "reps": 15},
-                    {"name": "Lateral Raises", "sets":3, "reps": 15},
+                    {"name": "Pike Push-ups", "sets":3, "reps": 10},
+                    {"name": "Reverse Fly with Dumbbells", "sets":3, "reps": 10},
+                    {"name": "Lateral Raises with Dumbbells", "sets":3, "reps": 10},
+                    {"name": "Planche Leans", "sets":3, "reps": 10},
                     # cooldowns
-                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":35,"is_cooldown":True},
+                    {"name":"Tricep Stretch","sets":1,"duration_seconds":35,"is_cooldown":True},
+                    {"name": "Chest Stretch", "sets":1, "duration_seconds": 35, "is_cooldown": True}
                 ]
             },
             # Advanced Shoulder Routine
@@ -437,15 +449,18 @@ def initialize():
                 "muscle": "Shoulders",
                 "workouts": [
                     # warmups
-                    {"name": "Arm Circles", "sets":1, "duration_seconds": 60, "is_warmup": True},
-                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Wrist Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
                     # main workouts
-                    {"name": "Pike Push-ups", "sets":3, "reps": 15},
-                    {"name": "Handstand Push-ups", "sets":3, "reps": 15},
-                    {"name": "Lateral Raises", "sets":3, "reps": 15},
+                    {"name": "Advanced Pike Push-ups", "sets":3, "reps": 15},
+                    {"name": "Wall Handstand Push-ups", "sets":3, "reps": 15},
+                    {"name": "Lateral Raises with Dumbbells", "sets":3, "reps": 15},
+                    {"name": "Planche Leans", "sets":3, "reps": 15},
                     # cooldowns
-                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":45,"is_cooldown":True},
+                    {"name":"Tricep Stretch","sets":1,"duration_seconds":45,"is_cooldown":True},
+                    {"name": "Chest Stretch", "sets":1, "duration_seconds": 45, "is_cooldown": True}
                 ]
             },
             # Elite Shoulder Routine
@@ -457,13 +472,16 @@ def initialize():
                     # warmups
                     {"name": "Arm Circles", "sets":1, "duration_seconds": 60, "is_warmup": True},
                     {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    {"name": "Wrist Circles", "sets":1, "duration_seconds": 60, "is_warmup": True},
                     # main workouts
-                    {"name": "Pike Push-ups", "sets":3, "reps": 20},
-                    {"name": "Handstand Push-ups", "sets":3, "reps": 20},
-                    {"name": "Lateral Raises", "sets":3, "reps": 20},
+                    {"name": "Wall Handstand Push-ups", "sets":3, "reps": 20},
+                    {"name": "Handstand Hold", "sets":3, "duration_seconds": 60},
+                    {"name": "Lateral Raises with Dumbbells", "sets":3, "reps": 20},
+                    {"name": "Planche Leans", "sets":3, "reps": 20},
                     # cooldowns
-                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":60,"is_cooldown":True},
+                    {"name":"Tricep Stretch","sets":1,"duration_seconds":60,"is_cooldown":True},
+                    {"name": "Chest Stretch", "sets":1, "duration_seconds": 60, "is_cooldown": True}
                 ]
             },
             ### Arms Routines ###
@@ -474,15 +492,18 @@ def initialize():
                 "muscle": "Arms",
                 "workouts": [
                     # warmups
-                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
-                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "Wrist Circles", "sets":1, "duration_seconds": 30, "is_warmup": True},
                     # main workouts
-                    {"name": "Bicep Curls with Dumbbells", "sets":3, "reps": 10},
-                    {"name": "Tricep Dips", "sets":3, "reps": 10},
-                    {"name": "Hammer Curls with Dumbbells", "sets":3, "reps": 10},
+                    {"name": "Bicep Curls with Dumbbells", "sets":3, "reps": 6},
+                    {"name": "Tricep Dips", "sets":3, "reps": 6},
+                    {"name": "Hammer Curls with Dumbbells", "sets":3, "reps": 6},
+                    {"name": "Diamond Push-ups", "sets":3, "reps": 6},
                     # cooldowns
                     {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name": "Bicep Stretch", "sets":1, "duration_seconds": 30, "is_cooldown": True}
                 ]
             },
             # Intermediate Arms Routine
@@ -492,15 +513,18 @@ def initialize():
                 "muscle": "Arms",
                 "workouts": [
                     # warmups
-                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
-                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 35, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 35, "is_warmup": True},
+                    {"name": "Wrist Circles", "sets":1, "duration_seconds": 35, "is_warmup": True},
                     # main workouts
-                    {"name": "Bicep Curls with Dumbbells", "sets":3, "reps": 15},
-                    {"name": "Tricep Dips", "sets":3, "reps": 15},
-                    {"name": "Hammer Curls with Dumbbells", "sets":3, "reps": 15},
+                    {"name": "Bicep Curls with Dumbbells", "sets":3, "reps": 12},
+                    {"name": "Tricep Kickbacks with Dumbbells", "sets":3, "reps": 12},
+                    {"name": "Hammer Curls with Dumbbells", "sets":3, "reps": 12},
+                    {"name": "Diamond Push-ups", "sets":3, "reps": 12},
                     # cooldowns
-                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":35,"is_cooldown":True},
+                    {"name":"Tricep Stretch","sets":1,"duration_seconds":35,"is_cooldown":True},
+                    {"name": "Bicep Stretch", "sets":1, "duration_seconds": 35, "is_cooldown": True}
                 ]
             },
             # Advanced Arms Routine
@@ -512,13 +536,16 @@ def initialize():
                     # warmups
                     {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
                     {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Wrist Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
                     # main workouts
-                    {"name": "Bicep Curls with Dumbbells", "sets":3, "reps": 20},
-                    {"name": "Tricep Dips", "sets":3, "reps": 20},
-                    {"name": "Hammer Curls with Dumbbells", "sets":3, "reps": 20},
+                    {"name": "Zottman Curls with Dumbbells", "sets":3, "reps": 15},
+                    {"name": "Skull Crushers with Dumbbells", "sets":3, "reps": 15},
+                    {"name": "Hammer Curls with Dumbbells", "sets":3, "reps": 15},
+                    {"name": "Diamond Push-ups", "sets":3, "reps": 20},
                     # cooldowns
-                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":45,"is_cooldown":True},
+                    {"name":"Tricep Stretch","sets":1,"duration_seconds":45,"is_cooldown":True},
+                    {"name": "Bicep Stretch", "sets":1, "duration_seconds": 45, "is_cooldown": True}
                 ]
             },
             # Elite Arms Routine
@@ -528,15 +555,18 @@ def initialize():
                 "muscle": "Arms",
                 "workouts": [
                     # warmups
-                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
-                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Arm Circles", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 60, "is_warmup": True},
+                    {"name": "Wrist Circles", "sets":1, "duration_seconds": 60, "is_warmup": True},
                     # main workouts
-                    {"name": "Bicep Curls with Dumbbells", "sets":3, "reps": 25},
-                    {"name": "Tricep Dips", "sets":3, "reps": 25},
-                    {"name": "Hammer Curls with Dumbbells", "sets":3, "reps": 25},
+                    {"name": "Concentration Curls with Dumbbells", "sets":4, "reps": 15},
+                    {"name": "Skull Crushers with Dumbbells", "sets":4, "reps": 15},
+                    {"name": "Hammer Curls with Dumbbells", "sets":4, "reps": 15},
+                    {"name": "Diamond Push-ups", "sets":4, "reps": 25},
                     # cooldowns
-                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Tricep Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                    {"name":"Shoulder Stretch","sets":1,"duration_seconds":60,"is_cooldown":True},
+                    {"name":"Tricep Stretch","sets":1,"duration_seconds":60,"is_cooldown":True},
+                    {"name": "Bicep Stretch", "sets":1, "duration_seconds": 60, "is_cooldown": True}
                 ]
             },
             ### Core Routines ###
@@ -547,15 +577,18 @@ def initialize():
                 "muscle": "Core",
                 "workouts": [
                     # warmups
-                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
-                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Hamstring Stretch", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "Hip Flexor Stretch", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 30, "is_warmup": True},
                     # main workouts
+                    {"name": "Russian Twists", "sets":3, "reps": 10},
+                    {"name": "Leg Raises", "sets":3, "reps": 10},
+                    {"name": "Bicycle Crunches", "sets":3, "reps": 10},
                     {"name": "Plank", "sets":3, "duration_seconds": 30},
-                    {"name": "Russian Twists", "sets":3, "reps": 20},
-                    {"name": "Leg Raises", "sets":3, "reps": 20},
                     # cooldowns
                     {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Cobra Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                    {"name":"Cat-Cow Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Seated Forward Bend","sets":1,"duration_seconds":30,"is_cooldown":True}
                 ]
             },
              # Intermediate Core Routine
@@ -565,15 +598,18 @@ def initialize():
                 "muscle": "Core",
                 "workouts": [
                     # warmups
-                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
-                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Hamstring Stretch", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "Hip Flexor Stretch", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 30, "is_warmup": True},
                     # main workouts
+                    {"name": "Mountain Climbers", "sets":3, "reps": 15},
+                    {"name": "Bicycle Crunches", "sets":3, "reps": 15},
+                    {"name": "Leg Raises", "sets":3, "reps": 15},
                     {"name": "Plank", "sets":3, "duration_seconds": 45},
-                    {"name": "Russian Twists", "sets":3, "reps": 25},
-                    {"name": "Leg Raises", "sets":3, "reps": 25},
                     # cooldowns
                     {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Cobra Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                    {"name":"Cat-Cow Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Seated Forward Bend","sets":1,"duration_seconds":30,"is_cooldown":True}
                 ]
             },
              # Advanced Core Routine
@@ -583,15 +619,18 @@ def initialize():
                 "muscle": "Core",
                 "workouts": [
                     # warmups
-                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
-                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Hamstring Stretch", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "Hip Flexor Stretch", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 30, "is_warmup": True},
                     # main workouts
+                    {"name": "V-Ups", "sets":3, "reps": 20},
+                    {"name": "Mountain Climbers", "sets":3, "reps": 30},
+                    {"name": "Hanging Leg Raises", "sets":3, "reps": 20},
                     {"name": "Plank", "sets":3, "duration_seconds": 60},
-                    {"name": "Russian Twists", "sets":3, "reps": 30},
-                    {"name": "Leg Raises", "sets":3, "reps": 30},
                     # cooldowns
                     {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Cobra Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                    {"name":"Cat-Cow Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Seated Forward Bend","sets":1,"duration_seconds":30,"is_cooldown":True}
                 ]
             },
              # Elite Core Routine
@@ -601,15 +640,18 @@ def initialize():
                 "muscle": "Core",
                 "workouts": [
                     # warmups
-                    {"name": "Arm Circles", "sets":1, "duration_seconds": 45, "is_warmup": True},
-                    {"name": "Shoulder Rolls", "sets":1, "duration_seconds": 45, "is_warmup": True},
+                    {"name": "Hamstring Stretch", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "Hip Flexor Stretch", "sets":1, "duration_seconds": 30, "is_warmup": True},
+                    {"name": "High Knees", "sets":1, "duration_seconds": 30, "is_warmup": True},
                     # main workouts
-                    {"name": "Plank", "sets":3, "duration_seconds": 90},
-                    {"name": "Russian Twists", "sets":3, "reps": 40},
-                    {"name": "Leg Raises", "sets":3, "reps": 40},
+                    {"name": "V-Ups", "sets":3, "reps": 25},
+                    {"name": "Ab Wheel Rollouts", "sets":3, "reps": 45},
+                    {"name": "Dragon Flags", "sets":3, "reps": 20},
+                    {"name": "Hanging Leg Raises", "sets":3, "reps": 25},
                     # cooldowns
                     {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
-                    {"name":"Cobra Stretch","sets":1,"duration_seconds":30,"is_cooldown":True}
+                    {"name":"Cat-Cow Stretch","sets":1,"duration_seconds":30,"is_cooldown":True},
+                    {"name":"Seated Forward Bend","sets":1,"duration_seconds":30,"is_cooldown":True}
                 ]
             }
         ]
