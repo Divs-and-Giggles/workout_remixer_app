@@ -1,27 +1,31 @@
-{% extends "base.html" %}
+{% extends "authenticated-base.html" %}
 {% block title %}Routines{% endblock %}
 
 {% block internal_css %}
 <style>
-.page-container {
-    padding: 100px 40px 40px;
+
+.routines-container {
+    padding-top: 20px;
 }
 
-/* HEADER */
-.header-row {
+.routines-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
 
-/* SEARCH */
-.search-box {
+.search-bar {
     display: flex;
     gap: 10px;
 }
 
-/* CAROUSEL */
+.search-bar input {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
 .carousel-box {
     height: 180px;
     background: #eee;
@@ -33,15 +37,19 @@
     padding: 0 20px;
 }
 
-/* SECTION HEADER */
 .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin: 20px 0 10px;
 }
 
-/* CARD */
+.routines-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+}
+
 .routine-card {
     background: white;
     border-radius: 12px;
@@ -50,11 +58,6 @@
     text-align: center;
 }
 
-.routine-card h5 {
-    margin-bottom: 10px;
-}
-
-/* MINI BOXES */
 .icon-box {
     border: 1px solid #ccc;
     padding: 5px;
@@ -62,78 +65,108 @@
     font-size: 12px;
 }
 
-/* BUTTONS */
 .btn-small {
     width: 100%;
-    margin-top: 5px;
+    margin-top: 6px;
     font-size: 12px;
 }
 </style>
 {% endblock %}
 
-{% block content %}
+{% block subpage_content %}
 
-<div class="page-container">
+<div class="container-fluid px-2 px-md-3 routines-container">
 
     <!-- HEADER -->
-    <div class="header-row">
-        <h2>Routines</h2>
+    <div class="routines-header">
+        <h1>Routines</h1>
 
-        <div class="search-box">
-            <input id="searchInput" class="form-control" placeholder="Search Routines...">
-            <button class="btn btn-dark" onclick="searchRoutine()">Search</button>
+        <div class="search-bar">
+            <input id="searchInput" placeholder="Search Routines...">
+            <button onclick="searchRoutine()">Search</button>
         </div>
     </div>
 
     <!-- CAROUSEL -->
     <div class="carousel-box">
         <span>&lt;</span>
-        <div>Featured Routine</div>
+
+        <div>
+            <strong>Featured Routine</strong><br>
+            <small>Full body workout to boost your day</small>
+        </div>
+
         <span>&gt;</span>
     </div>
 
-    <!-- MY ROUTINES -->
+    <!-- =========================
+         MY ROUTINES
+    ========================== -->
     <div class="section-header">
         <h4>My Routines</h4>
-        <button class="btn btn-outline-dark btn-sm" onclick="createRoutine()">+ Create Routine</button>
+        <button onclick="createRoutine()">+ Create Routine</button>
     </div>
 
-    <div class="row g-4" id="routineGrid">
+    <div class="routines-grid" id="myRoutines">
 
         {% for r in routines %}
         {% if not r.is_generated %}
-        <div class="col-md-4 routine-wrapper">
+        <div class="routine-card routine-wrapper">
 
-            <div class="routine-card">
+            <h5>{{ r.name }}</h5>
 
-                <h5>{{ r.name }}</h5>
+            <div class="icon-box">Workout 1</div>
+            <div class="icon-box">Workout 2</div>
+            <div class="icon-box">Workout 3</div>
 
-                <!-- Preview (placeholder style from wireframe) -->
-                <div class="icon-box">Workout 1</div>
-                <div class="icon-box">Workout 2</div>
-                <div class="icon-box">Workout 3</div>
+            <button class="btn-small view-btn" data-id="{{ r.id }}">
+                View Routine
+            </button>
 
-                <button class="btn btn-dark btn-small view-btn"
-                    data-id="{{ r.id }}">
-                    View Routine
-                </button>
+            <button class="btn-small rename-btn" data-id="{{ r.id }}">
+                Edit Routine
+            </button>
 
-                <button class="btn btn-secondary btn-small rename-btn"
-                    data-id="{{ r.id }}">
-                    Edit Routine
-                </button>
+            <button class="btn-small remix-btn" data-id="{{ r.id }}">
+                Remix
+            </button>
 
-                <button class="btn btn-outline-dark btn-small remix-btn"
-                    data-id="{{ r.id }}">
-                    Remix
-                </button>
+            <button class="btn-small delete-btn" data-id="{{ r.id }}">
+                Delete
+            </button>
 
-                <button class="btn btn-danger btn-small delete-btn"
-                    data-id="{{ r.id }}">
-                    Delete
-                </button>
+        </div>
+        {% endif %}
+        {% endfor %}
 
-            </div>
+    </div>
+
+    <!-- =========================
+         GENERATED ROUTINES
+    ========================== -->
+    <div class="section-header">
+        <h4>Generated Routines</h4>
+    </div>
+
+    <div class="routines-grid" id="generatedRoutines">
+
+        {% for r in routines %}
+        {% if r.is_generated %}
+        <div class="routine-card routine-wrapper">
+
+            <h5>{{ r.name }}</h5>
+
+            <div class="icon-box">Workout 1</div>
+            <div class="icon-box">Workout 2</div>
+            <div class="icon-box">Workout 3</div>
+
+            <button class="btn-small view-btn" data-id="{{ r.id }}">
+                View Routine
+            </button>
+
+            <button class="btn-small remix-btn" data-id="{{ r.id }}">
+                Remix
+            </button>
 
         </div>
         {% endif %}
@@ -149,9 +182,6 @@
 <script>
 const API_URL = "http://127.0.0.1:8000";
 
-/* =========================
-   EVENT HANDLER
-========================= */
 document.addEventListener("click", function (e) {
 
     if (e.target.classList.contains("view-btn")) {
@@ -171,16 +201,10 @@ document.addEventListener("click", function (e) {
     }
 });
 
-/* =========================
-   VIEW
-========================= */
 function viewRoutine(id) {
     window.location.href = `/routines/${id}`;
 }
 
-/* =========================
-   CREATE
-========================= */
 function createRoutine() {
     const name = prompt("Enter routine name:");
     if (!name) return;
@@ -195,9 +219,6 @@ function createRoutine() {
     }).then(() => location.reload());
 }
 
-/* =========================
-   DELETE
-========================= */
 async function deleteRoutine(id) {
     await fetch(`${API_URL}/routines/${id}`, {
         method: "DELETE"
@@ -208,9 +229,6 @@ async function deleteRoutine(id) {
         .remove();
 }
 
-/* =========================
-   RENAME
-========================= */
 async function renameRoutine(id) {
     const name = prompt("New name:");
     if (!name) return;
@@ -226,22 +244,16 @@ async function renameRoutine(id) {
         .querySelector("h5").innerText = name;
 }
 
-/* =========================
-   REMIX
-========================= */
 function remixRoutine(id) {
     alert("Remix routine " + id);
 }
 
-/* =========================
-   SEARCH
-========================= */
 function searchRoutine() {
     const input = document.getElementById("searchInput").value.toLowerCase();
     const cards = document.querySelectorAll(".routine-card");
 
     cards.forEach(card => {
-        card.parentElement.style.display =
+        card.style.display =
             card.innerText.toLowerCase().includes(input)
             ? "block"
             : "none";
