@@ -35,41 +35,8 @@ async def index_view(
 #color: #F3F3E9;
 #color: #D51313;
 
-@router.get("/water")
-def water_page(request: Request):
-    return templates.TemplateResponse(
-        request = request,
-        name="water_log.html"
-        )
 
-@router.get("/water/today")
-def get_today_water(db: SessionDep, user: AuthDep):
-    today = date.today()
-
-    records = db.exec(select(WaterIntake).where(WaterIntake.user_id == user.id)).all()
-
-    total = 0
-
-    for r in records:
-        if r.timestamp.date() == today:
-            total += r.amount_ml
-
-    return {"total": total}
-
-@router.post("/water/add")
-def add_water(amount: int, db: SessionDep, user: AuthDep):
-    entry = WaterIntake(
-        user_id= user.id,
-        amount_ml=amount,
-        timestamp=datetime.now()
-    )
-
-    db.add(entry)
-    db.commit()
-
-    return{"message": "added"}
-
-
+ 
 # @router.post("/water/add")
 # def add_water_log(amount: int, db: SessionDep, user: AuthDep):
 #     entry = WaterIntake(

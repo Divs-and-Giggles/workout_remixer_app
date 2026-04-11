@@ -35,3 +35,9 @@ class WaterIntake(SQLModel, table = True):
     user_id: int = Field(default=None, foreign_key="user.id")
     amount_ml: int
     timestamp: datetime
+
+class SleepLog(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(default=None, foreign_key="user.id")
+    hours: float
+    timestamp: datetime
