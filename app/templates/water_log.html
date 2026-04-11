@@ -4,6 +4,7 @@
 
 {% block internal_css %}
 <style>
+    /* water tracker css */
     .water-card{
         background: #1e1e1e;
         color: white;
@@ -16,7 +17,7 @@
         margin-bottom: 100px;
     }
 
-    button{
+    #water-button{
         padding: 10px 20px;
         border-radius: 30px;
         border: none;
@@ -42,28 +43,82 @@
         border-radius: 10px;
         transition: width 0.3s ease;
     }
+
+    /* sleep tracker css */
+    .sleep-card{
+        background: #1e1e1e;
+        color: white;
+        padding: 20px;
+        padding-bottom: 5px;
+        border-radius: 15px;
+        width: 350px;
+        justify-self: center;
+        margin-top: 100px;
+        margin-bottom: 100px;
+    }
+
+    #sleep-button{
+        padding: 5px 20px;
+        border-radius: 30px;
+        border: none;
+        background: #333;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    #sleep-input{
+        width: 100%;
+        border: none;
+        border-bottom: 2px solid #555;
+        cursor: pointer;
+        margin-top: 15px;
+        background: transparent;
+        color: white;
+        padding: 8px 0;
+        outline: none;
+        caret-color: white;
+    }
+
+    #sleep-input::placeholder {
+        color: #888;
+    }
 </style>
 {% endblock %}
 
 {% block subpage_content %}
     <!-- <script src="/static/js/highcharts.js"></script> -->
-    
-    <div class="water-card">
-        <h2 id="water-text"><i class="fa-solid fa-glass-water"></i> 0 / 2000 ml</h2>
+    <div class="universal-container" style="display: flex; gap: 40px; justify-self: center;">
+        <!-- Water Card -->
+        <div class="water-card">
+            <h2 id="water-text"><i class="fa-solid fa-glass-water"></i> 0 / 2000 ml</h2>
 
-        
+            <div class="progress-container">
+                <div id="progress-bar"></div>
+            </div>
 
-        <div class="progress-container">
-            <div id="progress-bar"></div>
+            <button id="water-button" onclick="addWater()"><i class="fa-solid fa-plus"></i> 250 ml</button>
+
+            <hr>
+            <p style="justify-self: center;">
+                <a href="/stats" style="color: white; text-decoration-line: none;">View Weekly Stats</a>
+            </p>
         </div>
 
-        <button onclick="addWater()"><i class="fa-solid fa-plus"></i> 250 ml</button>
+        <!-- Sleep Card -->
+         <div class="sleep-card">
+            <h2 id="sleep-text"><i class="fa-solid fa-bed"></i></i> Hours Slept</h2>
 
-        <hr>
-        <p style="justify-self: center;">
-            <a href="/stats" style="color: white; text-decoration-line: none;">View Weekly Stats</a>
-        </p>
+            <input type="number" id="sleep-input" placeholder=" Enter Hours Slept" min="0" step="0.5">
+            <button id="sleep-button" onclick="addSleep()">Save</button>
+
+            <hr>
+            <p style="justify-self: center;">
+                <a href="/sleep-stats" style="color: white; text-decoration-line: none;">View Weekly Stats</a>
+            </p>
+        </div>
     </div>
+    
 
     <script>
         const goal = 2000
