@@ -1,0 +1,134 @@
+{% extends "authenticated-base.html" %}
+
+{% block title %}Water Stats{% endblock %}
+
+{% block internal_css %}
+<style>
+    .water-card{
+        background: #1e1e1e;
+        color: white;
+        padding: 20px;
+        padding-bottom: 5px;
+        border-radius: 15px;
+        width: 350px;
+        justify-self: center;
+        margin-top: 100px;
+        margin-bottom: 100px;
+    }
+
+    button{
+        padding: 10px 20px;
+        border-radius: 30px;
+        border: none;
+        background: #333;
+        color: white;
+        cursor: pointer;
+    }
+
+    .progress-container {
+        width: 100%;
+        height: 20px;
+        background: #333;
+        border-radius: 10px;
+        margin-top: 15px;
+        overflow: hidden;
+        margin-bottom: 17px;
+    }
+
+    #progress-bar {
+        height: 100%;
+        width: 0%;
+        background: #4da6ff;
+        border-radius: 10px;
+        transition: width 0.3s ease;
+    }
+</style>
+{% endblock %}
+
+{% block subpage_content %}
+    <!-- <script src="/static/js/highcharts.js"></script> -->
+    
+    <div class="water-card">
+        <h2 id="water-text"><i class="fa-solid fa-glass-water"></i> 0 / 2000 ml</h2>
+
+        
+
+        <div class="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+
+        <button onclick="addWater()"><i class="fa-solid fa-plus"></i> 250 ml</button>
+
+        <hr>
+        <p style="justify-self: center;">View Weekly Stats</p>
+    </div>
+
+    <script>
+        const goal = 2000
+
+        async function loadToday() {
+            let res = await fetch('/water/today', {credentials:"include"});
+            let data = await res.json();
+
+            let total = data.total;
+
+            document.getElementById('water-text').innerHTML= '<i class="fa-solid fa-glass-water"></i>' +  total + " / " + goal + " ml";
+
+            let percent = (total / goal) * 100;
+            if (percent > 100) percent = 100;
+            
+            let bar = document.getElementById("progress-bar");
+            bar.style.width = percent + "%";
+
+            if (percent < 50) {
+                bar.style.background = "#ff4d4d";
+            }
+
+            else if(percent < 100) {
+                bar.style.background = "#ffaa00";
+            }
+
+            else {bar.style.background = "#4CAF50"};
+        }
+
+        async function addWater() {
+            await fetch('/water/add?amount=250', {method: "POST", credentials: "include"});
+
+            loadToday();
+            // loadChart();
+        }
+
+        // function drawChart(categories, values) {
+        //     Highcharts.chart('container', {
+        //         chart: {type: 'line'},
+        //         title: {text: 'Water Intake'},
+        //         xAxis: {categories: categories},
+        //         yAxis: {title: {text: 'ml'}},
+        //         series: [{
+        //             name:'Water',
+        //             data: values
+        //         }]
+        //     });
+        // }
+
+        // async function loadChart() {
+        //     let res = await fetch('/water/history');
+        //     let data = await res.json()
+
+        //     let categories = [];
+        //     let values = [];
+
+        //     for (let day in data) {
+        //         categories.push(day);
+        //         values.push(data[day]);
+        //     }
+
+        //     drawChart(categories, values);
+        // }
+
+        loadToday();
+        // loadChart();
+    </script>
+{% endblock %}
+
+

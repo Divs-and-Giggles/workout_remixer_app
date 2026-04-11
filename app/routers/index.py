@@ -2,8 +2,11 @@ from fastapi.responses import RedirectResponse
 from fastapi import Request, status
 from app.dependencies.auth import IsUserLoggedIn, get_current_user, is_admin
 from app.dependencies.session import SessionDep
-from . import router
-
+from app.dependencies.auth import AuthDep
+from . import router,templates
+from app.models.logging import WaterIntake
+from datetime import datetime, date
+from sqlmodel import select
 
 @router.get("/", response_class=RedirectResponse)
 async def index_view(
@@ -32,3 +35,64 @@ async def index_view(
 #color: #F3F3E9;
 #color: #D51313;
 
+@router.get("/water")
+def water_page(request: Request):
+    return templates.TemplateResponse(
+        request = request,
+        name="water_log.html"
+        )
+
+@router.get("/water/today")
+def get_today_water(db: SessionDep, user: AuthDep):
+    today = date.today()
+
+    records = db.exec(select(WaterIntake).where(WaterIntake.user_id == user.id)).all()
+
+    total = 0
+
+    for r in records:
+        if r.timestamp.date() == today:
+            total += r.amount_ml
+
+    return {"total": total}
+
+@router.post("/water/add")
+def add_water(amount: int, db: SessionDep, user: AuthDep):
+    entry = WaterIntake(
+        user_id= user.id,
+        amount_ml=amount,
+        timestamp=datetime.now()
+    )
+
+    db.add(entry)
+    db.commit()
+
+    return{"message": "added"}
+
+
+# @router.post("/water/add")
+# def add_water_log(amount: int, db: SessionDep, user: AuthDep):
+#     entry = WaterIntake(
+#         user_id= user.id,
+#         amount_ml=amount,
+#         timestamp=datetime.now()
+#     )
+
+#     db.add(entry)
+#     db.commit()
+
+#     return {"message": "Water added"}
+
+# @router.get("/water/today")
+# def get_today(db: SessionDep, user: AuthDep):
+#     today = datetime.now().date()
+#     total = 0
+
+#     entries = db.exec(select(WaterIntake)).all()
+
+#     for entry in entries:
+#         if entry.user_id ==user.id:
+#             if entry.timestamp.date() == today:
+#                 total+= entry.amount_ml
+
+#     return {"total": total}
