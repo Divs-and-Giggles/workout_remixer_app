@@ -1,11 +1,157 @@
 {% extends "base.html" %}
 {% block title %}Routines{% endblock %}
 
-{% block external_js %}
+{% block internal_css %}
+<style>
+.page-container {
+    padding: 100px 40px 40px;
+}
 
+/* HEADER */
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* SEARCH */
+.search-box {
+    display: flex;
+    gap: 10px;
+}
+
+/* CAROUSEL */
+.carousel-box {
+    height: 180px;
+    background: #eee;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+/* SECTION HEADER */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* CARD */
+.routine-card {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.routine-card h5 {
+    margin-bottom: 10px;
+}
+
+/* MINI BOXES */
+.icon-box {
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+
+/* BUTTONS */
+.btn-small {
+    width: 100%;
+    margin-top: 5px;
+    font-size: 12px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <!-- HEADER -->
+    <div class="header-row">
+        <h2>Routines</h2>
+
+        <div class="search-box">
+            <input id="searchInput" class="form-control" placeholder="Search Routines...">
+            <button class="btn btn-dark" onclick="searchRoutine()">Search</button>
+        </div>
+    </div>
+
+    <!-- CAROUSEL -->
+    <div class="carousel-box">
+        <span>&lt;</span>
+        <div>Featured Routine</div>
+        <span>&gt;</span>
+    </div>
+
+    <!-- MY ROUTINES -->
+    <div class="section-header">
+        <h4>My Routines</h4>
+        <button class="btn btn-outline-dark btn-sm" onclick="createRoutine()">+ Create Routine</button>
+    </div>
+
+    <div class="row g-4" id="routineGrid">
+
+        {% for r in routines %}
+        {% if not r.is_generated %}
+        <div class="col-md-4 routine-wrapper">
+
+            <div class="routine-card">
+
+                <h5>{{ r.name }}</h5>
+
+                <!-- Preview (placeholder style from wireframe) -->
+                <div class="icon-box">Workout 1</div>
+                <div class="icon-box">Workout 2</div>
+                <div class="icon-box">Workout 3</div>
+
+                <button class="btn btn-dark btn-small view-btn"
+                    data-id="{{ r.id }}">
+                    View Routine
+                </button>
+
+                <button class="btn btn-secondary btn-small rename-btn"
+                    data-id="{{ r.id }}">
+                    Edit Routine
+                </button>
+
+                <button class="btn btn-outline-dark btn-small remix-btn"
+                    data-id="{{ r.id }}">
+                    Remix
+                </button>
+
+                <button class="btn btn-danger btn-small delete-btn"
+                    data-id="{{ r.id }}">
+                    Delete
+                </button>
+
+            </div>
+
+        </div>
+        {% endif %}
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block subpage_scripts %}
 <script>
 const API_URL = "http://127.0.0.1:8000";
 
+/* =========================
+   EVENT HANDLER
+========================= */
 document.addEventListener("click", function (e) {
 
     if (e.target.classList.contains("view-btn")) {
@@ -19,20 +165,52 @@ document.addEventListener("click", function (e) {
     if (e.target.classList.contains("delete-btn")) {
         deleteRoutine(e.target.dataset.id);
     }
+
+    if (e.target.classList.contains("remix-btn")) {
+        remixRoutine(e.target.dataset.id);
+    }
 });
 
+/* =========================
+   VIEW
+========================= */
 function viewRoutine(id) {
-    alert("Viewing routine " + id);
+    window.location.href = `/routines/${id}`;
 }
 
+/* =========================
+   CREATE
+========================= */
+function createRoutine() {
+    const name = prompt("Enter routine name:");
+    if (!name) return;
+
+    fetch(`${API_URL}/routines`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            name: name,
+            difficulty: "beginner"
+        })
+    }).then(() => location.reload());
+}
+
+/* =========================
+   DELETE
+========================= */
 async function deleteRoutine(id) {
     await fetch(`${API_URL}/routines/${id}`, {
         method: "DELETE"
     });
 
-    location.reload();
+    document.querySelector(`[data-id="${id}"]`)
+        .closest(".routine-wrapper")
+        .remove();
 }
 
+/* =========================
+   RENAME
+========================= */
 async function renameRoutine(id) {
     const name = prompt("New name:");
     if (!name) return;
@@ -43,117 +221,31 @@ async function renameRoutine(id) {
         body: JSON.stringify({ name })
     });
 
-    location.reload();
+    document.querySelector(`[data-id="${id}"]`)
+        .closest(".routine-card")
+        .querySelector("h5").innerText = name;
 }
 
+/* =========================
+   REMIX
+========================= */
+function remixRoutine(id) {
+    alert("Remix routine " + id);
+}
+
+/* =========================
+   SEARCH
+========================= */
 function searchRoutine() {
     const input = document.getElementById("searchInput").value.toLowerCase();
     const cards = document.querySelectorAll(".routine-card");
 
     cards.forEach(card => {
-        card.style.display = card.innerText.toLowerCase().includes(input)
+        card.parentElement.style.display =
+            card.innerText.toLowerCase().includes(input)
             ? "block"
             : "none";
     });
 }
 </script>
-{% endblock %}
-
-{% block internal_css %}
-<style>
-body {
-    background-color: #f8f9fa;
-}
-
-.routine-container {
-    padding: 2rem;
-}
-
-.routine-card {
-    border: none;
-    border-radius: 1rem;
-    padding: 1.5rem;
-    background: white;
-    transition: 0.2s;
-}
-
-.routine-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.tag {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-size: 12px;
-    margin-bottom: 10px;
-}
-
-.beginner { background: #d4f8d4; }
-.intermediate { background: #fff3cd; }
-.advanced { background: #f8d7da; }
-.elite { background: #d1ecf1; }
-
-.btn {
-    border-radius: 0.5rem;
-}
-</style>
-{% endblock %}
-
-{% block content %}
-
-<div class="container routine-container">
-
-    <!-- HEADER -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">Routines</h2>
-
-        <div class="d-flex gap-2">
-            <input id="searchInput" class="form-control" placeholder="Search routines...">
-            <button class="btn btn-dark" onclick="searchRoutine()">Search</button>
-        </div>
-    </div>
-
-    <!-- GRID -->
-    <div class="row g-4">
-
-        {% for r in routines %}
-        <div class="col-md-6 col-lg-4">
-
-            <div class="routine-card shadow-sm">
-
-                <h4 class="fw-bold">{{ r.name }}</h4>
-
-                <span class="tag {{ r.difficulty }}">
-                    {{ r.difficulty }}
-                </span>
-
-                <div class="d-grid gap-2 mt-3">
-
-                    <button class="btn btn-primary btn-sm view-btn"
-                        data-id="{{ r.id }}">
-                        View
-                    </button>
-
-                    <button class="btn btn-secondary btn-sm rename-btn"
-                        data-id="{{ r.id }}">
-                        Rename
-                    </button>
-
-                    <button class="btn btn-danger btn-sm delete-btn"
-                        data-id="{{ r.id }}">
-                        Delete
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-        {% endfor %}
-
-    </div>
-
-</div>
-
 {% endblock %}
