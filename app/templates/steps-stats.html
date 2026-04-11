@@ -1,0 +1,110 @@
+{% extends "authenticated-base.html" %}
+
+{% block title %}Steps Stats{% endblock %}
+
+{% block subpage_content %}
+    <script src="/static/js/highcharts.js"></script>
+
+    <div class="container">
+        <h4 style="margin-top: 100px;">Weekly Steps Taken</h4>
+        <div id="container"></div>
+        <div id="summary" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+
+        function drawChart(categories, values) {
+            Highcharts.chart('container', {
+                chart: {type: 'column'},
+                title: {text: 'Weekly Steps'},
+                xAxis: {categories: categories},
+                yAxis: {
+                    min:0, 
+                    title: {text: 'Steps'},
+                    plotLines: [{
+                        value: 6000,
+                        color: 'green',
+                        dashStyle: 'ShortDash',
+                        width: 2,
+                        label: {
+                            text:'Steps Goal (6000 steps)'
+                        }
+                    }]
+                },
+                tooltip: {
+                    pointFormat: '{point.y} steps'
+                },
+                series: [{
+                    name:'Steps',
+                    data: buildChartData(values)
+                }]
+            });
+        }
+
+        function buildChartData(values) {
+            let res = []
+
+            for (let i = 0; i < values.length; i++) {
+                let v = values[i];
+
+                if (v>= 6000) {
+                    res.push({y: v, color: '#4CAF50'});
+                }
+                else{
+                    res.push({y:v, color: '#ff4d4d'})
+                }
+            }
+            return res;
+        }
+
+        function showSummary(values) {
+            let total = 0;
+            let best = 0;
+            let daysMet = 0;
+
+            for (let i = 0; i < values.length; i++) {
+                let v = values[i];
+
+                total += v;
+
+                if (v > best) { best = v;}
+                if(v >= 6000) {daysMet += 1;}
+            }
+
+            let avg = Math.round(total/7);
+
+            document.getElementById("summary").innerHTML = `
+                <p><strong>Total:</strong> ${total} steps</p>
+                <p><strong>Average:</strong> ${avg} steps/day</p>
+                <p><strong>Best Day:</strong> ${best} steps</p>
+                <p><strong>Goal Met:</strong> ${daysMet}/7 days</p>
+            `;
+        }
+
+        async function loadChart() {
+            let res = await fetch('/steps/weekly', {credentials: "include"});
+            let data = await res.json()
+
+            let categories = [];
+            let values = [];
+            const order = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+            for (let i = 0; i < order.length; i++) {
+                let day = order[i];
+                categories.push(day);
+
+                if (data[day] !== undefined) {
+                    values.push(data[day]);
+                }
+                else {
+                    values.push(0);
+                }
+            }
+
+            drawChart(categories, values);
+            showSummary(values);
+        }
+
+        document.addEventListener("DOMContentLoaded", loadChart);
+    </script>
+{% endblock %}

@@ -9,7 +9,7 @@ from datetime import datetime, date
 from sqlmodel import select
 
 @router.get("/sleep")
-def water_page(request: Request):
+def sleep_page(request: Request):
     return templates.TemplateResponse(
         request = request,
         name="sleep_log.html"
@@ -43,7 +43,7 @@ def add_sleep(hours: float, db: SessionDep, user: AuthDep):
     return{"message": "added"}
 
 @router.get("/sleep-stats")
-def water_page(request: Request):
+def sleep_stats_page(request: Request):
     return templates.TemplateResponse(
         request = request,
         name="sleep-stats.html"

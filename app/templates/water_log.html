@@ -82,12 +82,89 @@
     #sleep-input::placeholder {
         color: #888;
     }
+
+    /* weight css */
+    .steps-card{
+        background: #1e1e1e;
+        color: white;
+        padding: 20px;
+        padding-bottom: 5px;
+        border-radius: 15px;
+        width: 350px;
+        justify-self: center;
+        margin-top: 100px;
+        margin-bottom: 100px;
+    }
+
+    #steps-button{
+        padding: 5px 20px;
+        border-radius: 30px;
+        border: none;
+        background: #333;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    #steps-input{
+        width: 100%;
+        border: none;
+        border-bottom: 2px solid #555;
+        cursor: pointer;
+        background: transparent;
+        color: white;
+        padding: 8px 0;
+        outline: none;
+        caret-color: white;
+    }
+
+    #steps-input::placeholder {
+        color: #888;
+    }
+
+    /* steps css */
+    .steps-card{
+        background: #1e1e1e;
+        color: white;
+        padding: 20px;
+        padding-bottom: 5px;
+        border-radius: 15px;
+        width: 350px;
+        justify-self: center;
+        margin-top: 100px;
+        margin-bottom: 100px;
+    }
+
+    #steps-button{
+        padding: 5px 20px;
+        border-radius: 30px;
+        border: none;
+        background: #333;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    #steps-input{
+        width: 100%;
+        border: none;
+        border-bottom: 2px solid #555;
+        cursor: pointer;
+        background: transparent;
+        color: white;
+        padding: 8px 0;
+        outline: none;
+        caret-color: white;
+    }
+
+    #steps-input::placeholder {
+        color: #888;
+    }
 </style>
 {% endblock %}
 
 {% block subpage_content %}
-    <!-- <script src="/static/js/highcharts.js"></script> -->
-    <div class="universal-container" style="display: flex; gap: 40px; justify-self: center;">
+    <div class="card-container1" style="display: flex; gap: 40px; justify-self: center;">
         <!-- Water Card -->
         <div class="water-card">
             <h2 id="water-text"><i class="fa-solid fa-glass-water"></i> 0 / 2000 ml</h2>
@@ -105,18 +182,33 @@
         </div>
 
         <!-- Sleep Card -->
-         <div class="sleep-card">
-            <h2 id="sleep-text"><i class="fa-solid fa-bed"></i></i> Hours Slept</h2>
+        <div class="sleep-card">
+            <h2 id="sleep-text"><i class="fa-solid fa-bed"></i> Hours Slept</h2>
 
             <input type="number" id="sleep-input" placeholder=" Enter Hours Slept" min="0" step="0.5">
-            <button id="sleep-button" onclick="addSleep()">Save</button>
+            <button id="sleep-button" onclick="addSleep()"><i class="fa-solid fa-plus"></i> Add to Today's Total</button>
 
             <hr>
             <p style="justify-self: center;">
                 <a href="/sleep-stats" style="color: white; text-decoration-line: none;">View Weekly Stats</a>
             </p>
         </div>
+
+        <!-- Steps card -->
+        <div class="steps-card">
+            <h2 id="steps-text"><i class="fa-solid fa-shoe-prints"></i> Steps Taken</h2>
+
+            <input type="number" id="steps-input" placeholder=" Enter Steps Taken" min="0" step="100">
+            <button id="steps-button" onclick="addSteps()"><i class="fa-solid fa-plus"></i> Add to Today's Total</button>
+
+            <hr>
+            <p style="justify-self: center;">
+                <a href="/steps-stats" style="color: white; text-decoration-line: none;">View Weekly Stats</a>
+            </p>
+        </div>
+
     </div>
+
     
 
     <script>
@@ -171,6 +263,26 @@
         document.getElementById("sleep-input").addEventListener("keypress", function(e) {
             if (e.key ==="Enter") {
                 addSleep();
+            }
+        });
+
+        // steps js
+        async function addSteps() {
+            let input = document.getElementById("steps-input");
+            let steps = input.value;
+
+            if (steps === "" || steps <= 0) {
+                alert("Enter valid steps");
+                return;
+            }
+
+            await fetch(`/steps/add?steps=${steps}`, {method: "POST", credentials: "include"});
+            input.value = "";
+        }
+
+        document.getElementById("steps-input").addEventListener("keypress", function(e) {
+            if (e.key ==="Enter") {
+                addSteps();
             }
         });
 

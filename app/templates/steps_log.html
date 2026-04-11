@@ -1,0 +1,88 @@
+{% extends "authenticated-base.html" %}
+
+{% block title %}Sleep Tracker{% endblock %}
+
+{% block internal_css %}
+<style>
+    /* steps css */
+    .steps-card{
+        background: #1e1e1e;
+        color: white;
+        padding: 20px;
+        padding-bottom: 5px;
+        border-radius: 15px;
+        width: 350px;
+        justify-self: center;
+        margin-top: 100px;
+        margin-bottom: 100px;
+    }
+
+    #steps-button{
+        padding: 5px 20px;
+        border-radius: 30px;
+        border: none;
+        background: #333;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    #steps-input{
+        width: 100%;
+        border: none;
+        border-bottom: 2px solid #555;
+        cursor: pointer;
+        background: transparent;
+        color: white;
+        padding: 8px 0;
+        outline: none;
+        caret-color: white;
+    }
+
+    #steps-input::placeholder {
+        color: #888;
+    }
+</style>
+{% endblock %}
+
+{% block subpage_content %}
+    <!-- <script src="/static/js/highcharts.js"></script> -->
+    
+    <!-- Steps card -->
+    <div class="steps-card">
+        <h2 id="steps-text"><i class="fa-solid fa-shoe-prints"></i> Steps Taken</h2>
+
+        <input type="number" id="steps-input" placeholder=" Enter Steps Taken" min="0" step="100">
+        <button id="steps-button" onclick="addSteps()">Save</button>
+
+        <hr>
+        <p style="justify-self: center;">
+            <a href="/steps-stats" style="color: white; text-decoration-line: none;">View Weekly Stats</a>
+        </p>
+    </div>
+
+    <script>
+        // steps js
+        async function addSteps() {
+            let input = document.getElementById("steps-input");
+            let steps = input.value;
+
+            if (steps === "" || steps <= 0) {
+                alert("Enter valid steps");
+                return;
+            }
+
+            await fetch(`/steps/add?steps=${steps}`, {method: "POST", credentials: "include"});
+            input.value = "";
+        }
+
+        document.getElementById("steps-input").addEventListener("keypress", function(e) {
+            if (e.key ==="Enter") {
+                addSteps();
+            }
+        });
+
+    </script>
+{% endblock %}
+
+
