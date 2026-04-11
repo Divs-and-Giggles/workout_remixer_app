@@ -1,0 +1,352 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Barlow+Condensed:wght@700;800&display=swap');
+
+#content {
+    padding-top: 90px;
+    font-family: 'Barlow', sans-serif;
+}
+
+/* ── Page Header ── */
+.workouts-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.workouts-header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 2.6rem;
+    letter-spacing: 0.02em;
+    color: #111;
+    margin: 0;
+}
+
+.search-bar {
+    display: flex;
+    gap: 0;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.search-bar input {
+    border: 2px solid #dee2e6;
+    border-right: none;
+    border-radius: 0.5rem 0 0 0.5rem;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.95rem;
+    font-family: 'Barlow', sans-serif;
+    width: 240px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.search-bar input:focus {
+    border-color: #D51313;
+}
+
+.search-bar button {
+    background-color: #D51313;
+    color: #fff;
+    border: none;
+    padding: 0.55rem 1.3rem;
+    font-weight: 700;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.95rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.search-bar button:hover {
+    background-color: #a80e0e;
+}
+
+/* ── Filter Panels ── */
+.filter-panel {
+    background: #fff;
+    border-radius: 0.9rem;
+    padding: 1rem 1.4rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f0f0f0;
+}
+
+.filter-panel .filter-label {
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #555;
+    margin-bottom: 0.65rem;
+    display: block;
+}
+
+.filter-row {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.filter-section {
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.filter-btn {
+    background: #f4f4f4;
+    border: 1.5px solid #e0e0e0;
+    color: #333;
+    border-radius: 2rem;
+    padding: 0.38rem 1.1rem;
+    font-size: 0.88rem;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: #D51313;
+    border-color: #D51313;
+    color: #fff;
+}
+
+.filter-select {
+    border: 1.5px solid #e0e0e0;
+    border-radius: 2rem;
+    padding: 0.38rem 1.1rem;
+    font-size: 0.88rem;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    color: #333;
+    background: #f4f4f4;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+    min-width: 160px;
+}
+
+.filter-select:focus {
+    border-color: #D51313;
+}
+
+
+/* ── Workout Cards ── */
+.workouts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.4rem;
+    margin-top: 0.5rem;
+}
+
+.workout-card {
+    background: #fff;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    border: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.workout-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 28px rgba(213, 19, 19, 0.13);
+}
+
+.workout-card-img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    background: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.workout-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.workout-card-body {
+    padding: 1rem 1.1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.workout-card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: #111;
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.02em;
+}
+
+.workout-card-meta {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.6rem;
+}
+
+.badge-meta {
+    background: #f4f4f4;
+    border-radius: 1rem;
+    padding: 0.18rem 0.65rem;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #555;
+    border: 1px solid #e8e8e8;
+}
+
+.workout-card-desc {
+    font-size: 0.88rem;
+    color: #666;
+    line-height: 1.5;
+    flex: 1;
+    margin-bottom: 0.8rem;
+}
+
+.btn-add-workout {
+    width: 100%;
+    background: #D51313;
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.55rem;
+    font-weight: 700;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    text-decoration: none;
+}
+
+.btn-add-workout:hover {
+    background: #a80e0e;
+    color: #fff;
+}
+
+/* ── No results ── */
+.no-results {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #999;
+}
+
+.no-results span.material-symbols-outlined {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #ddd;
+}
+
+@media (max-width: 576px) {
+    .workouts-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-bar input {
+        width: 160px;
+    }
+
+    .filter-row {
+        flex-direction: column;
+    }
+}
+
+.navbar {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.nav-link:hover {
+    color: #D51313 !important;
+    text-decoration: none !important;
+    text-decoration-color: #D51313 !important;
+}
+
+.top-navbar {
+    background: #ffffff;
+
+    z-index: 1050;
+    border-bottom: 2px solid #D51313;
+}
+
+.top-navbar .navbar-brand img {
+    height: 200px;
+    width: auto;
+
+}
+
+.top-navbar .nav-link {
+    color: #000000 !important;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.05rem;
+    text-decoration: none !important;
+    padding: 0.5rem 2.1rem !important;
+    border-radius: 0.4rem;
+    transition: all 0.2s;
+    font-family: 'Roberto', sans-serif;
+
+}
+
+.top-navbar .nav-link:hover {
+    color: #fff !important;
+    background-color: #D51313 !important;
+}
+
+.top-navbar .btn-logout {
+    color: #000000 !important;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.05rem;
+    text-decoration: none !important;
+    padding: 0.5rem 0.75rem !important;
+    border-radius: 0.4rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: 'Roberto', sans-serif;
+}
+
+.top-navbar .btn-logout:hover {
+    color: #fff !important;
+    background-color: #D51313 !important;
+
+}
+
+.top-navbar .nav-toggler-icon {
+    filter: invert(1);
+}
+
+.material-symbols-outlined {
+    font-weight: 900;
+}
