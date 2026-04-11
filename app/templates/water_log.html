@@ -72,7 +72,6 @@
         border: none;
         border-bottom: 2px solid #555;
         cursor: pointer;
-        margin-top: 15px;
         background: transparent;
         color: white;
         padding: 8px 0;
@@ -121,6 +120,7 @@
     
 
     <script>
+        // water js
         const goal = 2000
 
         async function loadToday() {
@@ -152,39 +152,30 @@
             await fetch('/water/add?amount=250', {method: "POST", credentials: "include"});
 
             loadToday();
-            // loadChart();
         }
 
-        // function drawChart(categories, values) {
-        //     Highcharts.chart('container', {
-        //         chart: {type: 'line'},
-        //         title: {text: 'Water Intake'},
-        //         xAxis: {categories: categories},
-        //         yAxis: {title: {text: 'ml'}},
-        //         series: [{
-        //             name:'Water',
-        //             data: values
-        //         }]
-        //     });
-        // }
+        // sleep js
+        async function addSleep() {
+            let input = document.getElementById("sleep-input");
+            let hours = input.value;
 
-        // async function loadChart() {
-        //     let res = await fetch('/water/history');
-        //     let data = await res.json()
+            if (hours === "" || hours <= 0) {
+                alert("Enter valid hours");
+                return;
+            }
 
-        //     let categories = [];
-        //     let values = [];
+            await fetch(`/sleep/add?hours=${hours}`, {method: "POST", credentials: "include"});
+            input.value = "";
+        }
 
-        //     for (let day in data) {
-        //         categories.push(day);
-        //         values.push(data[day]);
-        //     }
-
-        //     drawChart(categories, values);
-        // }
+        document.getElementById("sleep-input").addEventListener("keypress", function(e) {
+            if (e.key ==="Enter") {
+                addSleep();
+            }
+        });
 
         loadToday();
-        // loadChart();
+
     </script>
 {% endblock %}
 
