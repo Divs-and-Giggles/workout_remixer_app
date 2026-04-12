@@ -1,0 +1,237 @@
+{% extends "authenticated-base.html" %}
+{% block title %} Calculator {% endblock %}
+
+{% block subpage_content %}
+<style>
+    .calc-btn{
+        background-color: #D51313;
+        color: #ffffff;
+        font-weight: 600;
+        border: none;
+    
+    }
+    .calc-btn:hover{
+        background-color: #1C1919;
+        color: #ffffff;
+    }
+    .nav-pills{
+        background-color: #2f2f2f;
+        padding: 8px;
+        border-radius: 30px;
+        display: flex;
+        gap:10px;
+    }
+    .nav-pills .nav-link {
+        color: #e0e0e0;
+        background: transparent;
+        transition: all 0.3s ease;
+        border-radius: 25px;
+        font-weight: 500;
+    }
+    .nav-pills .nav-link.active {
+        background-color: #D51313;
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(213, 19, 19, 0.4);
+    }
+    .nav-pills .nav-link:hover {
+        background-color: #1C1919;
+        color: #ffffff;
+    }
+    .card{
+        background-color: #4d4d4d;
+        color: #ffffff;
+        border-radius: 18px;
+    }
+    .calcs-page{
+        background-color: #faf7f7;
+        min-height: 100vh;
+        padding-top: 80px;
+    }
+    .calcs-page .lead{
+        color: #ffffff;
+    }  
+    .custom-lead{
+        color: #000000;
+        font-family: Poppins, sans-serif;
+        font-size: 20px;
+    } 
+    #bmr-result, #bmi-result, #body-fat-result, #bench-press-result{
+        margin-top: 20px;
+    }
+    
+    #bmi-result, #bmr-result, #body-fat-result, #bench-press-result{
+        padding: 18px 22px;
+        background: #fff;
+        border-color: 14px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        text-align: left;
+        border-left: 6px solid #D51313;
+        min-height: 50px;
+        display: block;
+        color:#1C1919;
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+   
+</style>
+<div class="calcs-page">
+<div class="container py-5">
+   
+    <div class="text-center mb-5">
+        <h1 class="fw-bold display-5">Fitness Calculators</h1>
+        <p class="lead text-muted custom-lead">Calculate your BMI, BMR, body fat and max bench press in order to optimize your fitness journey.</p>
+        </div>
+        <ul class="nav nav-pills nav-fill mb-4">
+            <li class="nav-item">
+                <a class="nav-link {% if active_calculator == 'bmi' %}active{% endif %}" href="/calculator/bmi">BMI Calculator</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_calculator == 'bmr' %}active{% endif %}" href="/calculator/bmr">BMR Calculator</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_calculator == 'body_fat' %}active{% endif %}" href="/calculator/body_fat">Body Fat Calculator</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_calculator == 'bench_press' %}active{% endif %}" href="/calculator/bench_press">Max Bench Press Calculator</a>
+            </li>
+        </ul>
+        <div class="card shadow-lg border-0 rounded-4">
+            <div class="card-body p-4">
+
+                {% if active_calculator=='bmi' %}
+                    <h3 class="mb-4">BMI Calculator</h3>
+                    <label>Weight (kg):</label>
+
+                    <input type="number" id="bmi-weight" class="form-control mb-3" placeholder="Enter your weight" min="0">
+                    <label>Height (cm):</label>
+
+                    <input type="number" class="form-control mb-3" id="bmi-height" placeholder="Enter your height" min="0">
+                    <button onclick="calcBMI()" class="btn calc-btn w-100 mt-4">Calculate BMI</button>
+                    <div id="bmi-result" class="mt-3"></div>
+                {% endif %}
+
+                {% if active_calculator=='bmr' %}
+                    <h3 class="mb-4">BMR Calculator</h3>
+                    <label>Age</label>
+                    <input type="number" id="bmr-age" class="form-control mb-3" placeholder="Enter your age" min="0">
+                    <label>Weight (kg):</label>
+                    <input type="number" class="form-control mb-3" id="bmr-weight" placeholder="Enter your weight" min="0">
+                    <label>Height (cm):</label>
+                    <input type="number" class="form-control mb-3" id="bmr-height" placeholder="Enter your height" min="0">
+                    <label>Gender</label>
+                    <select id="bmr-gender" class="form-control mb-3">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                    <button onclick="calcBMR()" class="btn calc-btn w-100 mt-4">Calculate BMR</button>
+                    <div id="bmr-result" class="mt-3"></div>
+                {% endif %}
+
+                {% if active_calculator=='body_fat' %}
+                    <h3 class="mb-4">Body Fat Calculator</h3>
+                    
+                    <label>Height (cm):</label>
+                    <input type="number" class="form-control mb-3" id="body-fat-height" placeholder="Enter your height" min="0">
+                    <label>Neck (cm):</label>
+                    <input type="number" class="form-control mb-3" id="body-fat-neck" placeholder="Enter your neck circumference" min="0">
+
+                    <label>Waist (cm):</label>
+                    <input type="number" class="form-control mb-3" id="body-fat-waist" placeholder="Enter your waist circumference" min="0">
+                    <label>Hip (cm):</label>
+                    <input type="number" class="form-control mb-3" id="body-fat-hip" placeholder="Enter your hip circumference" min="0">
+                    <label>Gender</label>
+                    <select id="body-fat-gender" class="form-control mb-3">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                    <button onclick="calcBodyFat()" class="btn calc-btn w-100 mt-4">Calculate Body Fat</button>
+                    <div id="body-fat-result" class="mt-3"></div>
+                {% endif %}
+
+                {% if active_calculator=='bench_press' %}
+                    <h3 class="mb-4">Max Bench Press Calculator</h3>
+                    <label>Weight Lifted (kg):</label>
+                    <input type="number" id="bench-press-weight" class="form-control mb-3" placeholder="Enter the weight you lifted" min="0">
+                    <label>Repetitions:</label>
+                    <input type="number" class="form-control mb-3" id="bench-press-reps" placeholder="Enter the number of repetitions" min="0">
+                    <button onclick="calcBenchPress()" class="btn calc-btn w-100 mt-4">Calculate Max Bench Press</button>
+                    <div id="bench-press-result" class="mt-3"></div>
+                {% endif %}
+            </div>
+
+        </div>
+
+</div>
+</div>
+<script>
+    function calcBMI() {
+        let weight = parseFloat(document.getElementById('bmi-weight').value);
+        let height = parseFloat(document.getElementById('bmi-height').value) / 100;
+        if (isNaN(weight) || isNaN(height)) {
+            alert("Please enter valid numbers for weight and height.");
+            return;
+        }
+        let bmi = weight / (height * height);
+        let result="BMI: "+bmi.toFixed(1);
+        document.getElementById('bmi-result').innerHTML=result;
+    }
+    function calcBMR() {
+        let age = parseFloat(document.getElementById('bmr-age').value);
+        let weight = parseFloat(document.getElementById('bmr-weight').value);
+        let heightb = parseFloat(document.getElementById('bmr-height').value);
+        let gender = document.getElementById('bmr-gender').value;
+        if (!age|| !weight|| !heightb) {
+            alert("Please fill in all fields with valid numbers.");
+            return;
+        }
+        let bmr;    
+        if (gender === 'male') {
+            bmr = 88.362 + (13.397 * weight) + (4.799 * heightb) - (5.677 * age);
+        } else {
+            bmr = 447.593 + (9.247 * weight) + (3.098 * heightb) - (4.330 * age);
+        }
+        let result="BMR: "+bmr.toFixed(1);
+        document.getElementById('bmr-result').innerHTML=result;
+    }
+    function calcBodyFat() {
+        let height = parseFloat(document.getElementById('body-fat-height').value);
+        let neck = parseFloat(document.getElementById('body-fat-neck').value);
+        let waist = parseFloat(document.getElementById('body-fat-waist').value);
+        let hip = parseFloat(document.getElementById('body-fat-hip').value);
+        let gender = document.getElementById('body-fat-gender').value;
+        if (height=="" || neck=="" || waist=="" || hip=="") {
+            alert("Please fill in all fields.");
+            return;
+        }   
+        let bodyFat;
+
+        if (gender === 'male') {
+            let s1=waist-neck;
+            let s2=Math.log10(s1);
+            let s3=Math.log10(height);
+            bodyFat = 495 / (1.0324 - 0.19077 * s2 + 0.15456 * s3) - 450;
+        } else {
+            let s1=waist+hip-neck;
+            let s2=Math.log10(s1);
+            let s3=Math.log10(height);
+            bodyFat = 495 / (1.29579 - 0.35004 * s2 + 0.22100 * s3) - 450;
+        }
+        let result="Body Fat: "+bodyFat.toFixed(1)+"%";
+        document.getElementById('body-fat-result').innerHTML=result;
+    }
+
+    function calcBenchPress() {
+        let weight = document.getElementById('bench-press-weight').value;
+        let reps = document.getElementById('bench-press-reps').value;
+        if (weight=="" || reps=="") {
+            alert("Please fill in both fields.");
+            return;
+        }
+        let maxBenchPress = weight * (1 + reps / 30);
+        let result="Estimated Max Bench Press: "+maxBenchPress.toFixed(1)+" kg";
+        document.getElementById('bench-press-result').innerHTML=result;
+    }
+</script>
+{% endblock %}
+
+
