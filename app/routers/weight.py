@@ -31,13 +31,29 @@ from sqlmodel import select
 
 @router.post("/weight/add")
 def add_weight(weight: float, db: SessionDep, user: AuthDep):
-    entry = WeightLog(
-        user_id=user.id,
-        weight = weight,
-        timestamp=datetime.now()
-    )
+    today = date.today()
 
-    db.add(entry)
+    existing_weight = db.exec(select(WeightLog).where(WeightLog.user_id == user.id)).all()
+
+    today_entry = None
+
+    for entry in existing_weight:
+        if entry.timestamp.date() == today:
+            today_entry = entry
+            break
+
+    if today_entry:
+        today_entry.weight = weight
+        today_entry.timestamp = datetime.now()
+
+    else:
+        today_entry = WeightLog(
+            user_id=user.id,
+            weight = weight,
+            timestamp=datetime.now()
+        )
+        db.add(today_entry)
+        
     db.commit()
 
     return{"message": "added"}
