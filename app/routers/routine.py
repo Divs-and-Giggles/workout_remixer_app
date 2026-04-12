@@ -15,7 +15,7 @@ from sqlmodel import select
 async def routine_view(
     request: Request,
     user: AuthDep,
-    session: SessionDep  
+    session: SessionDep 
 ):
     
     routines = session.exec(
@@ -30,6 +30,7 @@ async def routine_view(
             "routines": routines   
         }
     )
+
 @router.post("/routines")
 def create_routine(
     user: AuthDep,
