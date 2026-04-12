@@ -2,7 +2,6 @@ from sqlmodel import Field, SQLModel, Relationship
 from typing import Optional
 from datetime import datetime
 
-
 class WorkoutSession(SQLModel, table = True):
     id: Optional[int] = Field(default=None, primary_key=True)
     user_id: int = Field(default=None, foreign_key="user.id") 
@@ -35,4 +34,22 @@ class WaterIntake(SQLModel, table = True):
     id: Optional[int] = Field(default=None, primary_key=True)
     user_id: int = Field(default=None, foreign_key="user.id")
     amount_ml: int
+    timestamp: datetime
+
+class SleepLog(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(default=None, foreign_key="user.id")
+    hours: float
+    timestamp: datetime
+
+class StepsLog(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(default=None, foreign_key="user.id")
+    steps: int
+    timestamp: datetime
+
+class WeightLog(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(default=None, foreign_key="user.id")
+    weight: float   # kg
     timestamp: datetime
