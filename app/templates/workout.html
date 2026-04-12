@@ -1,0 +1,114 @@
+{% extends "authenticated-base.html" %}
+{% block title %}Workouts{% endblock %}
+
+{% block internal_css %}
+<link rel="stylesheet" href="/static/css/workoutpage.css">
+{% endblock %}
+
+{% block subpage_content %}
+<div class="container-fluid px-2 px-md-3">
+    <div class="workouts-header">
+        <h1>Workouts</h1>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search Workouts..." aria-label="Search workouts">
+            <button type="button" onclick="applyFilters()">Search</button>
+        </div>
+    </div>
+
+    <div class="filter-panel">
+        <span class="filter-label">Filter By Duration</span>
+        <div class="filter-btn-group" id="durationFilters">
+            <button class="filter-btn" data-filter="duration" data-value="under10" onclick="toggleFilter(this)">Under 10 minutes</button>
+            <button class="filter-btn" data-filter="duration" data-value="30-40" onclick="toggleFilter(this)">30–40 minutes</button>
+            <button class="filter-btn" data-filter="duration" data-value="40-50" onclick="toggleFilter(this)">40–50 minutes</button>
+            <button class="filter-btn" data-filter="duration" data-value="1hour+" onclick="toggleFilter(this)">1 hour +</button>
+        </div>
+    </div>
+
+    <div class="filter-panel">
+        <div class="filter-row">
+            <div class="filter-section">
+                <span class="filter-label">Filter By Goal</span>
+                <div class="filter-btn-group" id="goalFilters">
+                    <button class="filter-btn" data-filter="goal" data-value="strength" onclick="toggleFilter(this)">Strength</button>
+                    <button class="filter-btn" data-filter="goal" data-value="fat-burning" onclick="toggleFilter(this)">Fat Burning</button>
+                    <button class="filter-btn" data-filter="goal" data-value="build-muscle" onclick="toggleFilter(this)">Build Muscle</button>
+                </div>
+            </div>
+            <div class="filter-section">
+                <span class="filter-label">Filter By Muscle Group</span>
+                <select class="filter-select" id="muscleGroupFilter" onchange="applyFilters()">
+                    <option value="">All Muscle Groups</option>
+                    <option value="chest">Chest</option>
+                    <option value="back">Back</option>
+                    <option value="legs">Legs</option>
+                    <option value="shoulders">Shoulders</option>
+                    <option value="arms">Arms</option>
+                    <option value="core">Core</option>
+                    <option value="full-body">Full Body</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="workouts-grid" id="workoutsGrid">
+ 
+     <!--   {% for workout in workouts %}
+        <div class="workout-card"
+             data-duration="{{ workout.duration_tag }}"
+             data-goal="{{ workout.goal_tag }}"
+             data-muscle="{{ workout.muscle_tag }}">
+ 
+            <div class="workout-card-img">
+                {% if workout.image_url %}
+                    <img src="{{ workout.image_url }}" alt="{{ workout.name }}">
+                {% else %}
+                    <div class="placeholder w-100 h-100 d-flex align-items-center justify-content-center flex-column">
+                        <span class="material-symbols-outlined">fitness_center</span>
+                        <span style="font-size:0.78rem;color:#bbb;">No Image</span>
+                    </div>
+                {% endif %}
+            </div>
+ 
+            <div class="workout-card-body">
+                <div class="workout-card-title">{{ workout.name }}</div>
+                <div class="workout-card-meta">
+                    <span class="badge-meta">{{ workout.duration }}</span>
+                    <span class="badge-meta">{{ workout.goal }}</span>
+                    <span class="badge-meta">{{ workout.muscle_group }}</span>
+                </div>
+                <p class="workout-card-desc">{{ workout.description }}</p>
+                <a href="/workouts/{{ workout.id }}/add" class="btn-add-workout">
+                    <span class="material-symbols-outlined" style="font-size:1.1rem;">add_circle</span>
+                    Add Workout
+                </a>
+            </div>
+        </div>
+        {% else %} -->
+        <!-- Placeholder cards for layout preview when no workouts in context -->
+        {% for i in range(6) %}
+        <div class="workout-card">
+            <div class="workout-card-img placeholder d-flex align-items-center justify-content-center flex-column">
+                <span class="material-symbols-outlined">fitness_center</span>
+                <span style="font-size:0.78rem;color:#bbb;">Image</span>
+            </div>
+            <div class="workout-card-body">
+                <div class="workout-card-title">Workout Name</div>
+                <div class="workout-card-meta">
+                    <span class="badge-meta">30 min</span>
+                    <span class="badge-meta">Strength</span>
+                </div>
+                <p class="workout-card-desc">A short description of this workout goes here, covering muscles targeted and intensity level.</p>
+                <a href="#" class="btn-add-workout">
+                    <span class="material-symbols-outlined" style="font-size:1.1rem;">add_circle</span>
+                    Add Workout
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+        <!-- {% endfor %}-->
+
+    </div>
+</div>
+
+{% endblock %}

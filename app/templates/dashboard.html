@@ -1,0 +1,421 @@
+{% extends "authenticated-base.html" %}
+
+{% block title %}Water Stats{% endblock %}
+
+{% block internal_css %}
+<style>
+    /* water tracker css */
+    .water-card{
+        background: #1e1e1e;
+        color: white;
+        padding: 20px;
+        padding-bottom: 5px;
+        border-radius: 15px;
+        width: 350px;
+        justify-self: center;
+        margin-top: 100px;
+    }
+
+    #water-button{
+        padding: 10px 20px;
+        border-radius: 30px;
+        border: none;
+        background: #333;
+        color: white;
+        cursor: pointer;
+    }
+
+    .progress-container {
+        width: 100%;
+        height: 20px;
+        background: #333;
+        border-radius: 10px;
+        margin-top: 15px;
+        overflow: hidden;
+        margin-bottom: 17px;
+    }
+
+    #progress-bar {
+        height: 100%;
+        width: 0%;
+        background: #4da6ff;
+        border-radius: 10px;
+        transition: width 0.3s ease;
+    }
+
+    /* sleep tracker css */
+    .sleep-card{
+        background: #1e1e1e;
+        color: white;
+        padding: 20px;
+        padding-bottom: 5px;
+        border-radius: 15px;
+        width: 350px;
+        justify-self: center;
+    }
+
+    #sleep-button{
+        padding: 5px 20px;
+        border-radius: 30px;
+        border: none;
+        background: #333;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    #sleep-input{
+        width: 100%;
+        border: none;
+        border-bottom: 2px solid #555;
+        cursor: pointer;
+        background: transparent;
+        color: white;
+        padding: 8px 0;
+        outline: none;
+        caret-color: white;
+    }
+
+    #sleep-input::placeholder {
+        color: #888;
+    }
+
+    /* steps css */
+    .steps-card{
+        background: #1e1e1e;
+        color: white;
+        padding: 20px;
+        padding-bottom: 5px;
+        border-radius: 15px;
+        width: 350px;
+        justify-self: center;
+    }
+
+    #steps-button{
+        padding: 5px 20px;
+        border-radius: 30px;
+        border: none;
+        background: #333;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    #steps-input{
+        width: 100%;
+        border: none;
+        border-bottom: 2px solid #555;
+        cursor: pointer;
+        background: transparent;
+        color: white;
+        padding: 8px 0;
+        outline: none;
+        caret-color: white;
+    }
+
+    #steps-input::placeholder {
+        color: #888;
+    }
+
+    .card-container1, .card-container2 {
+        align-items: flex-start;
+    }
+
+    /* converter css */
+    .converter-card{
+        background: #1e1e1e;
+        color: white;
+        padding: 20px;
+        padding-bottom: 5px;
+        border-radius: 15px;
+        width: 350px;
+        justify-self: center;
+        margin-top: 96px;
+    }
+
+     #weight-converter-input{
+        width: 100%;
+        border-color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        background: transparent;
+        color: white;
+        padding: 8px 5px;
+        outline: none;
+        caret-color: white;
+    }
+
+    #converter-button{
+        padding: 5px 20px;
+        border-radius: 30px;
+        border: none;
+        background: #333;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    #unit {
+        width: 100%;
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 2px solid #555;
+        background: #2a2a2a;
+        color: white;
+        outline: none;
+        cursor: pointer;
+    }
+
+    /* weight css */
+    .weight-card{
+        background: #1e1e1e;
+        color: white;
+        padding: 20px;
+        padding-bottom: 5px;
+        border-radius: 15px;
+        width: 350px;
+        justify-self: center;
+        margin-top: 100px;
+    }
+
+    #weight-button{
+        padding: 5px 20px;
+        border-radius: 30px;
+        border: none;
+        background: #333;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    #weight-input{
+        width: 100%;
+        border: none;
+        border-bottom: 2px solid #555;
+        cursor: pointer;
+        background: transparent;
+        color: white;
+        padding: 8px 0;
+        outline: none;
+        caret-color: white;
+    }
+
+    #weight-input::placeholder {
+        color: #888;
+    }
+
+</style>
+{% endblock %}
+
+{% block subpage_content %}
+
+    <div class="card-container1" style="display: flex; gap: 40px; justify-self: center; height: 450px;">
+        <!-- Water Card -->
+        <div class="water-card">
+            <h2 id="water-text"><i class="fa-solid fa-glass-water"></i> 0 / 2000 ml</h2>
+
+            <div class="progress-container">
+                <div id="progress-bar"></div>
+            </div>
+
+            <button id="water-button" onclick="addWater()"><i class="fa-solid fa-plus"></i> 250 ml</button>
+
+            <hr>
+            <p style="justify-self: center;">
+                <a href="/stats" style="color: white; text-decoration-line: none;">View Weekly Stats</a>
+            </p>
+        </div>
+
+        <!-- Converter Card -->
+        <div class="converter-card">
+            <h2 id="converter-text"><i class="fa-solid fa-arrow-right-arrow-left"></i> Weight Converter</h2>
+
+            <select id="unit" style="margin-bottom: 10px;">
+                <option value="lbs">lbs &rarr; kg</option>
+                <option value="kg">kg &rarr; lbs</option>
+            </select>
+
+            <input type="number" id="weight-converter-input" placeholder=" Enter Weight" min="0" step="0.5">
+            <br>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <h5 style="margin-top: 20px;" id="result">kg: 0</h5>
+                <button id="converter-button"  onclick="convert()">Convert</button>
+                
+            </div>
+            
+            <hr>
+            <p style="justify-self: center;">Weight is Stored in Kilograms</p>
+        </div>
+
+        <!-- Weight card -->
+        <div class="weight-card">
+            <h2 id="weight-text"><i class="fa-solid fa-weight-scale"></i> Weight Tracker</h2>
+
+            <input type="number" id="weight-input" placeholder=" Enter Current Weight (kg)" min="0" step="0.1">
+            <button id="weight-button" onclick="addWeight()"><i class="fa-solid fa-plus"></i> Add Current Weight</button>
+
+            <hr>
+            <p style="justify-self: center;">
+                <a href="/weight-stats" style="color: white; text-decoration-line: none;">View Weekly Stats</a>
+            </p>
+        </div>
+
+    </div>
+
+    <!-- ROw 2 -->
+    <div class="card-container2" style="display: flex; gap: 40px; justify-self: center;">
+         <!-- Sleep Card -->
+        <div class="sleep-card">
+            <h2 id="sleep-text"><i class="fa-solid fa-bed"></i> Hours Slept</h2>
+
+            <input type="number" id="sleep-input" placeholder=" Enter Hours Slept" min="0" step="0.5">
+            <button id="sleep-button" onclick="addSleep()"><i class="fa-solid fa-plus"></i> Add to Today's Total</button>
+
+            <hr>
+            <p style="justify-self: center;">
+                <a href="/sleep-stats" style="color: white; text-decoration-line: none;">View Weekly Stats</a>
+            </p>
+        </div>
+
+        <!-- Steps card -->
+        <div class="steps-card">
+            <h2 id="steps-text"><i class="fa-solid fa-shoe-prints"></i> Steps Taken</h2>
+
+            <input type="number" id="steps-input" placeholder=" Enter Steps Taken" min="0" step="100">
+            <button id="steps-button" onclick="addSteps()"><i class="fa-solid fa-plus"></i> Add to Today's Total</button>
+
+            <hr>
+            <p style="justify-self: center;">
+                <a href="/steps-stats" style="color: white; text-decoration-line: none;">View Weekly Stats</a>
+            </p>
+        </div>
+    </div>
+
+
+    <script>
+        // water js
+        const goal = 2000
+
+        async function loadToday() {
+            let res = await fetch('/water/today', {credentials:"include"});
+            let data = await res.json();
+
+            let total = data.total;
+
+            document.getElementById('water-text').innerHTML= '<i class="fa-solid fa-glass-water"></i>' +  total + " / " + goal + " ml";
+
+            let percent = (total / goal) * 100;
+            if (percent > 100) percent = 100;
+            
+            let bar = document.getElementById("progress-bar");
+            bar.style.width = percent + "%";
+
+            if (percent < 50) {
+                bar.style.background = "#ff4d4d";
+            }
+
+            else if(percent < 100) {
+                bar.style.background = "#ffaa00";
+            }
+
+            else {bar.style.background = "#4CAF50"};
+        }
+
+        async function addWater() {
+            await fetch('/water/add?amount=250', {method: "POST", credentials: "include"});
+
+            loadToday();
+        }
+
+        // sleep js
+        async function addSleep() {
+            let input = document.getElementById("sleep-input");
+            let hours = input.value;
+
+            if (hours === "" || hours <= 0) {
+                alert("Enter valid hours");
+                return;
+            }
+
+            await fetch(`/sleep/add?hours=${hours}`, {method: "POST", credentials: "include"});
+            input.value = "";
+        }
+
+        document.getElementById("sleep-input").addEventListener("keypress", function(e) {
+            if (e.key ==="Enter") {
+                addSleep();
+            }
+        });
+
+        // steps js
+        async function addSteps() {
+            let input = document.getElementById("steps-input");
+            let steps = input.value;
+
+            if (steps === "" || steps <= 0) {
+                alert("Enter valid steps");
+                return;
+            }
+
+            await fetch(`/steps/add?steps=${steps}`, {method: "POST", credentials: "include"});
+            input.value = "";
+        }
+
+        document.getElementById("steps-input").addEventListener("keypress", function(e) {
+            if (e.key ==="Enter") {
+                addSteps();
+            }
+        });
+
+        // converter js
+        function convert() {
+            let value = document.getElementById("weight-converter-input").value;
+            let unit = document.getElementById("unit").value;
+
+            if (value === "" || value <= 0) {
+                alert("Enter valid weight");
+                return;
+            }
+
+            let result = 0;
+
+            if (unit === "lbs") {
+                result = value / 2.205;
+                document.getElementById("result").innerText = "kg: " + result.toFixed(2);
+            }
+
+            else {
+                result = value * 2.205;
+                document.getElementById("result").innerText = "lbs: " + result.toFixed(2);
+            }
+            
+        }
+
+        document.getElementById("weight-converter-input").addEventListener("keypress", function(e) {
+            if (e.key ==="Enter") {
+                convert();
+            }
+        });
+
+        // weight js
+        async function addWeight() {
+            let input = document.getElementById("weight-input");
+            let weight = input.value;
+
+            if (weight === "" || weight <= 0) {
+                alert("Enter valid weight");
+                return;
+            }
+
+            await fetch(`/weight/add?weight=${weight}`, {method: "POST", credentials: "include"});
+
+            input.value = "";
+        }
+
+        // load today left at end
+        loadToday();
+
+    </script>
+{% endblock %}
+
+

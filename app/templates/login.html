@@ -3,99 +3,77 @@
 
 {% block external_js %}
 
+<script src="/static/js/scriptLogin.js"></script>
+
 {% endblock %}
 
 
 {% block internal_css %}
-<style>
-    body {
-        background-color: #f8f9fa;
-    }
-
-    .login-container {
-        min-height: 100vh;
-    }
-
-    .login-card {
-        border: none;
-        border-radius: 1rem;
-        overflow: hidden;
-    }
-
-    .login-image {
-        background: linear-gradient(135deg, #0d6efd, #0dcaf0);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        padding: 3rem;
-    }
-
-    .form-section {
-        padding: 3rem;
-    }
-
-    .btn-primary {
-        border-radius: 0.5rem;
-    }
-
-    .form-control {
-        border-radius: 0.5rem;
-    }
-</style>
+<link rel="stylesheet" href="/static/css/styleLogin.css">
 {% endblock %}
 
 
 {% block content %}
+<!-- flashed messages -->
+{% for message in get_flashed_messages(request) %}
+<div class="alert alert-{{ message.type }}" role="alert">{{ message.message }}</div>
+{% endfor %}
 
-<div class="container login-container d-flex align-items-center justify-content-center">
-    <div class="card shadow-lg login-card col-lg-10">
-        <div class="row g-0">
-            <div class="col-lg-6 d-none d-lg-flex login-image">
-                <div class="text-center">
-                    <h2 class="mt-4 fw-bold">Welcome Back</h2>
-                    <p class="lead">Sign in to continue to the app</p>
-                </div>
+<!-- form  -->
+<div class="container" id="container">
+    <!-- sign up form -->
+    <div class="form-container sign-up">
+        <form action="/register" method="post">
+            <h1><i class="fa-solid fa-dumbbell" style="margin-right: 5px;"></i>Register</h1>
+            <div class="socialmedia-icons">
+                <a href="#" class="icon"><i class="fa-brands fa-google"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-apple"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
             </div>
-            <div class="col-lg-6 bg-white">
-                <div class="form-section">
-                    <h3 class="fw-bold mb-4">Login</h3>
 
-                    <form id="loginForm" method="POST">
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control form-control-md" id="username" name="username"
-                                required="required">
-                        </div>
+            <span>or use your email and password for registration</span>
+            <input type="text" name="username" placeholder="Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit"><i class="fa-solid fa-dumbbell" style="margin-right: 5px;"></i>Sign Up</button>
+        </form>
+    </div>
 
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control form-control-md" id="password" name="password"
-                                required>
-                        </div>
+    <!-- login form -->
+    <div class="form-container log-in">
+        <form action="/login" name="login_view" method="post">
+            <h1><i class="fa-solid fa-dumbbell" style="margin-right: 5px;"></i>Login</h1>
+            <div class="socialmedia-icons">
+                <a href="#" class="icon"><i class="fa-brands fa-google"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-apple"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+            </div>
 
-                        <div class="d-grid mb-3">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                Sign In
-                            </button>
+            <span>or use your account</span>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit"><i class="fa-solid fa-dumbbell" style="margin-right: 5px;"></i>Login</button>
+        </form>
+    </div>
 
-                    </form>
-                </div>
+    <!-- toggle -->
+    <div class="toggle-container">
+        <div class="toggle">
+            <div class="toggle-panel toggle-left">
+                <h1>Welcome Back!</h1>
+                <p>Log in to continue your fitness journey!</p>
+                <button class="hidden" id="login"><i class="fa-solid fa-dumbbell" style="margin-right: 5px;"></i>Login</button>
+            </div>
 
-                <div class="d-grid mb-3">
-                    <a class="btn btn-secondary btn-lg" href="{{url_for('register_view')}}" role="button">
-                        Sign Up
-                    </a>
-                </div>
-
-
-                {% for message in get_flashed_messages(request) %}
-                <div class="alert alert-{{ message.type }}" role="alert">{{ message.message }}</div>
-                {% endfor %}
+            <div class="toggle-panel toggle-right">
+                <h1>New Here?</h1>
+                <p>Sign up to start your fitness journey!</p>
+                <button class="hidden" id="register"><i class="fa-solid fa-dumbbell" style="margin-right: 5px;"></i>Sign Up</button>
             </div>
         </div>
-
     </div>
-</div>
+
 </div>
 {% endblock %}
