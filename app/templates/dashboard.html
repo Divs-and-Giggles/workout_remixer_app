@@ -388,9 +388,14 @@
                 result = value * 2.205;
                 document.getElementById("result").innerText = "lbs: " + result.toFixed(2);
             }
-
             
         }
+
+        document.getElementById("weight-converter-input").addEventListener("keypress", function(e) {
+            if (e.key ==="Enter") {
+                convert();
+            }
+        });
 
         // weight js
         async function addWeight() {
