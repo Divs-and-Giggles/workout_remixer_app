@@ -133,7 +133,7 @@
         margin-top: 96px;
     }
 
-     #lb{
+     #weight-converter-input{
         width: 100%;
         border-color: white;
         border-radius: 10px;
@@ -155,7 +155,17 @@
         margin-top: 10px;
     }
 
-    /* weight css */
+    #unit {
+        width: 100%;
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 2px solid #555;
+        background: #2a2a2a;
+        color: white;
+        outline: none;
+        cursor: pointer;
+    }
+
     /* weight css */
     .weight-card{
         background: #1e1e1e;
@@ -220,11 +230,16 @@
         <div class="converter-card">
             <h2 id="converter-text"><i class="fa-solid fa-arrow-right-arrow-left"></i> Weight Converter</h2>
 
-            <input type="number" id="lb" placeholder=" Enter Weight (lbs)" min="0" step="0.5">
+            <select id="unit" style="margin-bottom: 10px;">
+                <option value="lbs">lbs &rarr; kg</option>
+                <option value="kg">kg &rarr; lbs</option>
+            </select>
+
+            <input type="number" id="weight-converter-input" placeholder=" Enter Weight" min="0" step="0.5">
             <br>
-            <div style="display: flex;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
                 <h5 style="margin-top: 20px;" id="result">kg: 0</h5>
-                <button id="converter-button" style="margin-left: 170px;" onclick="convert()">Convert</button>
+                <button id="converter-button"  onclick="convert()">Convert</button>
                 
             </div>
             
@@ -354,10 +369,27 @@
 
         // converter js
         function convert() {
-            let lb = document.getElementById("lb").value;
-            if (!lb) return alert("Enter valid weight in lbs");
-            let kg = lb / 2.205;
-            document.getElementById("result").innerText = `kg: ${kg.toFixed(2)}`;
+            let value = document.getElementById("weight-converter-input").value;
+            let unit = document.getElementById("unit").value;
+
+            if (value === "" || value <= 0) {
+                alert("Enter valid weight");
+                return;
+            }
+
+            let result = 0;
+
+            if (unit === "lbs") {
+                result = value / 2.205;
+                document.getElementById("result").innerText = "kg: " + result.toFixed(2);
+            }
+
+            else {
+                result = value * 2.205;
+                document.getElementById("result").innerText = "lbs: " + result.toFixed(2);
+            }
+
+            
         }
 
         // weight js
