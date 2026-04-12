@@ -1,3 +1,6 @@
+from app.models.user import User
+from app.models.workout import Workout
+from app.models.workout import WorkoutSession
 from sqlmodel import Field, SQLModel, Relationship
 from typing import Optional
 from datetime import date

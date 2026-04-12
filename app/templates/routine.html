@@ -3,7 +3,6 @@
 
 {% block internal_css %}
 <style>
-
 .routines-container {
     padding-top: 20px;
 }
@@ -69,6 +68,20 @@
     width: 100%;
     margin-top: 6px;
     font-size: 12px;
+    padding: 6px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-dark { background: #222; color: white; }
+.btn-secondary { background: #888; color: white; }
+.btn-outline { background: white; border: 1px solid #ccc; }
+.btn-danger { background: #dc3545; color: white; }
+
+.empty-text {
+    color: #777;
+    margin: 10px 0;
 }
 </style>
 {% endblock %}
@@ -99,18 +112,17 @@
         <span>&gt;</span>
     </div>
 
-    <!-- =========================
-         MY ROUTINES
-    ========================== -->
     <div class="section-header">
         <h4>My Routines</h4>
-        <button onclick="createRoutine()">+ Create Routine</button>
+        <button class="btn-small btn-outline" onclick="createRoutine()">+ Create Routine</button>
     </div>
 
-    <div class="routines-grid" id="myRoutines">
+    {% set has_my = false %}
+    <div class="routines-grid">
 
         {% for r in routines %}
         {% if not r.is_generated %}
+        {% set has_my = true %}
         <div class="routine-card routine-wrapper">
 
             <h5>{{ r.name }}</h5>
@@ -119,19 +131,19 @@
             <div class="icon-box">Workout 2</div>
             <div class="icon-box">Workout 3</div>
 
-            <button class="btn-small view-btn" data-id="{{ r.id }}">
+            <button class="btn-small btn-dark view-btn" data-id="{{ r.id }}">
                 View Routine
             </button>
 
-            <button class="btn-small rename-btn" data-id="{{ r.id }}">
+            <button class="btn-small btn-secondary rename-btn" data-id="{{ r.id }}">
                 Edit Routine
             </button>
 
-            <button class="btn-small remix-btn" data-id="{{ r.id }}">
+            <button class="btn-small btn-outline remix-btn" data-id="{{ r.id }}">
                 Remix
             </button>
 
-            <button class="btn-small delete-btn" data-id="{{ r.id }}">
+            <button class="btn-small btn-danger delete-btn" data-id="{{ r.id }}">
                 Delete
             </button>
 
@@ -141,17 +153,20 @@
 
     </div>
 
-    <!-- =========================
-         GENERATED ROUTINES
-    ========================== -->
+    {% if not has_my %}
+        <p class="empty-text">No routines created yet.</p>
+    {% endif %}
+
     <div class="section-header">
         <h4>Generated Routines</h4>
     </div>
 
-    <div class="routines-grid" id="generatedRoutines">
+    {% set has_generated = false %}
+    <div class="routines-grid">
 
         {% for r in routines %}
         {% if r.is_generated %}
+        {% set has_generated = true %}
         <div class="routine-card routine-wrapper">
 
             <h5>{{ r.name }}</h5>
@@ -160,11 +175,11 @@
             <div class="icon-box">Workout 2</div>
             <div class="icon-box">Workout 3</div>
 
-            <button class="btn-small view-btn" data-id="{{ r.id }}">
+            <button class="btn-small btn-dark view-btn" data-id="{{ r.id }}">
                 View Routine
             </button>
 
-            <button class="btn-small remix-btn" data-id="{{ r.id }}">
+            <button class="btn-small btn-outline remix-btn" data-id="{{ r.id }}">
                 Remix
             </button>
 
@@ -174,13 +189,17 @@
 
     </div>
 
+    {% if not has_generated %}
+        <p class="empty-text">No generated routines available.</p>
+    {% endif %}
+
 </div>
 
 {% endblock %}
 
 {% block subpage_scripts %}
 <script>
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = ""; 
 
 document.addEventListener("click", function (e) {
 
@@ -214,7 +233,8 @@ function createRoutine() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             name: name,
-            difficulty: "beginner"
+            difficulty: "beginner",
+            is_generated: false
         })
     }).then(() => location.reload());
 }
@@ -224,7 +244,7 @@ async function deleteRoutine(id) {
         method: "DELETE"
     });
 
-    document.querySelector(`[data-id="${id}"]`)
+    document.querySelector(`.delete-btn[data-id="${id}"]`)
         .closest(".routine-wrapper")
         .remove();
 }
@@ -239,7 +259,7 @@ async function renameRoutine(id) {
         body: JSON.stringify({ name })
     });
 
-    document.querySelector(`[data-id="${id}"]`)
+    document.querySelector(`.rename-btn[data-id="${id}"]`)
         .closest(".routine-card")
         .querySelector("h5").innerText = name;
 }
@@ -255,8 +275,8 @@ function searchRoutine() {
     cards.forEach(card => {
         card.style.display =
             card.innerText.toLowerCase().includes(input)
-            ? "block"
-            : "none";
+                ? ""
+                : "none";
     });
 }
 </script>
