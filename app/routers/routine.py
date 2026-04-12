@@ -1,90 +1,17 @@
-from fastapi import APIRouter, Request, Depends, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
-from sqlmodel import Session, select
-from pydantic import BaseModel
-from app.database import get_session
-from app.models import Routine
-from app.templates import templates
-
-router = APIRouter(prefix="/routine", tags=["Routine"])
-
-class RoutineCreate(BaseModel):
-    name: str
-    difficulty: str = "beginner"
-    is_generated: bool = False
+from fastapi import Request, status, Form, APIRouter
+from app.dependencies import SessionDep, AuthDep
+from . import router, templates
+from app.services.auth_service import AuthService
+from app.repositories.user import UserRepository
+from app.utilities.flash import flash
+from app.config import get_settings
 
 
-class RoutineUpdate(BaseModel):
-    name: str
-
-@router.get("")
-def redirect_to_slash():
-    return RedirectResponse(url="/routines/")
-
-@router.get("/", response_class=HTMLResponse)
-def routines_page(request: Request, session: Session = Depends(get_session)):
-    routines = session.exec(select(Routine)).all()
-
-    return templates.TemplateResponse("routine.html", {
-        "request": request,
-        "routines": routines
-    })
-
-# CREATE ROUTINE
-
-@router.post("/")
-def create_routine(data: RoutineCreate, session: Session = Depends(get_session)):
-    routine = Routine(
-        name=data.name,
-        difficulty=data.difficulty,
-        is_generated=data.is_generated
+@router.get("/routines", response_class=HTMLResponse)
+async def workout_view(request:Request, user:AuthDep):
+    return templates.TemplateResponse(
+          request=request, 
+          name="routine.html",
+          context={"user":user}
     )
-
-    session.add(routine)
-    session.commit()
-    session.refresh(routine)
-
-    return routine
-
-# DELETE ROUTINE
-
-@router.delete("/{id}")
-def delete_routine(id: int, session: Session = Depends(get_session)):
-    routine = session.get(Routine, id)
-
-    if not routine:
-        raise HTTPException(status_code=404, detail="Routine not found")
-
-    session.delete(routine)
-    session.commit()
-
-    return {"message": "Routine deleted successfully"}
-
-# UPDATE ROUTINE
-
-@router.put("/{id}")
-def update_routine(id: int, data: RoutineUpdate, session: Session = Depends(get_session)):
-    routine = session.get(Routine, id)
-
-    if not routine:
-        raise HTTPException(status_code=404, detail="Routine not found")
-
-    routine.name = data.name
-
-    session.add(routine)
-    session.commit()
-    session.refresh(routine)
-
-    return routine
-
-@router.get("/{id}", response_class=HTMLResponse)
-def view_routine(id: int, request: Request, session: Session = Depends(get_session)):
-    routine = session.get(Routine, id)
-
-    if not routine:
-        raise HTTPException(status_code=404, detail="Routine not found")
-
-    return templates.TemplateResponse("routine_detail.html", {
-        "request": request,
-        "routine": routine
-    })
