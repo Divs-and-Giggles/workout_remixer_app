@@ -3,280 +3,309 @@
 
 {% block internal_css %}
 <style>
-.routines-container {
-    padding-top: 20px;
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Barlow+Condensed:wght@700;800&display=swap');
+
+/* ================= GLOBAL ================= */
+html, body {
+    margin: 0;
+    overflow-x: hidden;
 }
 
+body {
+    font-family: 'Barlow', sans-serif;
+    background: #f8f9fa;
+}
+
+#content {
+    padding-top: 90px;
+}
+
+/* ================= NAVBAR ================= */
+.top-navbar {
+    background: #fff;
+    border-bottom: 2px solid #D51313;
+}
+
+.top-navbar .navbar-brand img {
+    height: 60px;
+}
+
+.top-navbar .nav-link {
+    font-weight: 600;
+    padding: 0.6rem 1.2rem !important;
+    border-radius: 0.4rem;
+}
+
+.top-navbar .nav-link:hover {
+    background: #D51313 !important;
+    color: #fff !important;
+}
+
+/* ================= HEADER ================= */
 .routines-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
 }
 
+.routines-header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.6rem;
+    font-weight: 800;
+}
+
+/* ================= SEARCH ================= */
 .search-bar {
     display: flex;
-    gap: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-radius: 0.5rem;
+    overflow: hidden;
 }
 
 .search-bar input {
-    padding: 6px 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+    border: 2px solid #dee2e6;
+    border-right: none;
+    padding: 0.5rem 1rem;
 }
 
-.carousel-box {
-    height: 180px;
-    background: #eee;
-    border-radius: 10px;
-    margin-bottom: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
+.search-bar button {
+    background: #D51313;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
 }
 
+/* ================= CAROUSEL ================= */
+.carousel-box img {
+    height: 450px;
+    object-fit: cover;
+    border-radius: 1rem;
+}
+
+/* ================= SECTION ================= */
 .section-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin: 20px 0 10px;
+    margin: 1.5rem 0 1rem;
 }
 
+/* ================= GRID ================= */
 .routines-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.6rem;
 }
 
+/* ================= CARD ================= */
 .routine-card {
-    background: white;
-    border-radius: 12px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    text-align: center;
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1.2rem;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
 }
 
+.routine-card:hover {
+    transform: translateY(-4px);
+}
+
+/* TITLE */
+.routine-card h5 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.2rem;
+}
+
+/* TAGS */
 .icon-box {
-    border: 1px solid #ccc;
-    padding: 5px;
-    margin-bottom: 5px;
-    font-size: 12px;
+    display: inline-block;
+    background: #f4f4f4;
+    border: 1px solid #e0e0e0;
+    padding: 0.3rem 0.7rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
 }
 
-.btn-small {
-    width: 100%;
-    margin-top: 6px;
-    font-size: 12px;
-    padding: 6px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
+/* BUTTONS */
+.card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: auto;
 }
 
-.btn-dark { background: #222; color: white; }
-.btn-secondary { background: #888; color: white; }
-.btn-outline { background: white; border: 1px solid #ccc; }
-.btn-danger { background: #dc3545; color: white; }
+.card-actions button {
+    flex: 1;
+    min-width: 48%;
+}
+
+.btn-dark { background: #D51313; color: white; border: none; }
+.btn-secondary { background: #444; color: white; }
+.btn-outline { border: 1px solid #D51313; color: #D51313; }
+.btn-danger { background: #D51313; color: white; }
 
 .empty-text {
-    color: #777;
-    margin: 10px 0;
+    text-align: center;
+    color: #999;
 }
 </style>
 {% endblock %}
 
 {% block subpage_content %}
+<div class="container-fluid px-3">
 
-<div class="container-fluid px-2 px-md-3 routines-container">
+<!-- HEADER -->
+<div class="routines-header">
+    <h1>Routines</h1>
 
-    <!-- HEADER -->
-    <div class="routines-header">
-        <h1>Routines</h1>
-
-        <div class="search-bar">
-            <input id="searchInput" placeholder="Search Routines...">
-            <button onclick="searchRoutine()">Search</button>
-        </div>
+    <div class="search-bar">
+        <input id="searchInput" placeholder="Search Routines...">
+        <button onclick="searchRoutine()">Search</button>
     </div>
-
-    <!-- CAROUSEL -->
-    <div class="carousel-box">
-        <span>&lt;</span>
-
-        <div>
-            <strong>Featured Routine</strong><br>
-            <small>Full body workout to boost your day</small>
-        </div>
-
-        <span>&gt;</span>
-    </div>
-
-    <div class="section-header">
-        <h4>My Routines</h4>
-        <button class="btn-small btn-outline" onclick="createRoutine()">+ Create Routine</button>
-    </div>
-
-    {% set has_my = false %}
-    <div class="routines-grid">
-
-        {% for r in routines %}
-        {% if not r.is_generated %}
-        {% set has_my = true %}
-        <div class="routine-card routine-wrapper">
-
-            <h5>{{ r.name }}</h5>
-
-            <div class="icon-box">Workout 1</div>
-            <div class="icon-box">Workout 2</div>
-            <div class="icon-box">Workout 3</div>
-
-            <button class="btn-small btn-dark view-btn" data-id="{{ r.id }}">
-                View Routine
-            </button>
-
-            <button class="btn-small btn-secondary rename-btn" data-id="{{ r.id }}">
-                Edit Routine
-            </button>
-
-            <button class="btn-small btn-outline remix-btn" data-id="{{ r.id }}">
-                Remix
-            </button>
-
-            <button class="btn-small btn-danger delete-btn" data-id="{{ r.id }}">
-                Delete
-            </button>
-
-        </div>
-        {% endif %}
-        {% endfor %}
-
-    </div>
-
-    {% if not has_my %}
-        <p class="empty-text">No routines created yet.</p>
-    {% endif %}
-
-    <div class="section-header">
-        <h4>Generated Routines</h4>
-    </div>
-
-    {% set has_generated = false %}
-    <div class="routines-grid">
-
-        {% for r in routines %}
-        {% if r.is_generated %}
-        {% set has_generated = true %}
-        <div class="routine-card routine-wrapper">
-
-            <h5>{{ r.name }}</h5>
-
-            <div class="icon-box">Workout 1</div>
-            <div class="icon-box">Workout 2</div>
-            <div class="icon-box">Workout 3</div>
-
-            <button class="btn-small btn-dark view-btn" data-id="{{ r.id }}">
-                View Routine
-            </button>
-
-            <button class="btn-small btn-outline remix-btn" data-id="{{ r.id }}">
-                Remix
-            </button>
-
-        </div>
-        {% endif %}
-        {% endfor %}
-
-    </div>
-
-    {% if not has_generated %}
-        <p class="empty-text">No generated routines available.</p>
-    {% endif %}
-
 </div>
 
+<!-- CAROUSEL -->
+<div id="routineCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+
+    <div class="carousel-inner carousel-box">
+        <div class="carousel-item active">
+            <img src="/static/img/remixpage1.png" class="d-block w-100">
+        </div>
+
+        <div class="carousel-item">
+            <img src="/static/img/remixpage2.png" class="d-block w-100">
+        </div>
+
+        <div class="carousel-item">
+            <img src="/static/img/remixpage3.png" class="d-block w-100">
+        </div>
+    </div>
+
+    <button class="carousel-control-prev" data-bs-target="#routineCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+
+    <button class="carousel-control-next" data-bs-target="#routineCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+</div>
+
+<!-- MY ROUTINES -->
+<div class="section-header">
+    <h4>My Routines</h4>
+    <button class="btn-outline" onclick="createRoutine()">+ Create Routine</button>
+</div>
+
+<div class="routines-grid">
+{% for r in routines %}
+{% if not r.is_generated %}
+<div class="routine-card">
+
+    <h5>{{ r.name }}</h5>
+
+    <div>
+        <span class="icon-box">Workout 1</span>
+        <span class="icon-box">Workout 2</span>
+        <span class="icon-box">Workout 3</span>
+    </div>
+
+    <div class="card-actions">
+        <button class="btn-dark view-btn" data-id="{{ r.id }}">View</button>
+        <button class="btn-secondary rename-btn" data-id="{{ r.id }}">Edit</button>
+        <button class="btn-outline remix-btn" data-id="{{ r.id }}">Remix</button>
+        <button class="btn-danger delete-btn" data-id="{{ r.id }}">Delete</button>
+    </div>
+
+</div>
+{% endif %}
+{% endfor %}
+</div>
+
+<!-- GENERATED -->
+<div class="section-header">
+    <h4>Generated Routines</h4>
+</div>
+
+<div class="routines-grid">
+{% for r in routines %}
+{% if r.is_generated %}
+<div class="routine-card">
+
+    <h5>{{ r.name }}</h5>
+
+    <div>
+        <span class="icon-box">Workout 1</span>
+        <span class="icon-box">Workout 2</span>
+    </div>
+
+    <div class="card-actions">
+        <button class="btn-dark view-btn" data-id="{{ r.id }}">View</button>
+        <button class="btn-outline remix-btn" data-id="{{ r.id }}">Remix</button>
+    </div>
+
+</div>
+{% endif %}
+{% endfor %}
+</div>
+
+</div>
 {% endblock %}
 
 {% block subpage_scripts %}
 <script>
-const API_URL = ""; 
-
 document.addEventListener("click", function (e) {
 
     if (e.target.classList.contains("view-btn")) {
-        viewRoutine(e.target.dataset.id);
+        window.location.href = `/routines/${e.target.dataset.id}`;
     }
 
     if (e.target.classList.contains("rename-btn")) {
-        renameRoutine(e.target.dataset.id);
+        const name = prompt("New name:");
+        if (!name) return;
+
+        fetch(`/routines/${e.target.dataset.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name })
+        }).then(() => location.reload());
     }
 
     if (e.target.classList.contains("delete-btn")) {
-        deleteRoutine(e.target.dataset.id);
+        fetch(`/routines/${e.target.dataset.id}`, {
+            method: "DELETE"
+        }).then(() => location.reload());
     }
 
     if (e.target.classList.contains("remix-btn")) {
-        remixRoutine(e.target.dataset.id);
+        fetch(`/routines/${e.target.dataset.id}/remix`, {
+            method: "POST"
+        }).then(() => location.reload());
     }
 });
-
-function viewRoutine(id) {
-    window.location.href = `/routines/${id}`;
-}
 
 function createRoutine() {
     const name = prompt("Enter routine name:");
     if (!name) return;
 
-    fetch(`${API_URL}/routines`, {
+    fetch(`/routines`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            name: name,
+            name,
             difficulty: "beginner",
             is_generated: false
         })
     }).then(() => location.reload());
 }
 
-async function deleteRoutine(id) {
-    await fetch(`${API_URL}/routines/${id}`, {
-        method: "DELETE"
-    });
-
-    document.querySelector(`.delete-btn[data-id="${id}"]`)
-        .closest(".routine-wrapper")
-        .remove();
-}
-
-async function renameRoutine(id) {
-    const name = prompt("New name:");
-    if (!name) return;
-
-    await fetch(`${API_URL}/routines/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name })
-    });
-
-    document.querySelector(`.rename-btn[data-id="${id}"]`)
-        .closest(".routine-card")
-        .querySelector("h5").innerText = name;
-}
-
-function remixRoutine(id) {
-    alert("Remix routine " + id);
-}
-
 function searchRoutine() {
     const input = document.getElementById("searchInput").value.toLowerCase();
-    const cards = document.querySelectorAll(".routine-card");
-
-    cards.forEach(card => {
-        card.style.display =
-            card.innerText.toLowerCase().includes(input)
-                ? ""
-                : "none";
+    document.querySelectorAll(".routine-card").forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(input) ? "" : "none";
     });
 }
 </script>
