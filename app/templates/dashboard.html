@@ -14,7 +14,6 @@
         width: 350px;
         justify-self: center;
         margin-top: 100px;
-        margin-bottom: 100px;
     }
 
     #water-button{
@@ -53,8 +52,6 @@
         border-radius: 15px;
         width: 350px;
         justify-self: center;
-        margin-top: 100px;
-        margin-bottom: 100px;
     }
 
     #sleep-button{
@@ -83,45 +80,6 @@
         color: #888;
     }
 
-    /* weight css */
-    .steps-card{
-        background: #1e1e1e;
-        color: white;
-        padding: 20px;
-        padding-bottom: 5px;
-        border-radius: 15px;
-        width: 350px;
-        justify-self: center;
-        margin-top: 100px;
-        margin-bottom: 100px;
-    }
-
-    #steps-button{
-        padding: 5px 20px;
-        border-radius: 30px;
-        border: none;
-        background: #333;
-        color: white;
-        cursor: pointer;
-        margin-top: 10px;
-    }
-
-    #steps-input{
-        width: 100%;
-        border: none;
-        border-bottom: 2px solid #555;
-        cursor: pointer;
-        background: transparent;
-        color: white;
-        padding: 8px 0;
-        outline: none;
-        caret-color: white;
-    }
-
-    #steps-input::placeholder {
-        color: #888;
-    }
-
     /* steps css */
     .steps-card{
         background: #1e1e1e;
@@ -131,8 +89,6 @@
         border-radius: 15px;
         width: 350px;
         justify-self: center;
-        margin-top: 100px;
-        margin-bottom: 100px;
     }
 
     #steps-button{
@@ -160,11 +116,90 @@
     #steps-input::placeholder {
         color: #888;
     }
+
+    .card-container1, .card-container2 {
+        align-items: flex-start;
+    }
+
+    /* converter css */
+    .converter-card{
+        background: #1e1e1e;
+        color: white;
+        padding: 20px;
+        padding-bottom: 5px;
+        border-radius: 15px;
+        width: 350px;
+        justify-self: center;
+        margin-top: 96px;
+    }
+
+     #lb{
+        width: 100%;
+        border-color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        background: transparent;
+        color: white;
+        padding: 8px 5px;
+        outline: none;
+        caret-color: white;
+    }
+
+    #converter-button{
+        padding: 5px 20px;
+        border-radius: 30px;
+        border: none;
+        background: #333;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    /* weight css */
+    /* weight css */
+    .weight-card{
+        background: #1e1e1e;
+        color: white;
+        padding: 20px;
+        padding-bottom: 5px;
+        border-radius: 15px;
+        width: 350px;
+        justify-self: center;
+        margin-top: 100px;
+    }
+
+    #weight-button{
+        padding: 5px 20px;
+        border-radius: 30px;
+        border: none;
+        background: #333;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    #weight-input{
+        width: 100%;
+        border: none;
+        border-bottom: 2px solid #555;
+        cursor: pointer;
+        background: transparent;
+        color: white;
+        padding: 8px 0;
+        outline: none;
+        caret-color: white;
+    }
+
+    #weight-input::placeholder {
+        color: #888;
+    }
+
 </style>
 {% endblock %}
 
 {% block subpage_content %}
-    <div class="card-container1" style="display: flex; gap: 40px; justify-self: center;">
+
+    <div class="card-container1" style="display: flex; gap: 40px; justify-self: center; height: 450px;">
         <!-- Water Card -->
         <div class="water-card">
             <h2 id="water-text"><i class="fa-solid fa-glass-water"></i> 0 / 2000 ml</h2>
@@ -181,7 +216,40 @@
             </p>
         </div>
 
-        <!-- Sleep Card -->
+        <!-- Converter Card -->
+        <div class="converter-card">
+            <h2 id="converter-text"><i class="fa-solid fa-arrow-right-arrow-left"></i> Weight Converter</h2>
+
+            <input type="number" id="lb" placeholder=" Enter Weight (lbs)" min="0" step="0.5">
+            <br>
+            <div style="display: flex;">
+                <h5 style="margin-top: 20px;" id="result">kg: 0</h5>
+                <button id="converter-button" style="margin-left: 170px;" onclick="convert()">Convert</button>
+                
+            </div>
+            
+            <hr>
+            <p style="justify-self: center;">Weight is Stored in Kilograms</p>
+        </div>
+
+        <!-- Weight card -->
+        <div class="weight-card">
+            <h2 id="weight-text"><i class="fa-solid fa-weight-scale"></i> Weight Tracker</h2>
+
+            <input type="number" id="weight-input" placeholder=" Enter Current Weight (kg)" min="0" step="0.1">
+            <button id="weight-button" onclick="addWeight()"><i class="fa-solid fa-plus"></i> Add Current Weight</button>
+
+            <hr>
+            <p style="justify-self: center;">
+                <a href="/weight-stats" style="color: white; text-decoration-line: none;">View Weekly Stats</a>
+            </p>
+        </div>
+
+    </div>
+
+    <!-- ROw 2 -->
+    <div class="card-container2" style="display: flex; gap: 40px; justify-self: center;">
+         <!-- Sleep Card -->
         <div class="sleep-card">
             <h2 id="sleep-text"><i class="fa-solid fa-bed"></i> Hours Slept</h2>
 
@@ -206,10 +274,8 @@
                 <a href="/steps-stats" style="color: white; text-decoration-line: none;">View Weekly Stats</a>
             </p>
         </div>
-
     </div>
 
-    
 
     <script>
         // water js
@@ -286,6 +352,30 @@
             }
         });
 
+        // converter js
+        function convert() {
+            let lb = document.getElementById("lb").value;
+            if (!lb) return alert("Enter valid weight in lbs");
+            let kg = lb / 2.205;
+            document.getElementById("result").innerText = `kg: ${kg.toFixed(2)}`;
+        }
+
+        // weight js
+        async function addWeight() {
+            let input = document.getElementById("weight-input");
+            let weight = input.value;
+
+            if (weight === "" || weight <= 0) {
+                alert("Enter valid weight");
+                return;
+            }
+
+            await fetch(`/weight/add?weight=${weight}`, {method: "POST", credentials: "include"});
+
+            input.value = "";
+        }
+
+        // load today left at end
         loadToday();
 
     </script>

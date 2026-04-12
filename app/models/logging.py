@@ -47,3 +47,9 @@ class StepsLog(SQLModel, table=True):
     user_id: int = Field(default=None, foreign_key="user.id")
     steps: int
     timestamp: datetime
+
+class WeightLog(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(default=None, foreign_key="user.id")
+    weight: float   # kg
+    timestamp: datetime
