@@ -16,11 +16,10 @@ class Routine(SQLModel, table=True):
     name: str
     difficulty: str = "beginner"
 
-    user_id: int = Field(foreign_key="user.id")
+    user_id: Optional[int] = Field(default=None, foreign_key="user.id")
 
-    # True = system routine (business)
-    # False = user-created routine
-    is_generated: bool = False
+    is_system: bool = Field(default=False, nullable=False)
+    is_remix: bool = Field(default=False, nullable=False)
 
     creation_date: date = Field(default_factory=date.today)
 
@@ -29,8 +28,7 @@ class Routine(SQLModel, table=True):
 
     user: Optional["User"] = Relationship(back_populates="routines")
     workouts: List["RoutineWorkout"] = Relationship(back_populates="routine")
-    sessions: List["WorkoutSession"] = Relationship(back_populates="routine")
-
+    sessions: list["WorkoutSession"] = Relationship(back_populates="routine")
 
 # =========================
 # ROUTINE ↔ WORKOUT LINK TABLE
@@ -70,17 +68,3 @@ class RoutineCreate(SQLModel):
 class RoutineUpdate(SQLModel):
     name: Optional[str] = None
     difficulty: Optional[str] = None
-
-
-# =========================
-# READ SCHEMA (API OUTPUT)
-# =========================
-class RoutineRead(SQLModel):
-    id: int
-    name: str
-    difficulty: str
-    user_id: int
-    is_system: bool
-    creation_date: date
-    times_used: int
-    last_used: Optional[date]
