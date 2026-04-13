@@ -125,10 +125,10 @@
                     <span class="badge-meta">{{ workout.equipment }}</span>
                 </div>
                 <p class="workout-card-desc">{{ workout.description }}</p>
-                <a href="/workouts/{{ workout.id }}/add" class="btn-add-workout">
-                    <span class="material-symbols-outlined" style="font-size:1.1rem;">add_circle</span>
-                    Add Workout
-                </a>
+                    <button class="btn-modal-add" id="modalAddBtn" onclick="showRoutineForm()">
+                        <span class="material-symbols-outlined" style="font-size:1.1rem;">add_circle</span>
+                        Add Workout
+                    </button>
             </div>
         </div>
         {% endfor %}
@@ -155,12 +155,73 @@
                 <div class="workout-modal-meta" id="modalMeta"></div>
                 <p class="workout-modal-desc" id="modalDesc"></p>
                 <div class="workout-modal-actions">
-                    <a href="#" class="btn-modal-add" id="modalAddBtn">
+                    <button class="btn-modal-add" id="modalAddBtn" onclick="showRoutineForm()">
                         <span class="material-symbols-outlined" style="font-size:1.1rem;">add_circle</span>
-                        Add to Routine
-                    </a>
+                        Add Workout
+                    </button>
                     <button class="btn-modal-cancel" data-bs-dismiss="modal">Cancel</button>
                 </div>
+                    <div id="routineForm" style="display:none; padding: 0 1.2rem 1.2rem;">
+                        <hr style="margin: 0.5rem 0 1rem;">
+                                    
+                        <div style="margin-bottom:0.75rem;">
+                            <label style="font-size:0.85rem; font-weight:600;">Routine</label>
+                            <select id="formRoutineId" onchange="handleRoutineSelect(this)" style="width:100%; padding:0.4rem 0.6rem; border-radius:0.5rem; border:1px solid #ddd;">
+                                {% for routine in routines %}
+                                    <option value="{{ routine.id }}">{{ routine.name }}</option>
+                                {% endfor %}
+                                <option value ="__new__">+ Create New Routine</option>
+                            </select>
+                        </div>
+                        <div id="newRoutineFields" style="display:none; margin-bottom:0.75rem;">
+                            <label style="font-size:0.85rem; font-weight:600;">Routine Name</label>
+                            <input type="text" id="newRoutineName" placeholder="e.g. Morning Push" style="width:100%; padding:0.4rem 0.6rem; border-radius:0.5rem; border:1px solid #ddd; margin-bottom:0.5rem;">
+                            <label style="font-size:0.85rem; font-weight:600;">Routine Difficulty</label>
+                            <select id="newRoutineDifficulty" style="width:100%; padding:0.4rem 0.6rem; border-radius:0.5rem; border:1px solid #ddd;">
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                    
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:0.75rem;">
+                            <div>
+                                <label style="font-size:0.85rem; font-weight:600;">Sets</label>
+                                <input type="number" id="formSets" min="1" value="3"
+                                    style="width:100%; padding:0.4rem 0.6rem; border-radius:0.5rem; border:1px solid #ddd;">
+                            </div>
+                            <div>
+                                <label style="font-size:0.85rem; font-weight:600;">Reps</label>
+                                <input type="number" id="formReps" min="1" value="10"
+                                    style="width:100%; padding:0.4rem 0.6rem; border-radius:0.5rem; border:1px solid #ddd;">
+                            </div>
+                        </div>
+                    
+                        <div style="margin-bottom:0.75rem;">
+                            <label style="font-size:0.85rem; font-weight:600;">Difficulty</label>
+                            <select id="formDifficulty" style="width:100%; padding:0.4rem 0.6rem; border-radius:0.5rem; border:1px solid #ddd;">
+                                <option value="easy">Easy</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                    
+                        <div style="display:flex; gap:0.5rem; margin-bottom:0.5rem;">
+                            <label style="font-size:0.85rem;">
+                                <input type="checkbox" id="formIsWarmup"> Warmup
+                            </label>
+                            <label style="font-size:0.85rem;">
+                                <input type="checkbox" id="formIsCooldown"> Cooldown
+                            </label>
+                        </div>
+                    
+                        <div id="formError" style="color:red; font-size:0.8rem; display:none; margin-bottom:0.5rem;"></div>
+                    
+                        <div style="display:flex; gap:0.5rem;">
+                            <button class="btn-modal-add" onclick="submitAddToRoutine()">Confirm</button>
+                            <button class="btn-modal-cancel" onclick="hideRoutineForm()">Back</button>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
@@ -203,7 +264,11 @@ document.getElementById('searchInput').addEventListener('keydown', (e) => {
     if (e.key === 'Enter') doSearch();
 });
 
+let activeWorkoutId = null;
+
 function openWorkoutModal(workout) {
+    activeWorkoutId = workout.id;
+
     document.getElementById('modalTitle').textContent = workout.name;
 
     const meta = document.getElementById('modalMeta');
@@ -234,8 +299,87 @@ function openWorkoutModal(workout) {
         videoBtn.style.display = 'none';
     }
 
-    document.getElementById('modalAddBtn').href = `/workouts/${workout.id}/add`;
+    // Always reset form state when opening a new card
+    hideRoutineForm();
+
     new bootstrap.Modal(document.getElementById('workoutModal')).show();
+}
+
+function handleRoutineSelect(select) {
+    const newFields = document.getElementById('newRoutineFields');
+    newFields.style.display = select.value === '__new__' ? 'block' : 'none';
+}
+
+async function showRoutineForm() {
+    document.getElementById('routineForm').style.display = 'block';
+    document.getElementById('modalAddBtn').style.display = 'none';
+}
+
+function hideRoutineForm() {
+    document.getElementById('routineForm').style.display = 'none';
+    document.getElementById('modalAddBtn').style.display = 'block';
+    document.getElementById('formError').style.display = 'none';
+}
+
+async function submitAddToRoutine() {
+    let routineId = document.getElementById('formRoutineId').value;
+
+    if (!routineId) {
+        showFormError('Please select a routine.');
+        return;
+    }
+
+    // If creating a new routine first, do that then get the id
+    if (routineId === '__new__') {
+        const name = document.getElementById('newRoutineName').value.trim();
+        const difficulty = document.getElementById('newRoutineDifficulty').value;
+
+        if (!name) {
+            showFormError('Please enter a name for the new routine.');
+            return;
+        }
+
+        try {
+            const res = await fetch('/routines', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, difficulty })
+            });
+            if (!res.ok) throw new Error();
+            const newRoutine = await res.json();
+            routineId = newRoutine.id;
+        } catch {
+            showFormError('Failed to create routine. Please try again.');
+            return;
+        }
+    }
+
+    const formData = new FormData();
+    formData.append('workout_id', activeWorkoutId);
+    formData.append('sets', document.getElementById('formSets').value);
+    formData.append('reps', document.getElementById('formReps').value);
+    formData.append('difficulty', document.getElementById('formDifficulty').value);
+    formData.append('is_warmup', document.getElementById('formIsWarmup').checked);
+    formData.append('is_cooldown', document.getElementById('formIsCooldown').checked);
+
+    try {
+        const res = await fetch(`/routines/${routineId}/workouts`, {
+            method: 'POST',
+            body: formData
+        });
+        if (!res.ok) throw new Error();
+
+        bootstrap.Modal.getInstance(document.getElementById('workoutModal')).hide();
+        hideRoutineForm();
+    } catch {
+        showFormError('Failed to add workout. Please try again.');
+    }
+}
+
+function showFormError(msg) {
+    const el = document.getElementById('formError');
+    el.textContent = msg;
+    el.style.display = 'block';
 }
 </script>
 

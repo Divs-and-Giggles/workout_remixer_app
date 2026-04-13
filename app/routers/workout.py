@@ -9,6 +9,7 @@ from app.config import get_settings
 from app.models.workout import *
 from sqlmodel import select,func
 from app.pagination import Pagination
+from app.models.routine import Routine
 
 
 @router.get("/workouts", response_class=HTMLResponse)
@@ -46,6 +47,7 @@ async def workout_view(request:Request, user:AuthDep, db:SessionDep, page: int =
 
     # Apply pagination to the same filtered query
     workouts = db.exec(query.offset(offset).limit(limit)).all()
+    routines= db.exec(select(Routine).where(Routine.user_id == user.id)).all()
 
     pagination = Pagination(total_count=count_workouts, current_page=page, limit=limit)
     return templates.TemplateResponse(
@@ -55,6 +57,7 @@ async def workout_view(request:Request, user:AuthDep, db:SessionDep, page: int =
             "user": user,
             "workouts": workouts,
             "pagination": pagination,
+            "routines": routines,
             "q": q,
             "done": done
         }
