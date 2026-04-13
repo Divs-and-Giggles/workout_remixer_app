@@ -2,7 +2,690 @@
 {% block title %} Home {% endblock %}
 
 {% block subpage_content %}
+<style>
+    html,body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
+        padding-top: 37px;
+    }
+    #carouselHome {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        
+    }
+    .full-carousel {
+        width: 100vw;
+       
+    }
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+        
+        color: #000000;
+    }
+    #content {
+        padding: 0 !important;
+    }
+    .inner-topbar{
+        margin: 1rem;
+    }
+    .feature-card {
+        background: #ffffff ;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s;
+        box-shadow: 0 6px 18px rgba(28,25,25,0.06);
+        border-radius: 1.1rem;
+        height: 100%;
+        border: 1px solid #CFCFCC;
+    }
+    .feature-img {
+        height: 180px;
+        overflow: hidden;
+    }
+    .feature-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+    .feature-content {
+        padding: 1.5rem;
+    }
+    .feature-content h5 {
+        font-weight: 700;
+        color:#1c1919;
+        text-align: center;
+    }
+    .feature-content p {
+        color: #1C1919;
+        font-size: 0.95rem;
+        text-align: center;
+    }
+    .feature-card:hover {
+        transform:translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        border-color: #D51313;
+    }
+    .feature-card:hover img {
+        transform: scale(1.1);
+    }
+    .feature-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 4px;
+        background: #D51313;
+        opacity: 0;
+        transition: width 0.3s;
 
+    }
+    .feature-card:hover::before {
+        width: 100%;
+    }
+    .feature-card:hover{
+      border: 1px solid #D51313;
+    }
+    #testimonial-slider {
+        margin-top: 20px;
+    }
+    #testimonial-slider .card {
+        border: 1px solid #CFCFCC;
+        background-color: #ffffff;
+        border-radius: 18px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+        transition: all 0.3s ease;
+        background-color: #363634;
+        color:white
+    }
+    
+    #testimonial-slider .card:hover {
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        border-color: #D51313;
+    }
+    #testimonial-slider .stars i {
+        color: #FFD700;
+    }
+    #testimonial-slider .col-lg-4 {
+        transition: all 0.4s ease;
+        opacity: 0.4;
+        transform: scale(0.95);
+        filter: grayscale(40%);
+    }
+    #testimonial-slider .col-lg-4:hover {
+        opacity: 1;
+        transform: scale(1);
+        filter: grayscale(0%);
+    }
+    #testimonial-slider .col-lg-4.active {
+        opacity: 1;
+        transform: scale(1);
+        filter: grayscale(0%);
+    }
+    .section-bg1 {
+        background-color: #e4e4e2;
+        padding: 80px 0;
+    }
+     .section-bg {
+        background-color: #F3F3E9;
+    }
+    .bg-light{
+        background-color: #424242 !important;
+    }
+    .accordion-button {
+        background-color: #F3F3E9;
+        color: #1c1919;
+        font-weight: 600;
+        
+        box-shadow: none;
+    }
+    .faq-section .h2{
+        color: #ffffff !important;
+    }
+    .faq-section .lead{
+      color:d0d0d0 !important;
+    }
+    .faq-section p {
+        color: #ffffff !important;
+    }
+    .header-faq {
+        color: #ffffff !important;
+    }
+    .accordion-button:not(.collapsed) {
+        background-color: #D51313;
+        color: #fff;
+    }
+    .accordion-button:hover {
+        background-color: #D51313;
+        color: #fff;
+    }
+    .accordion-button:focus {
+        box-shadow: none;
+    }
+    .accordion-item {
+        border:none;
+        overflow: hidden;
+        border-radius: 12px;
+        margin-bottom: 10px;
+    }
+    .about-section {
+        background-color: linear-gradient(135deg, #F3F3E9, #CFCFCC);
+        padding: 80px 0;
+    }
+    .about-section h2 {
+        color: #1c1919;
+    }
+    .about-section .lead{
+        font-family: Poppins, sans-serif;
+        color: #1c1919;
+        font-size: 1.05rem;
+        font-weight: 400;
+        line-height: 1.8;
+        max-width: 550px;
+        text-align: justify;
+    }
+     .about-btn {
+        background-color: #D51313;
+        border:none;
+        color: #fff;
+        font-weight: 600;
+        transition: 0.3s;
+        border-radius: 30px;
+        padding: 12px 30px;
+
+    }
+     .about-btn:hover {
+        background-color: #1c1919;
+        color:#fff;
+    }
+    .about-img{
+        width:500px;
+        height:460px;
+        overflow:hidden;
+        border: 1px solid #e2e2e0;
+        background-color: #ffffff;
+        box-shadow: 0 0px 1px rgba(0,0,0,0.8);
+
+    }
+     .about-img img {
+        width:100%;
+        height:100%;  
+        object-fit:cover;
+    }
+
+    .counter-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #D51313;
+    }
+    .about-section .rows{
+        align-items: center;
+    }
+    .about-data{
+      max-width: 800px;
+    }
+    .mt-4.d-flex {
+       
+        flex-wrap: wrap;
+    }
+    .button-both{
+        display: flex;
+        flex-direction: row;
+        gap: 70px;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .carousel-caption h5 {
+        font-size: 2.4rem;
+        font-weight: 700;
+        color: #ffffff;
+    }
+    .carousel-caption p {
+        font-size: 1.2rem;
+        color: #f1f1f1;
+    }
+    .carousel-caption {
+        background: rgba(0, 0, 0, 0.4);
+        padding: 15px 25px;
+        border-radius: 12px;
+    }
+    .caption-needed{
+        position: relative;
+    }
+    .caption-needed .carousel-caption{
+       
+        top: 50%;
+        bottom: auto;
+        transform: translateY(-50%);
+    }
+
+     
+    
+</style>
+<div class="full-carousel">
+<div id="carouselHome" class="carousel slide">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselHome" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselHome" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselHome" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#carouselHome" data-bs-slide-to="3" aria-label="Slide 4"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="/static/img/remixpage1.png" class="d-block w-100" style="height: 450px";>
+       <div class="carousel-caption d-none d-md-block">
+          <h5>Welcome to RemixFit</h5>
+          <p>Your ultimate fitness companion for personalized workout routines.</p>
+        </div>
+    </div>
+
+    <div class="carousel-item caption-needed">
+      <img src="/static/img/remixpage2.png" class="d-block w-100" style="height: 450px";>
+        <div class="carousel-caption d-none d-md-block">
+            <h5>Discover a World of Workouts</h5>
+            <p>Explore our extensive library of workouts tailored to your fitness goals.</p>
+          </div>
+    </div>
+
+    <div class="carousel-item caption-needed">
+      <img src="/static/img/remixpage3.png" class="d-block w-100" style="height: 450px";>
+        <div class="carousel-caption d-none d-md-block">
+            <h5>Build Your Perfect Routine</h5>
+            <p>Mix and match exercises to create personalized workout routines that fit your lifestyle.</p>
+          </div>
+    </div>
+
+     <div class="carousel-item caption-needed">
+      <img src="/static/img/remixpage4.png" class="d-block w-100" style="height: 450px";>
+      <div class="carousel-caption d-none d-md-block">
+            <h5>Fitness Calculator</h5>
+            <p>Monitor your fitness journey with detailed calculations, estimations and performance insights.</p>
+          </div>
+     </div>
+  </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselHome" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselHome" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+</div>
+
+<section class="about-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <h2 class="fw-bold display-5 mb-4 text-justify">
+            <i class="fa-solid fa-dumbbell"></i> About RemixFit
+        </h2><br>
+        <p class="lead text-justify">RemixFit is the ultimate fitness app that offers a wide range of features from browsing workouts,building customized routines and remixing workouts your routines, we strive to provide the best services possible.</p>
+        <div class="row mt-5 about-data">  
+          <div class="col-md-4">
+              <h3 class="counter-number" id="routines-count">0</h3>
+              <p class="fs-5 mb-0">Routines Created</p>
+              <small class="text-muted">and counting...</small>
+          </div>
+          <div class="col-md-4 border-start border-end">
+              <h3 class="counter-number" id="workouts-count">0</h3>
+              <p class="fs-5 mb-0">Workouts Added</p>
+              <small class="text-muted">and counting...</small>
+          </div>
+          <div class="col-md-4">
+              <h3 class="counter-number" id="rating-count">4.9</h3>
+              <p class="fs-5 mb-0">Start Rating</p>
+              <small class="text-muted">Loved by users...</small><br><br>
+          </div>
+        </div>
+        <div class="mt-4 button-both">
+            <a href="/workouts" class="btn about-btn btn-lg px-5">Explore Workouts</a>
+            <a href="/routines" class="btn about-btn btn-lg px-5">Create Routines</a>
+        </div>
+      </div>
+      <div class="col-lg-5 mt-5 mt-lg-0">
+        <div class="ratio ratio-4x3 about-img">
+            <img src="/static/img/aboutUs.jpg" 
+                 class="img-fluid object-fit-cover" alt="RemixFit Illustration">
+        </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="py-5 section-bg1">
+  <div class="container">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold display-5">What People Say</h2>
+    </div>
+    <div class="row g-4" id="testimonial-slider">
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow-sm p-4">
+                <div class="d flex align-items-center text-center mb-3 gap-3">
+                  <img src="/static/img/user1.ico" class="rounded-circle me-3" alt="User 1">
+                  <div>
+                      <h5 class="mb-0">Emily Regneigh</h5>
+                      <div class="stars">
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                      </div>
+                  </div>
+                </div>
+                  <p class="fst-italic">The variety of workouts and the ability to create custom routines keeps me motivated every day!</p>
+                </div>
+            </div> 
+             <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow-sm p-4">
+                <div class="d flex align-items-center text-center mb-3 gap-3">
+                  <img src="/static/img/user2.ico" class="rounded-circle me-3" alt="User 2">
+                  <div>
+                      <h5 class="mb-0">Avya Peters</h5>
+                      <div class="stars">
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star-half"></i>
+                      </div>
+                  </div>
+                </div>
+                  <p class="fst-italic">I love the incredible variety of workouts and custom features that are available on RemixFit!</p>
+                </div>
+            </div> 
+
+             <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow-sm p-4">
+                <div class="d flex align-items-center text-center mb-3 gap-3">
+                  <img src="/static/img/user3.ico" class="rounded-circle me-3" alt="User 3">
+                  <div>
+                      <h5 class="mb-0">Marc Walters</h5>
+                      <div class="stars">
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                      </div>
+                  </div>
+                </div>
+                  <p class="fst-italic">This is the best workout remixer app I've ever used, it has completely transformed my fitness journey!</p>
+                </div>
+            </div> 
+
+             <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow-sm p-4">
+                <div class="d flex align-items-center text-center mb-3 gap-3">
+                  <img src="/static/img/user4.ico" class="rounded-circle me-3" alt="User 4">
+                  <div>
+                      <h5 class="mb-0">Pedro Rodriguez</h5>
+                      <div class="stars">
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                      </div>
+                  </div>
+                </div>
+                  <p class="fst-italic">RemixFit has enabled me to create personalized workout routines that fit my lifestyle perfectly.</p>
+                </div>
+            </div> 
+
+             <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow-sm p-4">
+                <div class="d flex align-items-center text-center mb-3 gap-3">
+                  <img src="/static/img/user5.ico" class="rounded-circle me-3" alt="User 5">
+                  <div>
+                      <h5 class="mb-0">Vana Wayne</h5>
+                      <div class="stars">
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star-half"></i>
+                      </div>
+                  </div>
+                  </div>
+                  <p class="fst-italic">I am very satisfied with the remarkable progress and overall results that I've achieved using RemixFit. </p>
+                </div>
+            </div> 
+                  
+             <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow-sm p-4">
+                <div class="d flex align-items-center text-center mb-3 gap-3">
+                  <img src="/static/img/user6.ico" class="rounded-circle me-3" alt="User 6">
+                  <div>
+                      <h5 class="mb-0">Davis Greyn</h5>
+                      <div class="stars">
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star-half"></i>
+                      </div>
+                  </div>
+                </div>
+                  <p class="fst-italic">As a fitness enthusiast, I'm constantly looking for new ways to challenge myself. RemixFit delivers on that front with its innovative approach to workout creation.</p>
+                </div>
+            </div> 
+    </div>
+    <div class="text-center mt-4">
+      <button class="btn btn-light btn-lg mx-2 rounded-circle shadow-sm" onclick="prev()">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <button class="btn btn-light btn-lg mx-2 rounded-circle shadow-sm" onclick="next()">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+</section>
+        
+</section>
+
+<section class="py-5 section-bg">
+  <div class="container">
+    <h2 class="text-center fw-bold display-5" style="color: #1c1919;">Features</h2><br><br>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-card">
+          <div class="feature-img">
+            <img src="/static/img/card1.png" alt="Browse Workouts">
+          </div>
+          <div class="feature-content">
+            <h5>Browse Workouts</h5>
+            <p>Explore our extensive library of workouts organized by muscle group, difficulty level and equipment.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-card">
+          <div class="feature-img">
+            <img src="/static/img/card2.png" alt="Add Workouts">
+          </div>
+          <div class="feature-content">
+            <h5>Add Workouts</h5>
+            <p>Easily add your favorite workouts to custom routines and adjust them to your fitness level.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-card">
+          <div class="feature-img">
+            <img src="/static/img/card3.png" alt="Routine Builder">
+          </div>
+          <div class="feature-content">
+            <h5>Create Routines</h5>
+            <p>Create custom workout routines by remixing different exercises and adjust them to your fitness level.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-card">
+          <div class="feature-img">
+            <img src="/static/img/card4.png" alt="Fitness Calculator">
+          </div>
+          <div class="feature-content">
+            <h5>Fitness Calculator</h5>
+            <p>Calculate your BMI, BMR, body fat and max bench press to track your progress and set realistic goals.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5 bg-light faq-section">
+  <div class="container">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold display-5 header-faq">Frequently Asked Questions</h2>
+        <p class="lead text-muted">Discover the answers to common questions about RemixFit.</p>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="accordion" id="faqAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqHeading1">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse1" aria-expanded="true" aria-controls="faqCollapse1">
+              Can i edit my routines at any time?
+            </button>
+          </h2>
+          <div id="faqCollapse1" class="accordion-collapse collapse show" aria-labelledby="faqHeading1" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Yes, RemixFit allows you to edit your routines at any time.
+            </div>
+          </div>
+        </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="faqHeading2">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse2" aria-expanded="false" aria-controls="faqCollapse2">
+                Can I remix many workouts in a routine?
+              </button>
+            </h2>
+            <div id="faqCollapse2" class="accordion-collapse collapse" aria-labelledby="faqHeading2" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                Yes, you can remix as many workouts as you want in a routine, allowing you to create a personalized workout experience that suits your fitness goals and preferences.
+              </div>
+            </div>
+          </div>
+           <div class="accordion-item">
+            <h2 class="accordion-header" id="faqHeading3">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse3" aria-expanded="false" aria-controls="faqCollapse3">
+                Can I create custom workout routines?
+              </button>
+            </h2>
+            <div id="faqCollapse3" class="accordion-collapse collapse" aria-labelledby="faqHeading3" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                Absolutely! RemixFit allows you to create personalized workout routines by remixing different exercises and adjusting them to your fitness level.
+              </div>
+            </div>
+          </div>
+           <div class="accordion-item">
+          <h2 class="accordion-header" id="faqHeading4">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse4" aria-expanded="false" aria-controls="faqCollapse4">
+              Can I view different types of workouts?
+            </button>
+          </h2>
+          <div id="faqCollapse4" class="accordion-collapse collapse" aria-labelledby="faqHeading4" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Absolutely! RemixFit allows you to explore a wide variety of workouts organized by muscle group, difficulty level and equipment, so you can find the perfect workout for your fitness goals and preferences.
+            </div>
+          </div>
+        </div>
+       
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqHeading5">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse5" aria-expanded="false" aria-controls="faqCollapse5">
+              How do I track my progress on RemixFit?
+            </button>
+          </h2>
+          <div id="faqCollapse5" class="accordion-collapse collapse" aria-labelledby="faqHeading5" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              You can track your progress using our built-in fitness calculator, which allows you to calculate your BMI, BMR, body fat and max bench press.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+       
+
+    
+      
+
+<script>  
+    // Fetch counts from the server and update the UI
+    function counting(id,target){
+        let i=0;
+        let interval = setInterval(function(){
+            i+=1;
+            if (i >= target){
+              i=target;
+              clearInterval
+               
+            }
+            document.getElementById(id).innerHTML=i+"+";
+            
+        }, 120);
+
+    }
+
+function countingRating(){
+    setTimeout(function(){
+      counting("routines-count", 400);
+      counting("workouts-count", 350);
+    }, 400);
+}
+
+              
+window.onload = function() {
+    countingRating();
+    cards=document.querySelectorAll('#testimonial-slider .col-lg-4');
+    showTestimonials();
+};
+
+
+let curr=0;
+function showTestimonials(){
+    for (let i = 0; i < cards.length; i++) {
+    
+        cards[i].style.display='none';
+        cards[i].classList.remove('active');
+    }
+    for (let i = 0; i < 3; i++) {
+        let index = (curr + i) % cards.length;
+        cards[index].style.display='block';
+     
+       
+    }
+    
+    let middleIndex = (curr + 1) % cards.length;
+    cards[middleIndex].classList.add('active');
+  
+}
+function next(){
+    curr=(curr+1) % cards.length;
+    showTestimonials();
+}
+function prev(){
+    curr=(curr-1 + cards.length) % cards.length;
+    showTestimonials();
+}
+
+</script>
 
 {% endblock %}
 
