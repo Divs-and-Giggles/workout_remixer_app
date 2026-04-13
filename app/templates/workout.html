@@ -2,6 +2,7 @@
 {% block title %}Workouts{% endblock %}
 
 {% block internal_css %}
+{{ super()}}
 <link rel="stylesheet" href="/static/css/workoutpage.css">
 {% endblock %}
 
@@ -10,77 +11,118 @@
     <div class="workouts-header">
         <h1>Workouts</h1>
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search Workouts..." aria-label="Search workouts">
-            <button type="button" onclick="applyFilters()">Search</button>
+            <input type="search" name="q" id="searchInput" placeholder="Search Workouts..." aria-label="Search workouts" value="{{ q }}">
+            <button type="button" onclick="doSearch()">Search</button>
         </div>
     </div>
-
-    <div class="filter-panel">
-        <span class="filter-label">Filter By Duration</span>
-        <div class="filter-btn-group" id="durationFilters">
-            <button class="filter-btn" data-filter="duration" data-value="under10" onclick="toggleFilter(this)">Under 10 minutes</button>
-            <button class="filter-btn" data-filter="duration" data-value="30-40" onclick="toggleFilter(this)">30–40 minutes</button>
-            <button class="filter-btn" data-filter="duration" data-value="40-50" onclick="toggleFilter(this)">40–50 minutes</button>
-            <button class="filter-btn" data-filter="duration" data-value="1hour+" onclick="toggleFilter(this)">1 hour +</button>
-        </div>
-    </div>
-
     <div class="filter-panel">
         <div class="filter-row">
             <div class="filter-section">
-                <span class="filter-label">Filter By Goal</span>
+                <span class="filter-label">Filter By</span>
                 <div class="filter-btn-group" id="goalFilters">
-                    <button class="filter-btn" data-filter="goal" data-value="strength" onclick="toggleFilter(this)">Strength</button>
-                    <button class="filter-btn" data-filter="goal" data-value="fat-burning" onclick="toggleFilter(this)">Fat Burning</button>
-                    <button class="filter-btn" data-filter="goal" data-value="build-muscle" onclick="toggleFilter(this)">Build Muscle</button>
+                    <select class="filter-select" id="difficultyGroupFilter" onchange="applyFilters(this)">
+                        <option value="">Difficulty</option>
+                        <option value="easy" {% if done == "easy" %}selected{% endif %}>Easy</option>
+                        <option value="medium" {% if done == "medium" %}selected{% endif %}>Medium</option>
+                        <option value="hard" {% if done == "hard" %}selected{% endif %}>Hard</option>
+                    </select>
+
+                    <select class="filter-select" id="muscleGroupFilter" onchange="applyFilters(this)">
+                        <option value="">Muscle group</option>
+                        <option value="arms" {% if done == "arms" %}selected{% endif %}>Arms</option>
+                        <option value="back" {% if done == "back" %}selected{% endif %}>Back</option>
+                        <option value="chest" {% if done == "chest" %}selected{% endif %}>Chest</option>
+                        <option value="core" {% if done == "core" %}selected{% endif %}>Core</option>
+                        <option value="legs" {% if done == "legs" %}selected{% endif %}>Legs</option>
+                        <option value="shoulders" {% if done == "shoulders" %}selected{% endif %}>Shoulders</option>
+                        <option value="full" {% if done == "full" %}selected{% endif %}>Full Body</option>
+                    </select>
+
+                    <select class="filter-select" id="equipmentGroupFilter" onchange="applyFilters(this)">
+                        <option value="">Equipment</option>
+                        <option value="body weight" {% if done == "body weight" %}selected{% endif %}>Body weight</option>
+                        <option value="barbell" {% if done == "barbell" %}selected{% endif %}>Barbells</option>
+                        <option value="dumbbell" {% if done == "dumbbell" %}selected{% endif %}>Dumbbells</option>
+                        <option value="machine" {% if done == "machine" %}selected{% endif %}>Machine</option>
+                        <option value="bar" {% if done == "bar" %}selected{% endif %}>Bar</option>
+                    </select>
                 </div>
             </div>
-            <div class="filter-section">
-                <span class="filter-label">Filter By Muscle Group</span>
-                <select class="filter-select" id="muscleGroupFilter" onchange="applyFilters()">
-                    <option value="">All Muscle Groups</option>
-                    <option value="chest">Chest</option>
-                    <option value="back">Back</option>
-                    <option value="legs">Legs</option>
-                    <option value="shoulders">Shoulders</option>
-                    <option value="arms">Arms</option>
-                    <option value="core">Core</option>
-                    <option value="full-body">Full Body</option>
-                </select>
-            </div>
+        </div>
+    </div>
+
+    <div class="pagination-bar">
+        <div class="pagination-links">
+            {% if pagination.has_prev %}
+              <a class="pagination-button" href="{{ url_for('workout_view') }}?page={{ pagination.prev_num }}&limit={{ pagination.limit }}&q={{ q }}&done={{ done }}" aria-label="Previous page">
+                <span class="material-symbols-outlined">chevron_left</span>
+              </a>
+            {% else %}
+              <span class="pagination-button disabled" aria-hidden="true">
+                <span class="material-symbols-outlined">chevron_left</span>
+              </span>
+            {% endif %}
+
+            {% for page_num in pagination.iter_pages() %}
+              {% if page_num %}
+                {% if pagination.page == page_num %}
+                  <span class="pagination-button active">{{ page_num }}</span>
+                {% else %}
+                  <a class="pagination-button" href="{{ url_for('workout_view') }}?page={{ page_num }}&limit={{ pagination.limit }}&q={{ q }}&done={{ done }}">{{ page_num }}</a>
+                {% endif %}
+              {% else %}
+                <span class="pagination-ellipsis">…</span>
+              {% endif %}
+            {% endfor %}
+
+            {% if pagination.has_next %}
+              <a class="pagination-button" href="{{ url_for('workout_view') }}?page={{ pagination.next_num }}&limit={{ pagination.limit }}&q={{ q }}&done={{ done }}" aria-label="Next page">
+                <span class="material-symbols-outlined">chevron_right</span>
+              </a>
+            {% else %}
+              <span class="pagination-button disabled" aria-hidden="true">
+                <span class="material-symbols-outlined">chevron_right</span>
+              </span>
+            {% endif %}
+        </div>
+
+        <div class="pagination-limit">
+            <label for="limit-select">Cards</label>
+            <select id="limit-select" onchange="location = this.value;">
+              {% for n in [12, 24, 100] %}
+                <option value="{{ url_for('workout_view') }}?page=1&limit={{ n }}&q={{ q }}&done={{ done }}" {% if pagination.limit==n %}selected{% endif %}>{{ n }} cards</option>
+              {% endfor %}
+            </select>
         </div>
     </div>
 
     <div class="workouts-grid" id="workoutsGrid">
- 
-      {% if workouts %}
-      {% set workout_list = workouts %}
-      {% else %}
-      {% set workout_list = (query_workout or []) + (selected_workout or []) %}
-      {% endif %}
-      {% for workout in workout_list %}
-        <div class="workout-card"
-             data-duration="{{ workout.duration_tag }}"
-             data-goal="{{ workout.goal_tag }}"
-             data-muscle="{{ workout.muscle_tag }}">
- 
+        {% if workouts %}
+        {% set workout_list = workouts %}
+        {% else %}
+        {% set workout_list = (query_workout or []) + (selected_workout or []) %}
+        {% endif %}
+
+        {% for workout in workout_list %}
+        <div class="workout-card" onclick='openWorkoutModal({
+            id: {{ workout.id }},
+            name: {{ workout.name | tojson }},
+            video_url: {{ (workout.video_url or "") | tojson }},
+            description: {{ (workout.description or "") | tojson }},
+            muscle: {{ workout.muscle_grp.name | tojson }},
+            difficulty: {{ workout.difficulty | tojson }},
+            gif_id: {{ (workout.gif.gif_id | string or "") | tojson }},
+            equipment: {{ (workout.equipment or "") | tojson }}
+        })'>
             <div class="workout-card-img">
-                {% if workout.gif %}
-                    <img src="/static/exercise_gifs/{{ workout.gif.gif_id }}.gif">
-                {% else %}
-                    <div class="placeholder w-100 h-100 d-flex align-items-center justify-content-center flex-column">
-                        <span class="material-symbols-outlined">fitness_center</span>
-                        <span style="font-size:0.78rem;color:#bbb;">No Image</span>
-                    </div>
-                {% endif %}
+                <img src="/static/exercise_gifs/{{ workout.gif.gif_id }}.gif">
             </div>
- 
             <div class="workout-card-body">
                 <div class="workout-card-title">{{ workout.name }}</div>
                 <div class="workout-card-meta">
-                    <span class="badge-meta">{{ workout.duration }}</span>
-                    <span class="badge-meta">{{ workout.goal }}</span>
-                    <span class="badge-meta">{{ workout.muscle_group }}</span>
+                    <span class="badge-meta">{{ workout.muscle_grp.name }}</span>
+                    <span class="badge-meta">{{ workout.difficulty }}</span>
+                    <span class="badge-meta">{{ workout.equipment }}</span>
                 </div>
                 <p class="workout-card-desc">{{ workout.description }}</p>
                 <a href="/workouts/{{ workout.id }}/add" class="btn-add-workout">
@@ -89,31 +131,112 @@
                 </a>
             </div>
         </div>
-        {% else %} 
-   
-        {% for i in range(6) %}
-        <div class="workout-card">
-            <div class="workout-card-img placeholder d-flex align-items-center justify-content-center flex-column">
-                <span class="material-symbols-outlined">fitness_center</span>
-                <span style="font-size:0.78rem;color:#bbb;">Image</span>
-            </div>
-            <div class="workout-card-body">
-                <div class="workout-card-title">Workout Name</div>
-                <div class="workout-card-meta">
-                    <span class="badge-meta">30 min</span>
-                    <span class="badge-meta">Strength</span>
-                </div>
-                <p class="workout-card-desc">A short description of this workout goes here, covering muscles targeted and intensity level.</p>
-                <a href="#" class="btn-add-workout">
-                    <span class="material-symbols-outlined" style="font-size:1.1rem;">add_circle</span>
-                    Add Workout
-                </a>
-            </div>
-        </div>
         {% endfor %}
-     {% endfor %}
-
     </div>
 </div>
+
+<!-- Workout Detail Modal -->
+<div class="modal fade" id="workoutModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 1.2rem; overflow: hidden;">
+            <button class="workout-modal-close" data-bs-dismiss="modal" aria-label="Close">
+                <span class="material-symbols-outlined" style="font-size:1.1rem;">close</span>
+            </button>
+            <div class="workout-modal-img" id="modalImg"></div>
+            <div class="workout-modal-body">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:0.5rem;">
+                    <div class="workout-modal-title" id="modalTitle"></div>
+                    <a id="modalVideoBtn" href="#" target="_blank" title="Watch video"
+                       style="display:none; flex-shrink:0; text-decoration:none; color:#D51313; font-weight:700; align-items:center; gap:0.25rem;">
+                        <span class="material-symbols-outlined">play_circle</span>
+                        <span>Watch</span>
+                    </a>
+                </div>
+                <div class="workout-modal-meta" id="modalMeta"></div>
+                <p class="workout-modal-desc" id="modalDesc"></p>
+                <div class="workout-modal-actions">
+                    <a href="#" class="btn-modal-add" id="modalAddBtn">
+                        <span class="material-symbols-outlined" style="font-size:1.1rem;">add_circle</span>
+                        Add to Routine
+                    </a>
+                    <button class="btn-modal-cancel" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Restore selected filter dropdown on page load
+const currentDone = "{{ done }}";
+if (currentDone) {
+    ['difficultyGroupFilter', 'muscleGroupFilter', 'equipmentGroupFilter'].forEach(id => {
+        const sel = document.getElementById(id);
+        if ([...sel.options].some(o => o.value === currentDone)) {
+            sel.value = currentDone;
+        }
+    });
+}
+
+function applyFilters(changedSelect) {
+    // Reset all other dropdowns when one changes
+    ['difficultyGroupFilter', 'muscleGroupFilter', 'equipmentGroupFilter'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el !== changedSelect) el.value = '';
+    });
+
+    const done = changedSelect.value;
+    const q = document.getElementById('searchInput').value;
+    const url = new URL('/workouts', window.location.origin);
+    url.searchParams.set('page', '1');
+    url.searchParams.set('q', q);
+    url.searchParams.set('done', done);
+    window.location.href = url.toString();
+}
+
+function doSearch() {
+    const q = document.getElementById('searchInput').value;
+    window.location.href = `/workouts?q=${encodeURIComponent(q)}&page=1&done=`;
+}
+
+document.getElementById('searchInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') doSearch();
+});
+
+function openWorkoutModal(workout) {
+    document.getElementById('modalTitle').textContent = workout.name;
+
+    const meta = document.getElementById('modalMeta');
+    meta.innerHTML = '';
+    [workout.muscle, workout.difficulty, workout.equipment].forEach(val => {
+        if (val && val !== 'null') {
+            const badge = document.createElement('span');
+            badge.className = 'badge-meta';
+            badge.textContent = val;
+            meta.appendChild(badge);
+        }
+    });
+
+    document.getElementById('modalDesc').textContent = workout.description || '';
+
+    const imgContainer = document.getElementById('modalImg');
+    if (workout.gif_id && workout.gif_id !== 'null') {
+        imgContainer.innerHTML = `<img src="/static/exercise_gifs/${workout.gif_id}.gif" alt="${workout.name}">`;
+    } else {
+        imgContainer.innerHTML = `<span class="material-symbols-outlined" style="font-size:3rem;color:#ccc;">fitness_center</span>`;
+    }
+
+    const videoBtn = document.getElementById('modalVideoBtn');
+    if (workout.video_url) {
+        videoBtn.href = workout.video_url;
+        videoBtn.style.display = 'inline-flex';
+    } else {
+        videoBtn.style.display = 'none';
+    }
+
+    document.getElementById('modalAddBtn').href = `/workouts/${workout.id}/add`;
+    new bootstrap.Modal(document.getElementById('workoutModal')).show();
+}
+</script>
 
 {% endblock %}
