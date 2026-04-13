@@ -9,7 +9,8 @@ from contextlib import asynccontextmanager
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    from app.database import create_db_and_tables
+    from app.database import create_db_and_tables, drop_all
+    drop_all()
     create_db_and_tables()
     yield
 
