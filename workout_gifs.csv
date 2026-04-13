@@ -1,0 +1,73 @@
+workout_id,workout_name,gif_id
+1,Jumping Jacks,5217
+2,Arm Circles,5209
+3,High Knees,3636
+4,Wrist Circles,5218
+5,Shoulder Rolls,5224
+6,Jog in Place,5223
+7,Hip Flexor Stretch,5222
+8,Hamstring Stretch,5221
+9,Quad Stretch,5220
+10,Child's Pose,5219
+11,Shoulder Stretch,5216
+12,Tricep Stretch,5215
+13,Chest Stretch,5214
+14,Cat-Cow Stretch,5213
+15,Seated Forward Bend,5212
+16,Bicep Stretch,5211
+17,Push-ups,5210
+18,Chest Press with Dumbbells,0301
+19,Incline Push-ups,3785
+20,Decline Push-ups,0279
+21,Chest Fly with Dumbbells,0302
+22,Cable Crossover,5208
+23,Explosive Push-ups,1306
+24,Bench Press,1751
+25,Weighted Dips,1767
+26,Pull-ups,0466
+27,Bent-over Rows with Dumbbells,0293
+28,Lat Pulldown,0197
+29,Deadlifts,0032
+30,Weighted Pull-ups,0841
+31,Seated Cable Rows,0861
+32,T-Bar Rows,3200
+33,Assisted Pull-ups,0017
+34,Inverted Rows,0499
+35,Squats,5207
+36,Lunges,1460
+37,Leg Press,0739
+38,Bulgarian Split Squats,1476
+39,Calf Raises,1373
+40,Glute Bridges,0668
+41,Barbell Squats,0043
+42,Romanian Deadlifts,0116
+43,Leg Extensions,0585
+44,Overhead Press with Dumbbells,0290
+45,Lateral Raises with Dumbbells,0334
+46,Front Raises with Dumbbells,0310
+47,Arnold Press with Dumbbells,2137
+48,Reverse Fly with Dumbbells,0326
+49,Pike Push-ups,5204
+50,Handstand Push-ups,0471
+51,Advanced Pike Push-ups,5205
+52,Planche Leans,3300
+53,Handstand Hold,5203
+54,Wall Handstand Push-ups,5206
+55,Bicep Curls with Dumbbells,0285
+56,Tricep Dips,0815
+57,Hammer Curls with Dumbbells,0313
+58,Overhead Tricep Extension with Dumbbell,0430
+59,Concentration Curls with Dumbbells,0353
+60,Tricep Kickbacks with Dumbbells,0420
+61,Diamond Push-ups,1467
+62,Zottman Curls with Dumbbells,0439
+63,Skull Crushers with Dumbbells,0351
+64,Plank,0870
+65,Russian Twists,0687
+66,Leg Raises,1002
+67,Bicycle Crunches,0443
+68,Mountain Climbers,0630
+69,Hanging Leg Raises,0475
+70,V-Ups,0507
+71,Dragon Flags,5202
+72,Ab Wheel Rollouts,0857

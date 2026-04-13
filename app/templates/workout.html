@@ -53,15 +53,20 @@
 
     <div class="workouts-grid" id="workoutsGrid">
  
-     <!--   {% for workout in workouts %}
+      {% if workouts %}
+      {% set workout_list = workouts %}
+      {% else %}
+      {% set workout_list = (query_workout or []) + (selected_workout or []) %}
+      {% endif %}
+      {% for workout in workout_list %}
         <div class="workout-card"
              data-duration="{{ workout.duration_tag }}"
              data-goal="{{ workout.goal_tag }}"
              data-muscle="{{ workout.muscle_tag }}">
  
             <div class="workout-card-img">
-                {% if workout.image_url %}
-                    <img src="{{ workout.image_url }}" alt="{{ workout.name }}">
+                {% if workout.gif %}
+                    <img src="/static/exercise_gifs/{{ workout.gif.gif_id }}.gif">
                 {% else %}
                     <div class="placeholder w-100 h-100 d-flex align-items-center justify-content-center flex-column">
                         <span class="material-symbols-outlined">fitness_center</span>
@@ -84,8 +89,8 @@
                 </a>
             </div>
         </div>
-        {% else %} -->
-        <!-- Placeholder cards for layout preview when no workouts in context -->
+        {% else %} 
+   
         {% for i in range(6) %}
         <div class="workout-card">
             <div class="workout-card-img placeholder d-flex align-items-center justify-content-center flex-column">
@@ -106,7 +111,7 @@
             </div>
         </div>
         {% endfor %}
-        <!-- {% endfor %}-->
+     {% endfor %}
 
     </div>
 </div>

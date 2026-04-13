@@ -1,5 +1,9 @@
+import csv
+from pathlib import Path
+
 import typer
 from app.database import create_db_and_tables, get_cli_session, drop_all
+from app.models.other import WorkoutGif
 from app.models.routine import Routine, RoutineWorkout
 from app.models.workout import Workout, MuscleGroup
 from app.models.user import *
@@ -141,6 +145,18 @@ def initialize():
                 muscle_group_id=muscle_id
             )
             db.add(workout_db)
+        db.commit()
+
+       
+        with open('workout_gifs.csv', 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                wg= WorkoutGif(
+                    workout_id=int(row["workout_id"]),
+                    gif_id=str(row["gif_id"]),
+                    name=row["workout_name"]
+                )
+                db.add(wg)
         db.commit()
 
         routine_data = [

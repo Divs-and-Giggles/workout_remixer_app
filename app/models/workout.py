@@ -1,6 +1,7 @@
 from sqlmodel import Field, SQLModel, Relationship
 from typing import Optional
 
+
 class MuscleGroup(SQLModel, table = True):
     id: Optional[int] = Field(default=None, primary_key = True)
     name: str
@@ -25,3 +26,4 @@ class Workout(WorkoutBase, table = True):
     muscle_grp: MuscleGroup = Relationship(back_populates = "workouts")
     logs: list['WorkoutLog'] = Relationship(back_populates = "workout")
     routines: list['RoutineWorkout'] = Relationship(back_populates="workout")
+    gif: Optional['WorkoutGif'] = Relationship(back_populates="workout")
