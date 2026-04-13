@@ -67,10 +67,17 @@
         text-align: left;
         border-left: 6px solid #D51313;
         min-height: 50px;
-        display: block;
+       
         color:#1C1919;
         font-weight: 600;
         font-size: 1.2rem;
+    }
+
+    .result-box{
+        display:none;
+    }
+    .result-box.show{
+        display:block;
     }
    
 </style>
@@ -107,7 +114,7 @@
 
                     <input type="number" class="form-control mb-3" id="bmi-height" placeholder="Enter your height" min="0">
                     <button onclick="calcBMI()" class="btn calc-btn w-100 mt-4">Calculate BMI</button>
-                    <div id="bmi-result" class="mt-3"></div>
+                    <div id="bmi-result" class="mt-3 result-box"></div>
                 {% endif %}
 
                 {% if active_calculator=='bmr' %}
@@ -124,7 +131,7 @@
                         <option value="female">Female</option>
                     </select>
                     <button onclick="calcBMR()" class="btn calc-btn w-100 mt-4">Calculate BMR</button>
-                    <div id="bmr-result" class="mt-3"></div>
+                    <div id="bmr-result" class="mt-3 result-box"></div>
                 {% endif %}
 
                 {% if active_calculator=='body_fat' %}
@@ -145,7 +152,7 @@
                         <option value="female">Female</option>
                     </select>
                     <button onclick="calcBodyFat()" class="btn calc-btn w-100 mt-4">Calculate Body Fat</button>
-                    <div id="body-fat-result" class="mt-3"></div>
+                    <div id="body-fat-result" class="mt-3 result box"></div>
                 {% endif %}
 
                 {% if active_calculator=='bench_press' %}
@@ -155,7 +162,7 @@
                     <label>Repetitions:</label>
                     <input type="number" class="form-control mb-3" id="bench-press-reps" placeholder="Enter the number of repetitions" min="0">
                     <button onclick="calcBenchPress()" class="btn calc-btn w-100 mt-4">Calculate Max Bench Press</button>
-                    <div id="bench-press-result" class="mt-3"></div>
+                    <div id="bench-press-result" class="mt-3 result-box"></div>
                 {% endif %}
             </div>
 
@@ -173,7 +180,9 @@
         }
         let bmi = weight / (height * height);
         let result="BMI: "+bmi.toFixed(1);
-        document.getElementById('bmi-result').innerHTML=result;
+        let res=document.getElementById('bmi-result');
+        res.innerHTML=result;
+        res.classList.add("show");
     }
     function calcBMR() {
         let age = parseFloat(document.getElementById('bmr-age').value);
@@ -191,7 +200,9 @@
             bmr = 447.593 + (9.247 * weight) + (3.098 * heightb) - (4.330 * age);
         }
         let result="BMR: "+bmr.toFixed(1);
-        document.getElementById('bmr-result').innerHTML=result;
+        let res=document.getElementById('bmr-result');
+        res.innerHTML=result
+        res.classList.add("show")
     }
     function calcBodyFat() {
         let height = parseFloat(document.getElementById('body-fat-height').value);
@@ -199,7 +210,7 @@
         let waist = parseFloat(document.getElementById('body-fat-waist').value);
         let hip = parseFloat(document.getElementById('body-fat-hip').value);
         let gender = document.getElementById('body-fat-gender').value;
-        if (height=="" || neck=="" || waist=="" || hip=="") {
+        if (isNaN(height) || isNaN(neck) || isNaN(waist) || isNaN(hip)) {
             alert("Please fill in all fields.");
             return;
         }   
@@ -216,8 +227,10 @@
             let s3=Math.log10(height);
             bodyFat = 495 / (1.29579 - 0.35004 * s2 + 0.22100 * s3) - 450;
         }
-        let result="Body Fat: "+bodyFat.toFixed(1)+"%";
-        document.getElementById('body-fat-result').innerHTML=result;
+       
+        let res=document.getElementById('body-fat-result');
+        res.innerHTML="Body Fat: "+bodyFat.toFixed(1)+"%";
+        res.classList.add("show");
     }
 
     function calcBenchPress() {
@@ -228,8 +241,9 @@
             return;
         }
         let maxBenchPress = weight * (1 + reps / 30);
-        let result="Estimated Max Bench Press: "+maxBenchPress.toFixed(1)+" kg";
-        document.getElementById('bench-press-result').innerHTML=result;
+        let res=document.getElementById('bench-press-result');
+        res.innerHTML="Estimated Max Bench Press: "+maxBenchPress.toFixed(1)+" kg";
+        res.classList.add("show");
     }
 </script>
 {% endblock %}
