@@ -10,7 +10,10 @@
         flex-direction: column;
         min-height: 100vh;
     }
-
+    footer strong {
+        font-size: 1.25rem;
+        color: #ff2c2c;
+    }
 
     #content {
         width: 100%;
@@ -96,6 +99,11 @@
     .material-symbols-outlined {
         font-weight: 900;
     }
+
+    .footer-b{
+        border: 3px solid #D51313 !important;
+      
+    }
 </style>
 
 {% block additional_styles %}{% endblock %}
@@ -159,7 +167,7 @@
     </div>
 
 
- <footer class="py-4 border-top bg-dark text-white" style="border:3px solid #D51313;">
+ <footer class="py-4 border-top bg-dark text-white footer-b">
         <div class="container">
             <div class="row gy-4">
                 <div class="col-12 col-md-6 col-lg-3 px-4 border-end border-secondary">

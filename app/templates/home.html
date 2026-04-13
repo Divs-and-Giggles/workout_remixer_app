@@ -1,7 +1,9 @@
 {% extends "authenticated-base.html" %}
 {% block title %} Home {% endblock %}
 
+
 {% block subpage_content %}
+
 <style>
     html,body {
         margin: 0;
@@ -38,6 +40,8 @@
         border-radius: 1.1rem;
         height: 100%;
         border: 1px solid #CFCFCC;
+        width: 100%;
+        
     }
     .feature-img {
         height: 180px;
@@ -100,6 +104,23 @@
         transition: all 0.3s ease;
         background-color: #363634;
         color:white
+    }
+    .people-btn {
+        background-color: #ffffff;
+        color:#000000;
+        border:0.4px solid #000000;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        gap:20px;
+        width:50px;
+        height:50px;
+        margin: 0 8px;
+    }
+    .people-btn:hover{
+      background-color: #D51313;
+      border-color: #D51313;
+      color:#ffffff;
     }
     
     #testimonial-slider .card:hover {
@@ -261,12 +282,176 @@
         bottom: auto;
         transform: translateY(-50%);
     }
+    .custom-col{
+      flex:0 0 20%;
+      max-width: 790px !important;
+      padding:7px;
+      
+    }
+    .card-container1, .card-container2{
+      display:flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .tracker-card {
+      background: #292929;
+      border: 1px solid #212122;
+      border-radius: 18px;
+      padding: 28px 24px;
+      color: #ffffff;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      
+    }
+   
+    .tracker-card:hover {
+      transform: translateY(-6px);
+      border-color: #D51313;
+      box-shadow: 0 15px 35px rgba(213,19,19,0.15);
+    }
 
-     
-    
+    .tracker-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+.tracker-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+}
+
+.tracker-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+
+.tracker-input {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #2a2a4a;
+    border-radius: 10px;
+    color: #000000;
+    padding: 10px 14px;
+    outline: none;
+    transition: border 0.2s;
+}
+
+.tracker-input:focus {
+    border-color: #D51313;
+}
+
+.tracker-input::placeholder {
+    color: #555;
+}
+
+.tracker-select {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #2a2a4a;
+    border-radius: 10px;
+    color: #ffffff;
+    padding: 10px 14px;
+    outline: none;
+    cursor: pointer;
+}
+
+.tracker-btn {
+    background: #D51313;
+    border: none;
+    border-radius: 30px;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+  .tracker-btn:hover {
+      background: #b30f0f;
+      transform: scale(1.02);
+  }
+
+  .tracker-link {
+      display: block;
+      margin-top: 14px;
+      color: #aaaaaa;
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: color 0.2s;
+  }
+
+  .tracker-link:hover {
+      color: #D51313;
+  }
+
+  .progress-container {
+      width: 100%;
+      height: 12px;
+      background: #ffffff;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      overflow: hidden;
+  }
+  #unit{
+    color:#494949;
+  }
+
+  #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #4da6ff;
+      border-radius: 10px;
+      transition: width 0.3s ease;
+  }
+
+  .water-stuff {
+      padding-bottom: 30px;
+      display: flex;
+      flex-direction: column;
+  }
+  #water-text{
+    margin:25px;
+
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon{
+   
+    border-color: #000000;
+    width:50px;
+    height:50px;
+   
+  }
+  .carousel-control-prev,
+  .carousel-control-next{
+    opacity:1;
+    border-color: #000000;
+  }
+  .carousel-control-prev:hover,
+  .carousel-control-next:hover{
+    opacity: 0.5;
+  }
 </style>
 <div class="full-carousel">
-<div id="carouselHome" class="carousel slide">
+<div id="carouselHome" class="carousel slide" data-bs-ride="carousel" data-bs-interval="6000">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselHome" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#carouselHome" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -326,7 +511,7 @@
         <h2 class="fw-bold display-5 mb-4 text-justify">
             <i class="fa-solid fa-dumbbell"></i> About RemixFit
         </h2><br>
-        <p class="lead text-justify">RemixFit is the ultimate fitness app that offers a wide range of features from browsing workouts,building customized routines and remixing workouts your routines, we strive to provide the best services possible.</p>
+        <p class="lead text-justify">RemixFit is the <span style="color:#D51313; font-weight: 600px;">ultimate fitness app</span> that offers a wide range of features from browsing workouts, building customized routines and remixing workouts your routines, we strive to provide the best services possible.</p>
         <div class="row mt-5 about-data">  
           <div class="col-md-4">
               <h3 class="counter-number" id="routines-count">0</h3>
@@ -359,10 +544,112 @@
 </div>
 </section>
 
+<section class="py-5" style="background-color: #d6d6d6;">
+  <div class="container">
+    <div class="text-center mb-5">
+        <p class="fw-bold mb-2" style="font-size:1.3rem; color:#D51313; line-height:0.7rem;">Fitness and Health Tracking</p>
+        <h2 class="fw-bold display-5" style="color:#D51313;">
+            <i class="fa-solid fa-chart-line"></i> Track Your Progress
+        </h2>
+        <p class="mt-3" style="color:#000000;">Log your daily health stats and stay on top of your fitness journey.</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+
+        <!-- Water Card -->
+        <div class="col-md-6 col-lg-4">
+            <div class="tracker-card water-stuff">
+                <div class="tracker-icon" style="background-color:#0d71e480; color:#4da6ff;">
+                    <i class="fa-solid fa-glass-water fa-xl"></i>
+                </div>
+                <h5 class="tracker-title">Water Intake</h5>
+                <h3 id="water-text" class="tracker-value">0 / 2000 ml</h3>
+                <div class="progress-container">
+                    <div id="progress-bar"></div>
+                </div>
+                <button class="tracker-btn w-100" onclick="addWater()">
+                    <i class="fa-solid fa-plus me-2"></i>Add 250 ml
+                </button>
+                <a href="/stats" class="tracker-link">View Weekly Stats →</a>
+            </div>
+        </div>
+
+        <!-- Weight Converter Card -->
+        <div class="col-md-6 col-lg-4">
+            <div class="tracker-card h-100 weight-stuff">
+                <div class="tracker-icon" style="background: #f07575; color:#D51313;">
+                    <i class="fa-solid fa-arrow-right-arrow-left fa-xl"></i>
+                </div>
+                <h5 class="tracker-title">Weight Converter</h5>
+                <select id="unit" class="tracker-select mb-3">
+                    <option value="lbs">lbs → kg</option>
+                    <option value="kg">kg → lbs</option>
+                </select>
+                <input type="number" id="weight-converter-input" class="tracker-input" placeholder="Enter weight" min="0" step="0.5">
+                <h6 id="result" class="tracker-value mt-2">Result:</h6>
+                <button class="tracker-btn w-100 mt-2" onclick="convert()">
+                    <i class="fa-solid fa-rotate me-2"></i>Convert
+                </button>
+                <p class="tracker-link" style="cursor:default;">Weight is stored in Kilograms</p>
+            </div>
+        </div>
+
+        <!-- Weight Tracker Card -->
+        <div class="col-md-6 col-lg-4">
+            <div class="tracker-card">
+                <div class="tracker-icon" style="background: #fffd6d; color:#c58401;">
+                    <i class="fa-solid fa-weight-scale fa-xl"></i>
+                </div>
+                <h5 class="tracker-title">Weight Tracker</h5>
+                <h3 id="weight-text" class="tracker-value">(kg)</h3>
+                <input type="number" id="weight-input" class="tracker-input" placeholder="Enter current weight (kg)" min="0" step="0.1">
+                <button class="tracker-btn w-100 mt-3" onclick="addWeight()">
+                    <i class="fa-solid fa-plus me-2"></i>Log Weight
+                </button>
+                <a href="/weight-stats" class="tracker-link">View Weekly Stats →</a>
+            </div>
+        </div>
+
+        <!-- Sleep Card -->
+        <div class="col-md-6 col-lg-4">
+            <div class="tracker-card h-100">
+                <div class="tracker-icon" style="background:#6e046e; color:#be7ada;">
+                    <i class="fa-solid fa-bed fa-xl"></i>
+                </div>
+                <h5 class="tracker-title">Sleep Tracker</h5>
+                <h3 class="tracker-value">Hours Slept</h3>
+                <input type="number" id="sleep-input" class="tracker-input" placeholder="Enter hours slept" min="0" step="0.5">
+                <button class="tracker-btn w-100 mt-3" onclick="addSleep()">
+                    <i class="fa-solid fa-plus me-2"></i>Log Sleep
+                </button>
+                <a href="/sleep-stats" class="tracker-link">View Weekly Stats →</a>
+            </div>
+        </div>
+
+        <!-- Steps Card -->
+        <div class="col-md-6 col-lg-4">
+            <div class="tracker-card h-100">
+                <div class="tracker-icon" style="background: #1d5f03; color:#6ee472;">
+                    <i class="fa-solid fa-shoe-prints fa-xl"></i>
+                </div>
+                <h5 class="tracker-title">Steps Tracker</h5>
+                <h3 class="tracker-value">Steps Taken</h3>
+                <input type="number" id="steps-input" class="tracker-input" placeholder="Enter steps taken" min="0" step="100">
+                <button class="tracker-btn w-100 mt-3" onclick="addSteps()">
+                    <i class="fa-solid fa-plus me-2"></i>Log Steps
+                </button>
+                <a href="/steps-stats" class="tracker-link">View Weekly Stats →</a>
+            </div>
+        </div>
+
+    </div>
+  </div>
+</section>
+
 <section class="py-5 section-bg1">
   <div class="container">
     <div class="text-center mb-5">
-        <p class="fw-bold mb-2" style="font-size:1.3rem; line-height: 0.7rem;">Reviews</p>
+        <p class="fw-bold mb-2" style="font-size:1.3rem; color:#D51313; line-height: 0.7rem;">Reviews</p>
         <h2 class="fw-bold display-5" style="color:#D51313">
             <i class="fa-solid fa-dumbbell"></i>
             What People Say
@@ -482,10 +769,10 @@
             </div> 
     </div>
     <div class="text-center mt-4">
-      <button class="btn btn-light btn-lg mx-2 rounded-circle shadow-sm" onclick="prev()">
+      <button class="people-btn rounded-circle shadow-sm" onclick="prev()">
         <i class="fa-solid fa-chevron-left"></i>
       </button>
-      <button class="btn btn-light btn-lg mx-2 rounded-circle shadow-sm" onclick="next()">
+      <button class="people-btn rounded-circle shadow-sm" onclick="next()">
         <i class="fa-solid fa-chevron-right"></i>
       </button>
     </div>
@@ -497,9 +784,11 @@
 
 <section class="py-5 section-bg">
   <div class="container">
-    <h2 class="text-center fw-bold display-5" style="color: #a10707;">Features</h2><br><br>
+    <h2 class="text-center fw-bold display-5" style="color: #D51313;">
+        <i class="fa-solid fa-dumbbell"></i>
+        Features</h2><br><br>
     <div class="row g-4">
-      <div class="col-md-6 col-lg-3">
+      <div class="col-md-4 col-lg-2 custom-col">
         <div class="feature-card">
           <div class="feature-img">
             <img src="/static/img/card1.png" alt="Browse Workouts">
@@ -511,7 +800,7 @@
         </div>
       </div>
 
-      <div class="col-md-6 col-lg-3">
+      <div class="col-md-4 col-lg-2 custom-col">
         <div class="feature-card">
           <div class="feature-img">
             <img src="/static/img/card2.png" alt="Add Workouts">
@@ -523,7 +812,7 @@
         </div>
       </div>
 
-      <div class="col-md-6 col-lg-3">
+      <div class="col-md-4 col-lg-2 custom-col">
         <div class="feature-card">
           <div class="feature-img">
             <img src="/static/img/card3.png" alt="Routine Builder">
@@ -534,7 +823,18 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6 col-lg-3">
+      <div class="col-md-4 col-lg-2 custom-col">
+        <div class="feature-card">
+          <div class="feature-img">
+            <img src="/static/img/card5.jpeg" alt="Tracker">
+          </div>
+          <div class="feature-content">
+            <h5>Track Progress</h5>
+            <p>Our tracking features are water intake, weight converter, weight tracker, hours slept and steps taken.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-2 custom-col">
         <div class="feature-card">
           <div class="feature-img">
             <img src="/static/img/card4.png" alt="Fitness Calculator">
@@ -552,7 +852,8 @@
 <section class="py-5 bg-light faq-section">
   <div class="container">
     <div class="text-center mb-5">
-        <h2 class="fw-bold display-5 header-faq">Frequently Asked Questions</h2>
+        
+        <h2 class="fw-bold display-5 header-faq"> <i class="fa-solid fa-dumbbell"></i>  Frequently Asked Questions</h2>
         <p class="lead text-muted">Discover the answers to common questions about RemixFit.</p>
   </div>
   <div class="row justify-content-center">
@@ -688,6 +989,129 @@ function prev(){
     curr=(curr-1 + cards.length) % cards.length;
     showTestimonials();
 }
+
+// water js
+        const goal = 2000
+
+        async function loadToday() {
+            let res = await fetch('/water/today', {credentials:"include"});
+            let data = await res.json();
+
+            let total = data.total;
+
+            document.getElementById('water-text').innerHTML= '<i class="fa-solid fa-glass-water"></i>' +  total + " / " + goal + " ml";
+
+            let percent = (total / goal) * 100;
+            if (percent > 100) percent = 100;
+            
+            let bar = document.getElementById("progress-bar");
+            bar.style.width = percent + "%";
+
+            if (percent < 50) {
+                bar.style.background = "#ff4d4d";
+            }
+
+            else if(percent < 100) {
+                bar.style.background = "#ffaa00";
+            }
+
+            else {bar.style.background = "#4CAF50"};
+        }
+
+        async function addWater() {
+            await fetch('/water/add?amount=250', {method: "POST", credentials: "include"});
+
+            loadToday();
+        }
+
+        // sleep js
+        async function addSleep() {
+            let input = document.getElementById("sleep-input");
+            let hours = input.value;
+
+            if (hours === "" || hours <= 0) {
+                alert("Enter valid hours");
+                return;
+            }
+
+            await fetch(`/sleep/add?hours=${hours}`, {method: "POST", credentials: "include"});
+            input.value = "";
+        }
+
+        document.getElementById("sleep-input").addEventListener("keypress", function(e) {
+            if (e.key ==="Enter") {
+                addSleep();
+            }
+        });
+
+        // steps js
+        async function addSteps() {
+            let input = document.getElementById("steps-input");
+            let steps = input.value;
+
+            if (steps === "" || steps <= 0) {
+                alert("Enter valid steps");
+                return;
+            }
+
+            await fetch(`/steps/add?steps=${steps}`, {method: "POST", credentials: "include"});
+            input.value = "";
+        }
+
+        document.getElementById("steps-input").addEventListener("keypress", function(e) {
+            if (e.key ==="Enter") {
+                addSteps();
+            }
+        });
+
+        // converter js
+        function convert() {
+            let value = document.getElementById("weight-converter-input").value;
+            let unit = document.getElementById("unit").value;
+
+            if (value === "" || value <= 0) {
+                alert("Enter valid weight");
+                return;
+            }
+
+            let result = 0;
+
+            if (unit === "lbs") {
+                result = value / 2.205;
+                document.getElementById("result").innerText = "kg: " + result.toFixed(2);
+            }
+
+            else {
+                result = value * 2.205;
+                document.getElementById("result").innerText = "lbs: " + result.toFixed(2);
+            }
+            
+        }
+
+        document.getElementById("weight-converter-input").addEventListener("keypress", function(e) {
+            if (e.key ==="Enter") {
+                convert();
+            }
+        });
+
+        // weight js
+        async function addWeight() {
+            let input = document.getElementById("weight-input");
+            let weight = input.value;
+
+            if (weight === "" || weight <= 0) {
+                alert("Enter valid weight");
+                return;
+            }
+
+            await fetch(`/weight/add?weight=${weight}`, {method: "POST", credentials: "include"});
+
+            input.value = "";
+        }
+
+        // load today left at end
+        loadToday();
+
 
 </script>
 
