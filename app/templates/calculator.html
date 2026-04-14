@@ -3,6 +3,7 @@
 
 {% block subpage_content %}
 <style>
+    /*calculator button color, font and border*/
     .calc-btn{
         background-color: #D51313;
         color: #ffffff;
@@ -10,10 +11,13 @@
         border: none;
     
     }
+    /*hover colors*/
     .calc-btn:hover{
         background-color: #1C1919;
         color: #ffffff;
     }
+
+    /*header bar colors and alignment*/
     .nav-pills{
         background-color: #2f2f2f;
         padding: 8px;
@@ -21,6 +25,7 @@
         display: flex;
         gap:10px;
     }
+    /*header bar transition and radius and font adjustment*/
     .nav-pills .nav-link {
         color: #e0e0e0;
         background: transparent;
@@ -28,37 +33,45 @@
         border-radius: 25px;
         font-weight: 500;
     }
+    /*header bar color and box shadow*/
     .nav-pills .nav-link.active {
         background-color: #D51313;
         color: #ffffff;
         box-shadow: 0 4px 12px rgba(213, 19, 19, 0.4);
     }
+    /*header bar hover colors*/
     .nav-pills .nav-link:hover {
         background-color: #1C1919;
         color: #ffffff;
     }
+    /*card colors and border radius adjusted*/
     .card{
         background-color: #4d4d4d;
         color: #ffffff;
         border-radius: 18px;
     }
+    /*background color and padding*/
     .calcs-page{
         background-color: #faf7f7;
         min-height: 100vh;
         padding-top: 80px;
     }
+    /* white page color*/
     .calcs-page .lead{
         color: #ffffff;
     }  
+    /*text color, font and size*/
     .custom-lead{
         color: #000000;
         font-family: Poppins, sans-serif;
         font-size: 20px;
     } 
+    /*result spacing adjustment*/
     #bmr-result, #bmi-result, #body-fat-result, #bench-press-result{
         margin-top: 20px;
     }
     
+    /*result alignment, color and padding*/
     #bmi-result, #bmr-result, #body-fat-result, #bench-press-result{
         padding: 18px 22px;
         background: #fff;
@@ -67,27 +80,30 @@
         text-align: left;
         border-left: 6px solid #D51313;
         min-height: 50px;
-       
         color:#1C1919;
         font-weight: 600;
         font-size: 1.2rem;
     }
-
+    /*display result box hidden*/
     .result-box{
         display:none;
     }
+    /*display result box */
     .result-box.show{
         display:block;
     }
    
 </style>
+<!--calculators page-->
 <div class="calcs-page">
 <div class="container py-3">
    
     <div class="text-center mb-5">
+        <!--Header for Fitness Calculators-->
         <h1 class="fw-bold display-5"><i class="fa-solid fa-dumbbell"></i>  Fitness Calculators</h1>
         <p class="lead text-muted custom-lead">Calculate your BMI, BMR, body fat and max bench press in order to optimize your fitness journey.</p>
         </div>
+        <!--Links to go to the various pages of the calculators-->
         <ul class="nav nav-pills nav-fill mb-4">
             <li class="nav-item">
                 <a class="nav-link {% if active_calculator == 'bmi' %}active{% endif %}" href="/calculator/bmi">BMI Calculator</a>
@@ -104,7 +120,7 @@
         </ul>
         <div class="card shadow-lg border-0 rounded-4">
             <div class="card-body p-4">
-
+                <!--BMI calculator-->
                 {% if active_calculator=='bmi' %}
                     <h3 class="mb-4">BMI Calculator</h3>
                     <label>Weight (kg):</label>
@@ -116,7 +132,7 @@
                     <button onclick="calcBMI()" class="btn calc-btn w-100 mt-4">Calculate BMI</button>
                     <div id="bmi-result" class="mt-3 result-box"></div>
                 {% endif %}
-
+                <!--BMR Calculator-->
                 {% if active_calculator=='bmr' %}
                     <h3 class="mb-4">BMR Calculator</h3>
                     <label>Age</label>
@@ -133,7 +149,7 @@
                     <button onclick="calcBMR()" class="btn calc-btn w-100 mt-4">Calculate BMR</button>
                     <div id="bmr-result" class="mt-3 result-box"></div>
                 {% endif %}
-
+                <!--Body Fat Calculator-->
                 {% if active_calculator=='body_fat' %}
                     <h3 class="mb-4">Body Fat Calculator</h3>
                     
@@ -154,7 +170,7 @@
                     <button onclick="calcBodyFat()" class="btn calc-btn w-100 mt-4">Calculate Body Fat</button>
                     <div id="body-fat-result" class="mt-3 result-box"></div>
                 {% endif %}
-
+                <!--Bench press calculator-->
                 {% if active_calculator=='bench_press' %}
                     <h3 class="mb-4">Max Bench Press Calculator</h3>
                     <label>Weight Lifted (kg):</label>
@@ -171,16 +187,18 @@
 </div>
 </div>
 <script>
+    //function to calculate the BMI using weight and height user inputted values 
     function calcBMI() {
+        //using parse float to covert input string to decimal number 
         let weight = parseFloat(document.getElementById('bmi-weight').value);
         let height = parseFloat(document.getElementById('bmi-height').value) / 100;
-        if (isNaN(weight) || isNaN(height)) {
-            alert("Please enter valid numbers for weight and height.");
+        if (isNaN(weight) || isNaN(height)) { //error checking for invalid numbers
+            alert("Please enter valid numbers for weight and height.");//send alert for invalid input
             return;
         }
-        let bmi = weight / (height * height);
+        let bmi = weight / (height * height); //bmi formula
         let ans=""
-        if (bmi<18.5) 
+        if (bmi<18.5) //if then else for message in bmi category to be displayed
         ans="Underweight";
         else if (bmi<25)
         ans="Normal Weight";
@@ -188,44 +206,48 @@
         ans="Overweight";
         else ans="Extremely Overweight"
 
-        let result="BMI: "+bmi.toFixed(1)+"("+ans+")";
-        let res=document.getElementById('bmi-result');
-        res.innerHTML=result;
+        let result="BMI: "+bmi.toFixed(1)+"("+ans+")"; //combine result and bmi category
+        let res=document.getElementById('bmi-result'); //get result element
+        res.innerHTML=result; //display result
         res.classList.add("show");
     }
+    //function to calculate the BMR using age, gender, weight and height user inputted values 
     function calcBMR() {
+         //using parse float to covert input string to decimal number 
         let age = parseFloat(document.getElementById('bmr-age').value);
         let weight = parseFloat(document.getElementById('bmr-weight').value);
         let heightb = parseFloat(document.getElementById('bmr-height').value);
         let gender = document.getElementById('bmr-gender').value;
         if (!age|| !weight|| !heightb) {
-            alert("Please fill in all fields with valid numbers.");
+            alert("Please fill in all fields with valid numbers.");//check for error message 
             return;
         }
         let bmr;    
-        if (gender === 'male') {
-            bmr = 88.362 + (13.397 * weight) + (4.799 * heightb) - (5.677 * age);
-        } else {
-            bmr = 447.593 + (9.247 * weight) + (3.098 * heightb) - (4.330 * age);
+        if (gender === 'male') { 
+            bmr = 88.362 + (13.397 * weight) + (4.799 * heightb) - (5.677 * age);//bmr male formula
+        } else { 
+            bmr = 447.593 + (9.247 * weight) + (3.098 * heightb) - (4.330 * age);//bmr female formula
         }
-        let ans="";
+        let ans=""; //if then else to determine the category for bmr 
         if(bmr<1500)
         ans="Lower energy needs";
         else if(bmr<2000)
         ans="Moderate to Normal energy needs";
         else ans="Higher energy needs";
-        let result="BMR: "+bmr.toFixed(1)+" kcal ("+ ans +")";
-        let res=document.getElementById('bmr-result');
-        res.innerHTML=result
+        let result="BMR: "+bmr.toFixed(1)+" kcal ("+ ans +")"; //combine result and bmr category
+        let res=document.getElementById('bmr-result'); //get result element
+        res.innerHTML=result //dispaly result
         res.classList.add("show")
     }
+     //function to calculate the body fat using hip, neck, gender, waist and height user inputted values
     function calcBodyFat() {
+        //using parse float to covert input string to decimal number 
         let height = parseFloat(document.getElementById('body-fat-height').value);
         let neck = parseFloat(document.getElementById('body-fat-neck').value);
         let waist = parseFloat(document.getElementById('body-fat-waist').value);
         let hip = parseFloat(document.getElementById('body-fat-hip').value);
         let gender = document.getElementById('body-fat-gender').value;
-        if (isNaN(height) || isNaN(neck) || isNaN(waist) || isNaN(hip)) {
+        if (isNaN(height) || isNaN(neck) || isNaN(waist) || isNaN(hip)) { //check for error message 
             alert("Please fill in all fields.");
             return;
         }   
@@ -233,17 +255,22 @@
 
         if (gender === 'male') {
             let s1=waist-neck;
+            if (s1 <= 1) {
+                alert("Invalid measurements (check waist and neck values)");
+                return;
+            }
             let s2=Math.log10(s1);
             let s3=Math.log10(height);
-            bodyFat = 495 / (1.0324 - 0.19077 * s2 + 0.15456 * s3) - 450;
+            bodyFat = 495 / (1.0324 - 0.19077 * s2 + 0.15456 * s3) - 450; //body fat male formula
         } else {
             let s1=waist+hip-neck;
+            
             let s2=Math.log10(s1);
             let s3=Math.log10(height);
-            bodyFat = 495 / (1.29579 - 0.35004 * s2 + 0.22100 * s3) - 450;
+            bodyFat = 495 / (1.29579 - 0.35004 * s2 + 0.22100 * s3) - 450; //body fat female formula
         }
-        let ans="";
-        if(gender==="male"){
+        let ans=""; //if then else to determine which body fat category the body fat result gives
+        if(gender==="male"){ //body fat male category comparison with result
             if (bodyFat<6)
             ans="Essential Fat";
             else if(bodyFat<14)
@@ -254,7 +281,7 @@
             ans="Average";
             else ans="High";
         }else{
-            if (bodyFat<14)
+            if (bodyFat<14) //body fat female category comparison with result
             ans="Essential Fat";
             else if(bodyFat<21)
             ans="Atletic";
@@ -266,21 +293,22 @@
 
         }
 
-        let res=document.getElementById('body-fat-result');
-        res.innerHTML="Body Fat: "+bodyFat.toFixed(1)+"%  (" + ans +")";
+        let res=document.getElementById('body-fat-result'); //get result
+        res.innerHTML="Body Fat: "+bodyFat.toFixed(1)+"%  (" + ans +")"; //combines result with category
         res.classList.add("show");
     }
 
     function calcBenchPress() {
+        //function to calculate the max bench press using weights and reps user inputted values
         let weight = document.getElementById('bench-press-weight').value;
         let reps = document.getElementById('bench-press-reps').value;
         if (weight=="" || reps=="") {
             alert("Please fill in both fields.");
             return;
         }
-        let maxBenchPress = weight * (1 + reps / 30);
-        let res=document.getElementById('bench-press-result');
-        res.innerHTML="Estimated Max Bench Press: "+maxBenchPress.toFixed(1)+" kg";
+        let maxBenchPress = weight * (1 + reps / 30); //max bench press formula
+        let res=document.getElementById('bench-press-result'); //get result
+        res.innerHTML="Estimated Max Bench Press: "+maxBenchPress.toFixed(1)+" kg"; //combines result with category
         res.classList.add("show");
     }
 </script>
