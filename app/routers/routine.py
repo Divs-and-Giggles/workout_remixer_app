@@ -125,6 +125,7 @@ def remix_routine(routine_id: int, request: Request, user: AuthDep, session: Ses
             sets=link.sets,
             reps=link.reps,
             duration_seconds=link.duration_seconds,
+            rest_seconds=link.rest_seconds,
             is_warmup=link.is_warmup,
             is_cooldown=link.is_cooldown,
         )
@@ -164,7 +165,9 @@ def get_routine(routine_id: int, user: AuthDep, session: SessionDep):
             "name": workout.name if workout else "Workout",
             "sets": l.sets or 3,
             "reps": l.reps or 10,
-            "order": l.order_in_routine or 0
+            "order": l.order_in_routine or 0,
+            "duration_seconds": l.duration_seconds,
+            "rest_seconds": l.rest_seconds
         })
 
     return {
