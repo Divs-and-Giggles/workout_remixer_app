@@ -2,6 +2,7 @@ import logging
 from sqlmodel import SQLModel, Session, create_engine
 from app.config import get_settings
 from contextlib import contextmanager
+from sqlalchemy import text
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +19,17 @@ def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
 def drop_all():
-    SQLModel.metadata.drop_all(bind=engine)
+    # For PostgreSQL, execute DROP SCHEMA with CASCADE
+    if get_settings().database_uri.startswith("postgresql"):
+        with engine.connect() as conn:
+            # Start a transaction
+            with conn.begin():
+                # Drop all tables with CASCADE
+                conn.execute(text("DROP SCHEMA public CASCADE"))
+                conn.execute(text("CREATE SCHEMA public"))
+    else:
+        # For SQLite or other databases
+        SQLModel.metadata.drop_all(bind=engine)
     
 def _session_generator():
     with Session(engine) as session:

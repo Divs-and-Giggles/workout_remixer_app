@@ -145,7 +145,7 @@ def get_routine(routine_id: int, user: AuthDep, session: SessionDep):
     if not routine:
         raise HTTPException(status_code=404, detail="Routine not found")
 
-    if routine.user_id != user.id and not routine.is_system:
+    if routine.user_id != user.id and not routine.is_generated:
         raise HTTPException(status_code=403, detail="Not allowed")
 
     links = session.exec(
