@@ -21,12 +21,28 @@ def initialize():
         drop_all() 
         create_db_and_tables() 
         
+        # Create initial user (bob)
         bob = UserBase(username='bob', email='bob@mail.com', password=encrypt_password("bobpass"))
         bob_db = User.model_validate(bob)
         db.add(bob_db)
         db.commit()
+        db.refresh(bob_db)
+        
+        # Create second user (alice)
+        alice = UserBase(username='alice', email='alice@mail.com', password=encrypt_password("alicepass"))
+        alice_db = User.model_validate(alice)
+        db.add(alice_db)
+        db.commit()
+        db.refresh(alice_db)
+        
+        # Create third user (charlie)
+        charlie = UserBase(username='charlie', email='charlie@mail.com', password=encrypt_password("charliepass"))
+        charlie_db = User.model_validate(charlie)
+        db.add(charlie_db)
+        db.commit()
+        db.refresh(charlie_db)
 
-
+        # Workout data (same as before)
         workout_data = [
             # Warmups
             {"name": "Jumping Jacks", "video_url": "https://www.youtube.com/watch?v=c4DAnQ6DtF8", "difficulty": "easy", "workout_type": "warmup", "equipment": "body", "intensity": "low", "muscle": "Full"},
@@ -279,9 +295,9 @@ def initialize():
                     {"name": "High Knees", "sets":1, "duration_seconds": 45, "is_warmup": True},
                     # main workouts
                     {"name": "Pull-ups", "sets":3, "reps": 10},
-                    {"name": "Lat Pulldowns", "sets":3, "reps": 10},
-                    {"name": "Barbell Rows", "sets":3, "reps": 10},
-                    {"name": "Face Pulls", "sets":3, "reps": 10},
+                    {"name": "Lat Pulldown", "sets":3, "reps": 10},
+                    {"name": "Bent-over Rows with Dumbbells", "sets":3, "reps": 10},
+                    {"name": "Seated Cable Rows", "sets":3, "reps": 10},
                     # cooldowns
                     {"name": "Seated Forward Bend", "sets":1, "duration_seconds": 30, "is_cooldown": True},
                     {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
@@ -302,7 +318,7 @@ def initialize():
                     {"name": "Weighted Pull-ups", "sets":3, "reps": 15},
                     {"name": "T-Bar Rows", "sets":3, "reps": 15},
                     {"name": "Deadlifts", "sets":3, "reps": 15},
-                    {"name": "Hyperextensions", "sets":3, "reps": 15},
+                    {"name": "Seated Cable Rows", "sets":3, "reps": 15},
                     # cooldowns
                     {"name": "Seated Forward Bend", "sets":1, "duration_seconds": 30, "is_cooldown": True},
                     {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
@@ -323,7 +339,7 @@ def initialize():
                     {"name": "Weighted Pull-ups", "sets":4, "reps": 20},
                     {"name": "T-Bar Rows", "sets":4, "reps": 20},
                     {"name": "Deadlifts", "sets":4, "reps": 20},
-                    {"name": "Hyperextensions", "sets":4, "reps": 20},
+                    {"name": "Seated Cable Rows", "sets":4, "reps": 20},
                     # cooldowns
                     {"name": "Seated Forward Bend", "sets":1, "duration_seconds": 30, "is_cooldown": True},
                     {"name":"Child's Pose","sets":1,"duration_seconds":30,"is_cooldown":True},
@@ -693,22 +709,24 @@ def initialize():
             else: 
                 return 0
         
+        # First, create all the default routines (without user assignment)
+        default_routines = []
         for r in routine_data:
             routine = Routine(
                 name=r["name"],
                 difficulty=r["difficulty"],
                 user_id=None,
-                is_generated= True,
+                is_generated=True,
                 creation_date=date.today()
             )
             db.add(routine)
             db.commit()
             db.refresh(routine)
+            default_routines.append(routine)
 
             order = 1
-
             for workout in r["workouts"]:
-                workout_db  = db.exec(select(Workout).where(Workout.name == workout["name"])).first()
+                workout_db = db.exec(select(Workout).where(Workout.name == workout["name"])).first()
 
                 if workout_db:
                     rest_time = get_rest_time(workout_db.workout_type)
@@ -728,8 +746,102 @@ def initialize():
                     db.add(routine_workout)
                     order += 1
             db.commit()
+        
+        # Now assign 3 routines to alice
+        # Select 3 specific routines for alice (Chest, Back, and Legs routines at intermediate level)
+        alice_routines = db.exec(
+            select(Routine).where(
+                Routine.name.in_([
+                    "Intermediate Chest Routine",
+                    "Intermediate Back Routine", 
+                    "Intermediate Legs Routine"
+                ])
+            )
+        ).all()
+        
+        for routine in alice_routines:
+            # Create a copy of the routine for alice
+            user_routine = Routine(
+                name="Alice's " + routine.name,
+                difficulty=routine.difficulty,
+                user_id=alice_db.id,
+                is_generated=False,
+                creation_date=date.today()
+            )
+            db.add(user_routine)
+            db.commit()
+            db.refresh(user_routine)
+            
+            # Copy all RoutineWorkout entries
+            original_routine_workouts = db.exec(
+                select(RoutineWorkout).where(RoutineWorkout.routine_id == routine.id)
+            ).all()
+            
+            for rw in original_routine_workouts:
+                new_routine_workout = RoutineWorkout(
+                    routine_id=user_routine.id,
+                    workout_id=rw.workout_id,
+                    difficulty=rw.difficulty,
+                    order_in_routine=rw.order_in_routine,
+                    sets=rw.sets,
+                    reps=rw.reps,
+                    duration_seconds=rw.duration_seconds,
+                    rest_seconds=rw.rest_seconds,
+                    is_warmup=rw.is_warmup,
+                    is_cooldown=rw.is_cooldown
+                )
+                db.add(new_routine_workout)
+            db.commit()
+        
+        # Assign 3 routines to charlie (Shoulders, Arms, and Core routines at advanced level)
+        charlie_routines = db.exec(
+            select(Routine).where(
+                Routine.name.in_([
+                    "Advanced Shoulder Routine",
+                    "Advanced Arms Routine",
+                    "Advanced Core Routine"
+                ])
+            )
+        ).all()
+        
+        for routine in charlie_routines:
+            # Create a copy of the routine for charlie
+            user_routine = Routine(
+                name= "Charlie's " + routine.name,
+                difficulty=routine.difficulty,
+                user_id=charlie_db.id,
+                is_generated=False,
+                creation_date=date.today()
+            )
+            db.add(user_routine)
+            db.commit()
+            db.refresh(user_routine)
+            
+            # Copy all RoutineWorkout entries
+            original_routine_workouts = db.exec(
+                select(RoutineWorkout).where(RoutineWorkout.routine_id == routine.id)
+            ).all()
+            
+            for rw in original_routine_workouts:
+                new_routine_workout = RoutineWorkout(
+                    routine_id=user_routine.id,
+                    workout_id=rw.workout_id,
+                    difficulty=rw.difficulty,
+                    order_in_routine=rw.order_in_routine,
+                    sets=rw.sets,
+                    reps=rw.reps,
+                    duration_seconds=rw.duration_seconds,
+                    rest_seconds=rw.rest_seconds,
+                    is_warmup=rw.is_warmup,
+                    is_cooldown=rw.is_cooldown
+                )
+                db.add(new_routine_workout)
+            db.commit()
 
         print("Database Initialized")
+        print(f"Created users: bob, alice, charlie")
+        print(f"Assigned 3 routines to alice: Intermediate Chest, Back, and Legs")
+        print(f"Assigned 3 routines to charlie: Advanced Shoulder, Arms, and Core")
 
 @cli.command()
 def test():

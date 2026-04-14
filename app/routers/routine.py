@@ -266,6 +266,79 @@ def add_workout_to_routine(
     return routine_workout
 
 
+# =========================
+# UPDATE ROUTINE NAME (PUT)
+# =========================
+@router.put("/routines/{routine_id}")
+def update_routine(
+    routine_id: int,
+    user: AuthDep,
+    session: SessionDep,
+    name: str = Body(..., embed=True)
+):
+    routine = session.get(Routine, routine_id)
+    
+    if not routine:
+        raise HTTPException(status_code=404, detail="Routine not found")
+    
+    if routine.user_id != user.id:
+        raise HTTPException(status_code=403, detail="Not allowed to edit this routine")
+    
+    routine.name = name
+    session.commit()
+    session.refresh(routine)
+    
+    return {"ok": True, "id": routine.id, "name": routine.name}
+
+
+# =========================
+# UPDATE WORKOUT IN ROUTINE (PUT)
+# =========================
+@router.put("/routines/{routine_id}/workouts/{workout_id}")
+def update_routine_workout(
+    routine_id: int,
+    workout_id: int,
+    user: AuthDep,
+    session: SessionDep,
+    sets: int = Form(...),
+    reps: Optional[int] = Form(None),
+    difficulty: str = Form(...),
+    duration_seconds: Optional[int] = Form(None),
+    is_warmup: bool = Form(False),
+    is_cooldown: bool = Form(False),
+):
+    # Verify routine belongs to user
+    routine = session.get(Routine, routine_id)
+    if not routine or routine.user_id != user.id:
+        raise HTTPException(status_code=404, detail="Routine not found")
+    
+    # Find the specific RoutineWorkout entry
+    routine_workout = session.exec(
+        select(RoutineWorkout).where(
+            RoutineWorkout.routine_id == routine_id,
+            RoutineWorkout.workout_id == workout_id
+        )
+    ).first()
+    
+    if not routine_workout:
+        raise HTTPException(status_code=404, detail="Workout not found in this routine")
+    
+    # Update fields
+    routine_workout.sets = sets
+    routine_workout.reps = reps
+    routine_workout.difficulty = difficulty
+    routine_workout.duration_seconds = duration_seconds
+    routine_workout.is_warmup = is_warmup
+    routine_workout.is_cooldown = is_cooldown
+    
+    session.commit()
+    session.refresh(routine_workout)
+    
+    return {"ok": True, "message": "Workout updated successfully"}
+
+# =========================
+# REMOVE WORKOUT FROM ROUTINE (DELETE)
+# =========================
 @router.delete("/routines/{routine_id}/workouts/{workout_id}")
 def remove_workout_from_routine(
     routine_id: int,
@@ -273,15 +346,34 @@ def remove_workout_from_routine(
     user: AuthDep,
     session: SessionDep,
 ):
+    # Verify routine belongs to user
     routine = session.get(Routine, routine_id)
     if not routine or routine.user_id != user.id:
         raise HTTPException(status_code=404, detail="Routine not found")
-
-    routine_workout = session.get(RoutineWorkout, (routine_id, workout_id))
+    
+    # Find and delete the specific RoutineWorkout entry
+    routine_workout = session.exec(
+        select(RoutineWorkout).where(
+            RoutineWorkout.routine_id == routine_id,
+            RoutineWorkout.workout_id == workout_id
+        )
+    ).first()
+    
     if not routine_workout:
-        raise HTTPException(status_code=404, detail="RoutineWorkout not found")
-
+        raise HTTPException(status_code=404, detail="Workout not found in this routine")
+    
     session.delete(routine_workout)
+    
+    # Reorder remaining workouts (optional but recommended)
+    remaining_workouts = session.exec(
+        select(RoutineWorkout).where(
+            RoutineWorkout.routine_id == routine_id
+        ).order_by(RoutineWorkout.order_in_routine)
+    ).all()
+    
+    for idx, rw in enumerate(remaining_workouts, 1):
+        rw.order_in_routine = idx
+    
     session.commit()
-
-    return {"message": "Workout removed from routine"}
+    
+    return {"ok": True, "message": "Workout removed from routine"}
