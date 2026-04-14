@@ -4,7 +4,7 @@
 {% block subpage_content %}
 <style>
 
-   
+    /* css for calculator cards*/
     .calc-card{
         transition: all 0.3s ease;
         border:none;
@@ -12,56 +12,66 @@
         background: #ffffff;
         box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
     }
+    /*elevate card upon hover*/
     .calc-card:hover{
         transform: translateY(-6px);
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
     }
+    /*no padding*/
     #content{
         padding: 0 !important;
     }
-
+    /*font and color for card title*/
     .calc-title{
         font-weight: 700;
         color: #1C1919;
     }
-
+    /*adjust calculator text*/
     .calc-text{
         font-size: 0.95rem;
         color: #606264;
     }
+    /*adjest font and color*/
     .page-title{
         font-weight: 800;
         color: #ffffff;
     }
+    /*adjust background-color and alignment*/
     .calc-page{
         background-color: #424242;
         width: 100vw;
         padding-top: 80px;
         min-height: 100vh;
     }
+    /*adjust size and alignment*/
     html, body{
         overflow-x: hidden;
         margin: 0;
         padding: 0;
     }
+    /*adjust text color and font size*/
     .lead-text{
         color: #ffffff;
         font-size: 18px;
     }
 </style>
+<!--Calculator Home Page-->
 <div class="calc-page">
 
 <div class="container py-5">
     <div class="text-center mb-5">
-        <h1 class="fw-bold display-5 page-title">Fitness Calculators</h1>
+        <!--calculator Home Header-->
+        <h1 class="fw-bold display-5 page-title"><i class="fa-solid fa-dumbbell"></i>  Fitness Calculators</h1>
+        <!--SubHeading-->
         <p class="lead-text small mt-2">Calculate your BMI, BMR, body fat and max bench press in order to optimize your fitness journey.</p>
     </div>
-    
+    <!--each calculator-->
     <div class="row g-4">
         <div class="col-md-6">
             <a href="/calculator/bmi" class="text-decoration-none">
                 <div class="card calc-card h-100 py-4 text-center">
                     <div class="card-body">
+                        <!--BMI calculator section-->
                         <span class="material-symbols-outlined fs-1 text-danger mb-3">monitor_weight</span>
                         <h4 class="fw-bold calc-title">BMI Calculator</h4>
                         <p class="text-muted small mt-2">Calculate your Body Mass Index to understand your weight category and health risks.</p>
@@ -73,6 +83,7 @@
             <a href="/calculator/bmr" class="text-decoration-none">
                 <div class="card calc-card h-100 py-4 text-center">
                     <div class="card-body">
+                        <!--BMR Calculator Section-->
                         <span class="material-symbols-outlined fs-1 text-danger mb-3">local_fire_department</span>
                         <h4 class="fw-bold calc-title">BMR Calculator</h4>
                         <p class="text-muted small mt-2">Calculate your Basal Metabolic Rate to determine how many calories you burn at rest.</p>
@@ -84,6 +95,7 @@
             <a href="/calculator/body_fat" class="text-decoration-none">
                 <div class="card calc-card h-100 py-4 text-center">
                     <div class="card-body">
+                        <!--Body fat calculator section-->
                         <span class="material-symbols-outlined fs-1 text-danger mb-3">fitness_center</span>
                         <h4 class="fw-bold calc-title">Body Fat Calculator</h4>
                         <p class="text-muted small mt-2">Calculate your body fat percentage to assess your overall fitness and health.</p>
@@ -92,6 +104,7 @@
             </a>
         </div>
         <div class="col-md-6">
+            <!--Bench Press section-->
             <a href="/calculator/bench_press" class="text-decoration-none">
                 <div class="card calc-card h-100 py-4 text-center">
                     <div class="card-body">
