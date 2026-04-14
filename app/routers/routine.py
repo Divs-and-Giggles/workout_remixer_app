@@ -16,28 +16,14 @@ from sqlmodel import select
 @router.get("/routines", response_class=HTMLResponse)
 async def routine_view(request: Request, user: AuthDep, session: SessionDep):
 
-   my_routines = session.exec(
-    select(Routine).where(
-        Routine.user_id == user.id,
-        Routine.is_routine == False,
-        Routine.is_remix == False
-    )
-).all()
+   my_routines = session.exec(select(Routine).where( Routine.user_id == user.id, Routine.is_generated == False)).all()
    
-   our_routines = session.exec(
-        select(Routine).where(Routine.is_system == True)
-    ).all()
+   our_routines = session.exec(select(Routine).where(Routine.user_id != user.id, Routine.is_generated == False)).all()
    
    workouts = session.exec(select(Workout)).all()
 
-   generated_routines = session.exec(
-        select(Routine).where(
-            Routine.user_id == user.id,
-            Routine.is_remix == True
-        )
-    ).all()
+   generated_routines = session.exec(select(Routine).where(Routine.user_id == user.id, Routine.is_generated == True)).all()
 
-   workouts = session.exec(select(Workout)).all()
    
    return templates.TemplateResponse(
     request=request,
