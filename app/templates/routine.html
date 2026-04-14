@@ -444,6 +444,61 @@ h4 {
     color: #fff;
 }
 
+/* ================= PAGINATION ================= */
+.pagination-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    margin: 0.5rem 0 1.8rem;
+    flex-wrap: wrap;
+}
+
+.pagination-bar a,
+.pagination-bar span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.1rem;
+    height: 2.1rem;
+    padding: 0 0.55rem;
+    border-radius: 0.45rem;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    font-size: 0.88rem;
+    text-decoration: none;
+    border: 1.5px solid #e0e0e0;
+    color: #333;
+    background: #fff;
+    transition: all 0.18s;
+    letter-spacing: 0.01em;
+}
+
+.pagination-bar a:hover {
+    background: #D51313;
+    border-color: #D51313;
+    color: #fff;
+}
+
+.pagination-bar .page-current {
+    background: #D51313;
+    border-color: #D51313;
+    color: #fff;
+    cursor: default;
+}
+
+.pagination-bar .page-ellipsis {
+    border: none;
+    background: transparent;
+    color: #999;
+    cursor: default;
+}
+
+.pagination-bar .page-prev-next {
+    font-size: 1rem;
+    padding: 0 0.65rem;
+}
+
 /* ================= RESPONSIVE ================= */
 @media (max-width: 576px) {
     .routines-header {
@@ -470,6 +525,41 @@ h4 {
 {% endblock %}
 
 {% block subpage_content %}
+
+{# ===== PAGINATION MACRO ===== #}
+{% macro render_pagination(pagination, page_param, current_params) %}
+{% if pagination.total_pages > 1 %}
+<nav class="pagination-bar" aria-label="pagination">
+    {% if pagination.has_prev %}
+        <a class="page-prev-next" href="?{{ current_params }}&{{ page_param }}={{ pagination.prev_num }}" aria-label="Previous">&#8249;</a>
+    {% else %}
+        <span class="page-prev-next" style="opacity:0.35; cursor:default;">&#8249;</span>
+    {% endif %}
+
+    {% for page_num in pagination.iter_pages() %}
+        {% if page_num is none %}
+            <span class="page-ellipsis">&hellip;</span>
+        {% elif page_num == pagination.page %}
+            <span class="page-current">{{ page_num }}</span>
+        {% else %}
+            <a href="?{{ current_params }}&{{ page_param }}={{ page_num }}">{{ page_num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if pagination.has_next %}
+        <a class="page-prev-next" href="?{{ current_params }}&{{ page_param }}={{ pagination.next_num }}" aria-label="Next">&#8250;</a>
+    {% else %}
+        <span class="page-prev-next" style="opacity:0.35; cursor:default;">&#8250;</span>
+    {% endif %}
+</nav>
+{% endif %}
+{% endmacro %}
+
+{# Build base query string without the paginated param being rendered #}
+{% set base_my  = "our_page=" ~ our_page ~ "&gen_page=" ~ gen_page %}
+{% set base_our = "my_page="  ~ my_page  ~ "&gen_page=" ~ gen_page %}
+{% set base_gen = "my_page="  ~ my_page  ~ "&our_page=" ~ our_page %}
+
 <div class="container-fluid px-3">
 
 <!-- HEADER -->
@@ -482,31 +572,7 @@ h4 {
     </div>
 </div>
 
-<!-- CAROUSEL -->
-<div id="routineCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
 
-    <div class="carousel-inner carousel-box">
-        <div class="carousel-item active">
-            <img src="/static/img/remixpage1.png" class="d-block w-100">
-        </div>
-
-        <div class="carousel-item">
-            <img src="/static/img/remixpage2.png" class="d-block w-100">
-        </div>
-
-        <div class="carousel-item">
-            <img src="/static/img/remixpage3.png" class="d-block w-100">
-        </div>
-    </div>
-
-    <button class="carousel-control-prev" data-bs-target="#routineCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-    </button>
-
-    <button class="carousel-control-next" data-bs-target="#routineCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-    </button>
-</div>
 
 <!-- ROUTINE BUILDER (HIDDEN PANEL) -->
 <div id="builderPanel" style="display:none; background:white; padding:20px; border-radius:10px; margin-bottom:20px;">
@@ -540,6 +606,7 @@ h4 {
     </div>
 {% endfor %}
 </div>
+{{ render_pagination(my_pagination, "my_page", base_my) }}
 
 
 <!-- OUR ROUTINES -->
@@ -556,6 +623,7 @@ h4 {
     </div>
 {% endfor %}
 </div>
+{{ render_pagination(our_pagination, "our_page", base_our) }}
 
 
 <!-- GENERATED ROUTINES -->
@@ -573,6 +641,7 @@ h4 {
     </div>
 {% endfor %}
 </div>
+{{ render_pagination(gen_pagination, "gen_page", base_gen) }}
 
 <!-- ROUTINE VIEW MODAL -->
 <div id="routineModal" style="display:none; position:fixed; inset:0;

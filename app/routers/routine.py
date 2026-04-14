@@ -4,10 +4,13 @@ from datetime import date
 from app.dependencies import SessionDep, AuthDep
 from app.models import Routine, RoutineWorkout, Workout
 from . import templates, router
-from fastapi import Request, Body, Form, HTTPException
+from fastapi import Request, Body, Form, HTTPException, Query
 from starlette.requests import Request
 from starlette.middleware.sessions import SessionMiddleware
 from typing import Annotated, Optional
+from app.pagination import Pagination
+
+ROUTINES_PER_PAGE = 8
 
 def flash(request: Request, message: str, category: str = "info"):
     """Store a flash message in the session"""
@@ -16,30 +19,48 @@ def flash(request: Request, message: str, category: str = "info"):
     request.session["messages"].append({"message": message, "category": category})
 
 @router.get("/routines", response_class=HTMLResponse)
-async def routine_view(request: Request, user: AuthDep, session: SessionDep):
+async def routine_view(
+    request: Request,
+    user: AuthDep,
+    session: SessionDep,
+    my_page: int = Query(1, ge=1),
+    our_page: int = Query(1, ge=1),
+    gen_page: int = Query(1, ge=1),
+):
+    limit = ROUTINES_PER_PAGE
 
-   my_routines = session.exec(select(Routine).where( Routine.user_id == user.id, Routine.is_generated == False)).all()
-   
-   our_routines = session.exec(select(Routine).where(Routine.user_id != user.id, Routine.is_generated == False)).all()
-   
-   workouts = session.exec(select(Workout)).all()
+    all_my = session.exec(select(Routine).where(Routine.user_id == user.id, Routine.is_generated == False)).all()
+    all_our = session.exec(select(Routine).where(Routine.user_id != user.id, Routine.is_generated == False)).all()
+    all_gen = session.exec(select(Routine).where(Routine.user_id == user.id, Routine.is_generated == True)).all()
 
-   generated_routines = session.exec(select(Routine).where(Routine.user_id == user.id, Routine.is_generated == True)).all()
+    my_pagination = Pagination(total_count=len(all_my), current_page=my_page, limit=limit)
+    our_pagination = Pagination(total_count=len(all_our), current_page=our_page, limit=limit)
+    gen_pagination = Pagination(total_count=len(all_gen), current_page=gen_page, limit=limit)
 
-   
-   return templates.TemplateResponse(
-    request=request,
-    name="routine.html",
-    context={
-        "request" : request,
-        "user": user,
-        "my_routines": my_routines,
-        "our_routines": our_routines,
-        "workouts": workouts,
-        "generated_routines": generated_routines
-    }
+    my_routines = all_my[(my_page - 1) * limit: my_page * limit]
+    our_routines = all_our[(our_page - 1) * limit: our_page * limit]
+    generated_routines = all_gen[(gen_page - 1) * limit: gen_page * limit]
 
-)
+    workouts = session.exec(select(Workout)).all()
+
+    return templates.TemplateResponse(
+        request=request,
+        name="routine.html",
+        context={
+            "request": request,
+            "user": user,
+            "my_routines": my_routines,
+            "our_routines": our_routines,
+            "workouts": workouts,
+            "generated_routines": generated_routines,
+            "my_pagination": my_pagination,
+            "our_pagination": our_pagination,
+            "gen_pagination": gen_pagination,
+            "my_page": my_page,
+            "our_page": our_page,
+            "gen_page": gen_page,
+        }
+    )
 
 @router.post("/routines")
 async def create_routine(
