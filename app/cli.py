@@ -705,6 +705,7 @@ def initialize():
                         order_in_routine=order,
                         sets=workout.get("sets"),
                         reps=workout.get("reps"),
+                        duration_seconds=workout.get("duration_seconds"),
                         is_warmup=workout.get("is_warmup", False),
                         is_cooldown=workout.get("is_cooldown", False)
                     )
