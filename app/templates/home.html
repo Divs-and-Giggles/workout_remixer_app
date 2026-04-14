@@ -268,6 +268,19 @@
         background-color: #ffffff;
         box-shadow: 0 0px 1px rgba(0,0,0,0.8);
     }
+    @media (max-width: 991px) {
+      .about-img {
+          width: 100%;
+          height: 320px;
+      }
+  }
+
+    @media (max-width: 575px) {
+      .about-img {
+          width: 100%;
+          height: 220px;
+      }
+  }
     /*width and height for image in about us section*/
      .about-img img {
         width:100%;
@@ -299,6 +312,13 @@
         justify-content: flex-start;
         align-items: center;
     }
+    @media (max-width: 575px) {
+        .button-both {
+            flex-direction: column;
+            gap: 14px;
+            align-items: stretch;
+        }
+    }
     /*css for carousel text and header*/
     .carousel-caption h5 {
         font-size: 2.4rem;
@@ -329,6 +349,19 @@
       max-width: 790px !important;
       padding:7px;
       
+    }
+    @media (max-width: 991px) {
+        .custom-col {
+          flex: 0 0 45%;
+          max-width: 45% !important;
+        }
+    }
+
+    @media (max-width: 575px) {
+        .custom-col {
+          flex: 0 0 100%;
+          max-width: 100% !important;
+        }
     }
     /*css alignment and display of card containers*/
     .card-container1, .card-container2{
@@ -371,128 +404,172 @@
       margin-bottom: 16px;
     }
   /* tracker cards css, color, alignment and font size*/
-  .tracker-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #ffffff;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 8px;
-  }
+    .tracker-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #ffffff;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 8px;
+    }
 
-  .tracker-value {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #ffffff;
-      margin-bottom: 16px;
-  }
+    .tracker-value {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 16px;
+    }
 
-  .tracker-input {
-      width: 100%;
-      background: #ffffff;
-      border: 1px solid #2a2a4a;
-      border-radius: 10px;
-      color: #000000;
-      padding: 10px 14px;
-      outline: none;
-      transition: border 0.2s;
-  }
+    .tracker-input {
+        width: 100%;
+        background: #ffffff;
+        border: 1px solid #2a2a4a;
+        border-radius: 10px;
+        color: #000000;
+        padding: 10px 14px;
+        outline: none;
+        transition: border 0.2s;
+    }
 
-  .tracker-input:focus {
-      border-color: #D51313;
-  }
+    .tracker-input:focus {
+        border-color: #D51313;
+    }
 
-  .tracker-input::placeholder {
-      color: #555;
-  }
+    .tracker-input::placeholder {
+        color: #555;
+    }
 
-  .tracker-select {
-      width: 100%;
-      background: #ffffff;
-      border: 1px solid #2a2a4a;
-      border-radius: 10px;
-      color: #ffffff;
-      padding: 10px 14px;
-      outline: none;
-      cursor: pointer;
-  }
+    .tracker-select {
+        width: 100%;
+        background: #ffffff;
+        border: 1px solid #2a2a4a;
+        border-radius: 10px;
+        color: #ffffff;
+        padding: 10px 14px;
+        outline: none;
+        cursor: pointer;
+    }
 
-  .tracker-btn {
-      background: #D51313;
-      border: none;
-      border-radius: 30px;
-      color: #ffffff;
-      font-weight: 600;
-      padding: 10px 20px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-  }
+    .tracker-btn {
+        background: #D51313;
+        border: none;
+        border-radius: 30px;
+        color: #ffffff;
+        font-weight: 600;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
 
-  .tracker-btn:hover {
-      background: #b30f0f;
-      transform: scale(1.02);
-  }
+    .tracker-btn:hover {
+        background: #b30f0f;
+        transform: scale(1.02);
+    }
 
-  .tracker-link {
-      display: block;
-      margin-top: 14px;
-      color: #aaaaaa;
-      font-size: 0.85rem;
-      text-decoration: none;
-      transition: color 0.2s;
-  }
+    .tracker-link {
+        display: block;
+        margin-top: 14px;
+        color: #aaaaaa;
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
 
-  .tracker-link:hover {
-      color: #D51313;
-  }
-  /*adjust width and height and spacing*/
-  .progress-container {
-      width: 100%;
-      height: 12px;
-      background: #ffffff;
-      border-radius: 10px;
-      margin-bottom: 16px;
-      overflow: hidden;
-  }
-  #unit{
-    color:#494949;
-  }
+    .tracker-link:hover {
+        color: #D51313;
+    }
+    /*adjust width and height and spacing*/
+    .progress-container {
+        width: 100%;
+        height: 12px;
+        background: #ffffff;
+        border-radius: 10px;
+        margin-bottom: 16px;
+        overflow: hidden;
+    }
+    #unit{
+      color:#494949;
+    }
 
-  #progress-bar {
-      height: 100%;
-      width: 0%;
-      background: #4da6ff;
-      border-radius: 10px;
-      transition: width 0.3s ease;
-  }
-  /* adjest css for water card position and display*/
-  .water-stuff {
-      padding-bottom: 30px;
-      display: flex;
-      flex-direction: column;
-  }
-  #water-text{
-    margin:25px;
+    #progress-bar {
+        height: 100%;
+        width: 0%;
+        background: #4da6ff;
+        border-radius: 10px;
+        transition: width 0.3s ease;
+    }
+    /* adjest css for water card position and display*/
+    .water-stuff {
+        padding-bottom: 30px;
+        display: flex;
+        flex-direction: column;
+    }
+    #water-text{
+      margin:25px;
 
-  }
-  /*adjest css for buttons on prev and next in carousel slider*/
-  .carousel-control-prev-icon,
-  .carousel-control-next-icon{
-   
-    border-color: #000000;
-    width:50px;
-    height:50px;
-   
-  }
-  .carousel-control-prev,
-  .carousel-control-next{
-    opacity:1;
-    border-color: #000000;
-  }
-  .carousel-control-prev:hover,
-  .carousel-control-next:hover{
-    opacity: 0.5;
-  }
+    }
+    /*adjest css for buttons on prev and next in carousel slider*/
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon{
+    
+      border-color: #000000;
+      width:50px;
+      height:50px;
+    
+    }
+    .carousel-control-prev,
+    .carousel-control-next{
+      opacity:1;
+      border-color: #000000;
+    }
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover{
+      opacity: 0.5;
+    }
+    /*all css for mobile and tablet screens*/
+    @media (max-width: 991px) {
+        #carouselHome .carousel-item img {
+            height: 320px !important;
+        }
+    }
+
+    @media (max-width: 575px) {
+        #carouselHome .carousel-item img {
+            height: 220px !important;
+        }
+    }
+  
+    @media (max-width: 768px) {
+        .carousel-caption h5 {
+            font-size: 9px !important;
+        }
+
+        .carousel-caption p {
+            font-size: 8px !important;
+        }
+
+        .carousel-caption {
+            padding: 0.5rem;
+        }
+    }
+    @media (max-width: 768px) {
+        #testimonial-slider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #testimonial-slider .col-lg-4 {
+            display: none !important;
+        }
+
+        #testimonial-slider .col-lg-4.active {
+            display: block !important;
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+    }
+
 </style>
 <!--Carousel Slider automatic scroll-->
 <div class="full-carousel">
@@ -507,7 +584,7 @@
     <div class="carousel-item active">
       <!--carousel image1-->
       <img src="/static/img/remixpage1.png" class="d-block w-100" style="height: 450px";>
-       <div class="carousel-caption d-none d-md-block">
+       <div class="carousel-caption">
         <!--Slide 1 info-->
           <h5>Welcome to RemixFit</h5>
           <p>Your ultimate fitness companion for personalized workout routines.</p>
@@ -516,7 +593,7 @@
     <!--Slide 2 image and caption-->
     <div class="carousel-item caption-needed">
       <img src="/static/img/remixpage2.png" class="d-block w-100" style="height: 450px";>
-        <div class="carousel-caption d-none d-md-block">
+        <div class="carousel-caption">
             <h5>Discover a World of Workouts</h5>
             <p>Explore our extensive library of workouts tailored to your fitness goals.</p>
           </div>
@@ -524,7 +601,7 @@
     <!--Slide 3 image and caption-->
     <div class="carousel-item caption-needed">
       <img src="/static/img/remixpage3.png" class="d-block w-100" style="height: 450px";>
-        <div class="carousel-caption d-none d-md-block">
+        <div class="carousel-caption">
             <h5>Build Your Perfect Routine</h5>
             <p>Mix and match exercises to create personalized workout routines that fit your lifestyle.</p>
           </div>
@@ -532,7 +609,7 @@
     <!--Slide 4 image and caption-->
      <div class="carousel-item caption-needed">
       <img src="/static/img/remixpage4.png" class="d-block w-100" style="height: 450px";>
-      <div class="carousel-caption d-none d-md-block">
+      <div class="carousel-caption">
             <h5>Fitness Calculator</h5>
             <p>Monitor your fitness journey with detailed calculations, estimations and performance insights.</p>
           </div>
@@ -715,7 +792,7 @@
     <div class="row g-4" id="testimonial-slider">
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 border-0 shadow-sm p-4">
-                <div class="d flex align-items-center text-center mb-3 gap-3">
+                <div class="d-flex align-items-center text-center mb-3 gap-3">
                   <img src="/static/img/user1.ico" class="rounded-circle me-3" alt="User 1">
                   <div>
                     <!--User1-->
@@ -734,7 +811,7 @@
             </div> 
              <div class="col-lg-4 col-md-6">
             <div class="card h-100 border-0 shadow-sm p-4">
-                <div class="d flex align-items-center text-center mb-3 gap-3">
+                <div class="d-flex align-items-center text-center mb-3 gap-3">
                   <img src="/static/img/user2.ico" class="rounded-circle me-3" alt="User 2">
                   <div>
                     <!--User2-->
@@ -754,7 +831,7 @@
 
              <div class="col-lg-4 col-md-6">
             <div class="card h-100 border-0 shadow-sm p-4">
-                <div class="d flex align-items-center text-center mb-3 gap-3">
+                <div class="d-flex align-items-center text-center mb-3 gap-3">
                   <img src="/static/img/user3.ico" class="rounded-circle me-3" alt="User 3">
                   <div>
                     <!--User3-->
@@ -773,7 +850,7 @@
 
              <div class="col-lg-4 col-md-6">
             <div class="card h-100 border-0 shadow-sm p-4">
-                <div class="d flex align-items-center text-center mb-3 gap-3">
+                <div class="d-flex align-items-center text-center mb-3 gap-3">
                   <img src="/static/img/user4.ico" class="rounded-circle me-3" alt="User 4">
                   <div>
                     <!--User4-->
@@ -793,7 +870,7 @@
 
              <div class="col-lg-4 col-md-6">
             <div class="card h-100 border-0 shadow-sm p-4">
-                <div class="d flex align-items-center text-center mb-3 gap-3">
+                <div class="d-flex align-items-center text-center mb-3 gap-3">
                   <img src="/static/img/user5.ico" class="rounded-circle me-3" alt="User 5">
                   <div>
                     <!--User5-->
@@ -813,7 +890,7 @@
                   
              <div class="col-lg-4 col-md-6">
             <div class="card h-100 border-0 shadow-sm p-4">
-                <div class="d flex align-items-center text-center mb-3 gap-3">
+                <div class="d-flex align-items-center text-center mb-3 gap-3">
                   <img src="/static/img/user6.ico" class="rounded-circle me-3" alt="User 6">
                   <div>
                     <!--User6-->

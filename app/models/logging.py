@@ -24,11 +24,11 @@ class WorkoutLog(SQLModel, table = True):
     session: Optional["WorkoutSession"] = Relationship(back_populates="logs")
     workout: Optional["Workout"] = Relationship(back_populates="logs")
 
-class DailySteps(SQLModel, table = True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    user_id: int = Field(default=None, foreign_key="user.id")
-    steps:int
-    timestamp:datetime
+# class DailySteps(SQLModel, table = True):
+#     id: Optional[int] = Field(default=None, primary_key=True)
+#     user_id: int = Field(default=None, foreign_key="user.id")
+#     steps:int
+#     timestamp:datetime
 
 class WaterIntake(SQLModel, table = True):
     id: Optional[int] = Field(default=None, primary_key=True)
