@@ -10,6 +10,9 @@ from sqlmodel import select
 
 @router.get("/sleep")
 def sleep_page(request: Request):
+    """
+    Renders sleep log. Used in testing and developing the sleep log in isolation.
+    """
     return templates.TemplateResponse(
         request = request,
         name="sleep_log.html"
@@ -31,6 +34,17 @@ def sleep_page(request: Request):
 
 @router.post("/sleep/add")
 def add_sleep(hours: float, db: SessionDep, user: AuthDep):
+    """
+    Adds a new entry into the sleep log for an authenticated user.
+
+    Args: 
+        hours (float): Hours slept.
+        db (SessionDep): Database session dependency used for dependency injection.
+        user (AuthDep): Authenticated user dependency used for dependency injection.
+
+    Returns:
+        A dictionary with a confirmation message of entry addition.
+    """
     entry = SleepLog(
         user_id=user.id,
         hours = hours,
@@ -44,6 +58,15 @@ def add_sleep(hours: float, db: SessionDep, user: AuthDep):
 
 @router.get("/sleep-stats")
 def sleep_stats_page(request: Request):
+    """
+    Renders stats page for hours slept.
+
+    Args: 
+        request (Request):  HTTP request object required to render the response.
+
+    Returns:
+        The stats page.
+    """
     return templates.TemplateResponse(
         request = request,
         name="sleep-stats.html"
@@ -51,6 +74,16 @@ def sleep_stats_page(request: Request):
 
 @router.get("/sleep/weekly")
 def get_weekly_sleep(db: SessionDep, user: AuthDep):
+    """
+    Calculates the total hours slept for each day of the past week for an authenticated user.
+
+    Args: 
+        db (SessionDep): Database session dependency used for dependency injection.
+        user (AuthDep): Authenticated user dependency used for dependency injection.
+
+    Returns:
+        A dictionary containing the hours slept per day of the week(Sun - Sat).
+    """
     today = date.today()
 
     days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]

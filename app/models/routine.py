@@ -37,6 +37,7 @@ class RoutineWorkout(SQLModel, table=True):
     sets: int
     reps: Optional[int] = None
     duration_seconds: Optional[int] = None
+    rest_seconds: Optional[int] = None
 
     is_warmup: bool = False
     is_cooldown: bool = False

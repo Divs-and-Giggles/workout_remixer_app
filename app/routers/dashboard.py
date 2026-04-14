@@ -8,6 +8,7 @@ from app.models.logging import WaterIntake
 from datetime import datetime, date
 from sqlmodel import select
 
+# loads dashboard
 @router.get("/dashboard")
 def water_page(request: Request):
     return templates.TemplateResponse(

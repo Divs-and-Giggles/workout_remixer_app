@@ -31,6 +31,17 @@ from sqlmodel import select
 
 @router.post("/weight/add")
 def add_weight(weight: float, db: SessionDep, user: AuthDep):
+    """
+    Adds a new entry into the weight log for an authenticated user. Unlike the other logs, this one is not cumulative.
+
+    Args: 
+        weight (float): Current weight.
+        db (SessionDep): Database session dependency used for dependency injection.
+        user (AuthDep): Authenticated user dependency used for dependency injection.
+
+    Returns:
+        A dictionary with a confirmation message of entry addition.
+    """
     today = date.today()
 
     existing_weight = db.exec(select(WeightLog).where(WeightLog.user_id == user.id)).all()
@@ -60,6 +71,16 @@ def add_weight(weight: float, db: SessionDep, user: AuthDep):
 
 @router.get("/weight-stats")
 def weight_stats_page(request: Request):
+    """
+    Renders stats page for current weight.
+
+    Args: 
+        request (Request):  HTTP request object required to render the response.
+
+    Returns:
+        The stats page.
+    """
+        
     return templates.TemplateResponse(
         request = request,
         name="weight-stats.html"
@@ -67,6 +88,17 @@ def weight_stats_page(request: Request):
 
 @router.get("/weight/weekly")
 def get_weekly_weight(db: SessionDep, user: AuthDep):
+    """
+    Calculates the trend in weight fluctuations for each day of the past week for an authenticated user.
+
+    Args: 
+        db (SessionDep): Database session dependency used for dependency injection.
+        user (AuthDep): Authenticated user dependency used for dependency injection.
+
+    Returns:
+        A dictionary containing the weight of the user for each day of the week(Sun - Sat).
+    """
+
     today = date.today()
 
     days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
