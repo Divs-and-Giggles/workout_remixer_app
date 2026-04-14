@@ -4,7 +4,7 @@ from datetime import date
 from app.dependencies import SessionDep, AuthDep
 from app.models import Routine, RoutineWorkout, Workout
 from . import templates, router
-from fastapi import Request
+from fastapi import Request,Body
 
 @router.get("/routines", response_class=HTMLResponse)
 async def routine_view(request: Request, user: AuthDep, session: SessionDep):
