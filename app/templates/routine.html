@@ -10,70 +10,128 @@ html, body {
     overflow-x: hidden;
 }
 
-body {
-    font-family: 'Barlow', sans-serif;
-    background: #f8f9fa;
-}
-
 #content {
     padding-top: 90px;
+    font-family: 'Barlow', sans-serif;
 }
 
 /* ================= NAVBAR ================= */
+.navbar {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.nav-link:hover {
+    color: #D51313 !important;
+    text-decoration: none !important;
+}
+
 .top-navbar {
-    background: #fff;
+    background: #ffffff;
+    z-index: 1050;
     border-bottom: 2px solid #D51313;
 }
 
 .top-navbar .navbar-brand img {
-    height: 60px;
+    height: 200px;
+    width: auto;
 }
 
 .top-navbar .nav-link {
+    color: #000000 !important;
     font-weight: 600;
-    padding: 0.6rem 1.2rem !important;
+    font-size: 1rem;
+    letter-spacing: 0.05rem;
+    text-decoration: none !important;
+    padding: 0.5rem 2.1rem !important;
     border-radius: 0.4rem;
+    transition: all 0.2s;
+    font-family: 'Barlow', sans-serif;
 }
 
 .top-navbar .nav-link:hover {
-    background: #D51313 !important;
     color: #fff !important;
+    background-color: #D51313 !important;
 }
 
-/* ================= HEADER ================= */
+.top-navbar .btn-logout {
+    color: #000000 !important;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.05rem;
+    text-decoration: none !important;
+    padding: 0.5rem 0.75rem !important;
+    border-radius: 0.4rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: 'Barlow', sans-serif;
+}
+
+.top-navbar .btn-logout:hover {
+    color: #fff !important;
+    background-color: #D51313 !important;
+}
+
+/* ================= PAGE HEADER ================= */
 .routines-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    justify-content: space-between;
     flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .routines-header h1 {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 2.6rem;
     font-weight: 800;
+    font-size: 2.6rem;
+    letter-spacing: 0.02em;
+    color: #111;
+    margin: 0;
 }
 
-/* ================= SEARCH ================= */
+/* ================= SEARCH BAR ================= */
 .search-bar {
     display: flex;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    gap: 0;
     border-radius: 0.5rem;
     overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .search-bar input {
     border: 2px solid #dee2e6;
     border-right: none;
-    padding: 0.5rem 1rem;
+    border-radius: 0.5rem 0 0 0.5rem;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.95rem;
+    font-family: 'Barlow', sans-serif;
+    width: 240px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.search-bar input:focus {
+    border-color: #D51313;
 }
 
 .search-bar button {
-    background: #D51313;
-    color: white;
+    background-color: #D51313;
+    color: #fff;
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 0.55rem 1.3rem;
+    font-weight: 700;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.95rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.search-bar button:hover {
+    background-color: #a80e0e;
 }
 
 /* ================= CAROUSEL ================= */
@@ -83,73 +141,242 @@ body {
     border-radius: 1rem;
 }
 
-/* ================= SECTION ================= */
+/* ================= SECTION HEADER ================= */
 .section-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin: 1.5rem 0 1rem;
 }
 
-/* ================= GRID ================= */
-.routines-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.6rem;
+.section-header h4,
+.routines-grid ~ h4,
+h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: #111;
+    letter-spacing: 0.02em;
+    margin: 1.5rem 0 1rem;
 }
 
-/* ================= CARD ================= */
+/* ================= ROUTINES GRID ================= */
+.routines-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.4rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ================= ROUTINE CARD ================= */
 .routine-card {
     background: #fff;
     border-radius: 1rem;
-    padding: 1.2rem;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
     border: 1px solid #f0f0f0;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
     display: flex;
     flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+    padding: 1.2rem 1.1rem;
     gap: 0.8rem;
 }
 
 .routine-card:hover {
     transform: translateY(-4px);
+    box-shadow: 0 8px 28px rgba(213, 19, 19, 0.13);
 }
 
-/* TITLE */
 .routine-card h5 {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.2rem;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: #111;
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.02em;
 }
 
-/* TAGS */
-.icon-box {
-    display: inline-block;
+/* ================= BADGE / TAGS ================= */
+.icon-box,
+.badge-meta {
     background: #f4f4f4;
-    border: 1px solid #e0e0e0;
-    padding: 0.3rem 0.7rem;
     border-radius: 1rem;
-    font-size: 0.8rem;
+    padding: 0.18rem 0.65rem;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #555;
+    border: 1px solid #e8e8e8;
+    display: inline-block;
 }
 
-/* BUTTONS */
+/* ================= CARD ACTIONS ================= */
 .card-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
+    gap: 0.5rem;
     margin-top: auto;
 }
 
 .card-actions button {
     flex: 1;
     min-width: 48%;
+    border-radius: 0.5rem;
+    padding: 0.55rem 0.5rem;
+    font-weight: 700;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    border: none;
+    letter-spacing: 0.02em;
 }
 
-.btn-dark { background: #D51313; color: white; border: none; }
-.btn-secondary { background: #444; color: white; }
-.btn-outline { border: 1px solid #D51313; color: #D51313; }
-.btn-danger { background: #D51313; color: white; }
+.btn-dark {
+    background: #D51313;
+    color: #fff;
+    border: none;
+}
 
+.btn-dark:hover {
+    background: #a80e0e;
+    color: #fff;
+}
+
+.btn-secondary {
+    background: #444;
+    color: #fff;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background: #222;
+    color: #fff;
+}
+
+.btn-outline {
+    background: #fff;
+    border: 1.5px solid #D51313 !important;
+    color: #D51313;
+}
+
+.btn-outline:hover {
+    background: #D51313;
+    color: #fff;
+}
+
+.btn-danger {
+    background: #D51313;
+    color: #fff;
+    border: none;
+}
+
+.btn-danger:hover {
+    background: #a80e0e;
+    color: #fff;
+}
+
+/* ================= BUILDER PANEL ================= */
+#builderPanel {
+    background: #fff;
+    border-radius: 0.9rem;
+    padding: 1.4rem 1.6rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f0f0f0;
+}
+
+#builderPanel h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: #111;
+    margin-bottom: 1rem;
+}
+
+#builderPanel h5 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+#routineName {
+    border: 1.5px solid #e0e0e0;
+    border-radius: 0.5rem;
+    padding: 0.55rem 1rem;
+    font-size: 0.95rem;
+    font-family: 'Barlow', sans-serif;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 0.8rem;
+    box-sizing: border-box;
+}
+
+#routineName:focus {
+    border-color: #D51313;
+}
+
+/* ================= MODALS ================= */
+#routineModal > div,
+#editModal > div {
+    background: #fff;
+    border-radius: 1.2rem;
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    padding: 1.4rem 1.6rem 1.8rem;
+    position: relative;
+}
+
+#routineModal h4,
+#editModal h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: #111;
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.02em;
+}
+
+#editName {
+    border: 1.5px solid #e0e0e0;
+    border-radius: 0.5rem;
+    padding: 0.55rem 1rem;
+    font-size: 0.95rem;
+    font-family: 'Barlow', sans-serif;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 0.8rem;
+    box-sizing: border-box;
+}
+
+#editName:focus {
+    border-color: #D51313;
+}
+
+/* ================= EMPTY STATE ================= */
 .empty-text {
     text-align: center;
+    padding: 3rem 1rem;
     color: #999;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 576px) {
+    .routines-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-bar input {
+        width: 160px;
+    }
 }
 </style>
 {% endblock %}
