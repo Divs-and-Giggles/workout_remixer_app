@@ -10,6 +10,9 @@ from sqlmodel import select
 
 @router.get("/steps")
 def steps_page(request: Request):
+    """
+    Renders steps log. Used in testing and developing the steps log in isolation.
+    """
     return templates.TemplateResponse(
         request = request,
         name="steps_log.html"
@@ -17,6 +20,18 @@ def steps_page(request: Request):
 
 @router.post("/steps/add")
 def add_steps(steps: int, db: SessionDep, user: AuthDep):
+    """
+    Adds a new entry into the steps log for an authenticated user.
+
+    Args: 
+        steps (int): Steps taken.
+        db (SessionDep): Database session dependency used for dependency injection.
+        user (AuthDep): Authenticated user dependency used for dependency injection.
+
+    Returns:
+        A dictionary with a confirmation message of entry addition.
+    """
+
     entry = StepsLog(
         user_id=user.id,
         steps = steps,
@@ -30,6 +45,15 @@ def add_steps(steps: int, db: SessionDep, user: AuthDep):
 
 @router.get("/steps-stats")
 def steps_stats_page(request: Request):
+    """
+    Renders stats page for steps taken.
+
+    Args: 
+        request (Request):  HTTP request object required to render the response.
+
+    Returns:
+        The stats page.
+    """
     return templates.TemplateResponse(
         request = request,
         name="steps-stats.html"
@@ -37,6 +61,17 @@ def steps_stats_page(request: Request):
 
 @router.get("/steps/weekly")
 def get_weekly_steps(db: SessionDep, user: AuthDep):
+    """
+    Calculates the total steps taken for each day of the past week for an authenticated user.
+
+    Args: 
+        db (SessionDep): Database session dependency used for dependency injection.
+        user (AuthDep): Authenticated user dependency used for dependency injection.
+
+    Returns:
+        A dictionary containing the steps taken per day of the week(Sun - Sat).
+    """
+
     today = date.today()
 
     days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
