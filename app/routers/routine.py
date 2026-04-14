@@ -31,7 +31,7 @@ async def routine_view(
 
     all_my = session.exec(select(Routine).where(Routine.user_id == user.id, Routine.is_generated == False)).all()
     all_our = session.exec(select(Routine).where(Routine.user_id != user.id, Routine.is_generated == False)).all()
-    all_gen = session.exec(select(Routine).where(Routine.user_id == user.id, Routine.is_generated == True)).all()
+    all_gen = session.exec(select(Routine).where(Routine.user_id == None, Routine.is_generated == True)).all()
 
     my_pagination = Pagination(total_count=len(all_my), current_page=my_page, limit=limit)
     our_pagination = Pagination(total_count=len(all_our), current_page=our_page, limit=limit)
@@ -73,7 +73,6 @@ async def create_routine(
     routine = Routine(
         name=name,
         user_id=user.id,
-        is_system=False,
         is_generated=False,
         is_remix=False,
         creation_date=date.today()
@@ -104,7 +103,6 @@ def remix_routine(routine_id: int, request: Request, user: AuthDep, session: Ses
     remixed = Routine(
         name=f"{original.name} (Remix)",
         user_id=user.id,
-        is_system=False,
         is_generated=False,
         is_remix=True,
         creation_date=date.today()

@@ -684,8 +684,8 @@ def initialize():
             routine = Routine(
                 name=r["name"],
                 difficulty=r["difficulty"],
-                user_id=bob_db.id,
-                is_generated= False,
+                user_id=None,
+                is_generated= True,
                 creation_date=date.today()
             )
             db.add(routine)
