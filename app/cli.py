@@ -680,6 +680,19 @@ def initialize():
                     return w.id
             return None
         
+        def get_rest_time(workout_type:str):
+            if workout_type == "strength":
+                return 240
+            
+            elif workout_type == "endurance":
+                return 120
+            
+            elif workout_type == "hypertrophy":
+                return 180
+            
+            else: 
+                return 0
+        
         for r in routine_data:
             routine = Routine(
                 name=r["name"],
@@ -695,17 +708,20 @@ def initialize():
             order = 1
 
             for workout in r["workouts"]:
-                workout_id = get_workout_id(db, workout["name"])
+                workout_db  = db.exec(select(Workout).where(Workout.name == workout["name"])).first()
 
-                if workout_id is not None:
+                if workout_db:
+                    rest_time = get_rest_time(workout_db.workout_type)
+
                     routine_workout = RoutineWorkout(
                         routine_id=routine.id,
-                        workout_id=workout_id,
+                        workout_id=workout_db.id,
                         difficulty=r["difficulty"],
                         order_in_routine=order,
                         sets=workout.get("sets"),
                         reps=workout.get("reps"),
                         duration_seconds=workout.get("duration_seconds"),
+                        rest_seconds=rest_time,
                         is_warmup=workout.get("is_warmup", False),
                         is_cooldown=workout.get("is_cooldown", False)
                     )
