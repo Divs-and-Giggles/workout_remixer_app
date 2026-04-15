@@ -10,6 +10,9 @@ async def calculator_view(
     request: Request,
     user:IsUserLoggedIn,
 ):
+    """
+    Allows the user to choose the types of calculator they want (BMI,BMR,Body Fat and Max Bench Press)
+    """
     return templates.TemplateResponse(
         request,
         "calculator_home.html",
@@ -24,6 +27,9 @@ async def bmi_calculator(
     request: Request,
     user: IsUserLoggedIn,
 ):
+    """
+    Shows the BMI calculator page, Sets the active calculator to BMI
+    """
     return templates.TemplateResponse(
         request,
         "calculator.html",
@@ -38,6 +44,9 @@ async def bmr_calculator(
     request: Request,
     user: IsUserLoggedIn,
 ):
+    """
+    Displays the BMR calculator page, Sets the active calculator to BMR
+    """
     return templates.TemplateResponse(
         request,
         "calculator.html",
@@ -53,6 +62,9 @@ async def body_fat_calculator(
     request: Request,
     user: IsUserLoggedIn,
 ):
+    """
+    Displays the body fat calculator page, Sets the active calculator to Body Fat
+    """
     return templates.TemplateResponse(
         request,
         "calculator.html",
@@ -68,6 +80,9 @@ async def bench_press_calculator(
     request: Request,
     user: IsUserLoggedIn,
 ):
+    """
+    Displays the bench press calculator page, Sets the active calculator to Max Bench Press
+    """
     return templates.TemplateResponse(
         request,
         "calculator.html",
