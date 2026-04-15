@@ -16,16 +16,16 @@ from app.models.routine import Routine
 async def workout_view(request:Request, user:AuthDep, db:SessionDep, page: int = Query(default=1, ge=1), limit: int = Query(default=12, le=100), q: str = Query(default=''), done: str = Query(default='')):
     offset = (page-1)*limit
     query =  select(Workout).join(MuscleGroup, Workout.muscle_group_id == MuscleGroup.id)
-    if q:
+    if q:                                                                                      # Search functionality to ensure that the search is case insensitive and not strict                                     
         query = query.where(
             Workout.name.ilike(f"%{q}%") |
             Workout.workout_type.ilike(f"%{q}%") |
             Workout.equipment.ilike(f"%{q}%")
         )
 
-    # Dropdown filter — only one active at a time
+   
     if done:
-        equipment_filters = {
+        equipment_filters = {                                                                 # Dropdown filter for equipment,muscle and dificulty ( only one active at a time)
             "body weight": Workout.equipment.ilike(f"%body weight%"),
             "barbell":     Workout.equipment.ilike(f"%barbell%"),
             "dumbbell":    Workout.equipment.ilike(f"%dumbbell%"),
@@ -42,11 +42,11 @@ async def workout_view(request:Request, user:AuthDep, db:SessionDep, page: int =
         elif done in difficulty_filters:
             query = query.where(Workout.difficulty == done)
 
-    # Count filtered results for correct pagination
-    count_workouts = db.exec(select(func.count()).select_from(query.subquery())).one()
+    
+    count_workouts = db.exec(select(func.count()).select_from(query.subquery())).one()      # Count filtered results for correct pagination
 
-    # Apply pagination to the same filtered query
-    workouts = db.exec(query.offset(offset).limit(limit)).all()
+    
+    workouts = db.exec(query.offset(offset).limit(limit)).all()                             # Apply pagination to the same filtered query
     routines= db.exec(select(Routine).where(Routine.user_id == user.id)).all()
 
     pagination = Pagination(total_count=count_workouts, current_page=page, limit=limit)

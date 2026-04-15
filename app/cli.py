@@ -42,7 +42,7 @@ def initialize():
         db.commit()
         db.refresh(charlie_db)
 
-        # Workout data (same as before)
+        # Workout data 
         workout_data = [
             # Warmups
             {"name": "Jumping Jacks", "video_url": "https://www.youtube.com/watch?v=c4DAnQ6DtF8", "difficulty": "easy", "workout_type": "warmup", "equipment": "body", "intensity": "low", "muscle": "Full"},
@@ -839,9 +839,7 @@ def initialize():
             db.commit()
 
         print("Database Initialized")
-        print(f"Created users: bob, alice, charlie")
-        print(f"Assigned 3 routines to alice: Intermediate Chest, Back, and Legs")
-        print(f"Assigned 3 routines to charlie: Advanced Shoulder, Arms, and Core")
+
 
 @cli.command()
 def test():

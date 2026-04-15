@@ -363,16 +363,25 @@ async function submitAddToRoutine() {
     formData.append('is_cooldown', document.getElementById('formIsCooldown').checked);
 
     try {
-        const res = await fetch(`/routines/${routineId}/workouts`, {
-            method: 'POST',
-            body: formData
-        });
-        if (!res.ok) throw new Error();
+    const res = await fetch(`/routines/${routineId}/workouts`, {
+        method: 'POST',
+        body: formData
+    });
+    
+    if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to add workout');
+    }
 
-        bootstrap.Modal.getInstance(document.getElementById('workoutModal')).hide();
-        hideRoutineForm();
-    } catch {
-        showFormError('Failed to add workout. Please try again.');
+    // Close the modal
+    bootstrap.Modal.getInstance(document.getElementById('workoutModal')).hide();
+    hideRoutineForm();
+    
+    // Reload the page to show flash message
+    window.location.reload();
+    
+    } catch (error) {
+        showFormError(error.message || 'Failed to add workout. Please try again.');
     }
 }
 
