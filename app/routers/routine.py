@@ -381,7 +381,7 @@ def remove_workout_from_routine(
         rw.order_in_routine = idx                                                           # update order of workouts
     
     session.commit()
-    session.refresh(routine_workout)
+  
     flash(request, "Workout removed from routine")                                          # Add, commit and flash message
     
     return {"ok": True, "message": "Workout removed from routine"}
