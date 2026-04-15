@@ -145,14 +145,14 @@ def get_routine(request: Request, routine_id: int, user: AuthDep, session: Sessi
 
     if not routine:
         raise HTTPException(status_code=404, detail="Routine not found")                                    
+                                         
 
-    if routine.user_id != user.id and not routine.is_generated:
-        raise HTTPException(status_code=403, detail="Not allowed")                                          # if routine/user not found, raise error
+    print(f"Getting routine: {routine.name} (ID: {routine_id})")
 
     links = session.exec(                                                                                   # search for routine_workouts
         select(RoutineWorkout).where(RoutineWorkout.routine_id == routine_id)
     ).all()
-
+     
     workouts = []
 
     for l in links:                                                                                             # loop through routine_workouts
